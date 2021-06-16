@@ -11,24 +11,24 @@ export class User {
     @Column()
     last_name:string;
 
-    @Column({ type: 'varchar' })
+    @Column({ type: 'varchar' , select: false })
     password:string;
 
     @Column({ type: 'text', unique: true })
     email:string;
 
-    @Column({type:'text'})
+    @Column({type:'text',nullable: true})
     bio:string | null;
 
-    @Column({type:'date'})
-    created_at:string;
+    @Column({type:'timestamp', default:()=>"CURRENT_TIMESTAMP"})
+    created_at:Date;
 
-    @Column()
+    @Column({nullable: true})
     github:string | null;
 
-    @Column()
+    @Column({nullable: true})
     linked_in:string | null;
 
-    @Column({type:'bytea'})
+    @Column({type:'bytea',nullable: true})
     photo:string | null;
 }
