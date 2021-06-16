@@ -20,7 +20,7 @@ export class User {
     @Column({type:'text'})
     bio:string | null;
 
-    @Column({type:'datetime'})
+    @Column({type:'date'})
     created_at:string;
 
     @Column()
@@ -29,6 +29,6 @@ export class User {
     @Column()
     linked_in:string | null;
 
-    @Column({type:'image'})
+    @Column({type:'bytea'})
     photo:string | null;
 }
