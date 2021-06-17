@@ -47,7 +47,7 @@ export class BlogEntity {
   @Column({nullable:true})
   parentId: number
 
-  @ManyToOne(type => UserEntity, user => user.blogEntry)
-  author: UserEntity;
+  // @ManyToOne(type => UserEntity, user => user.blogEntry)
+  // author: UserEntity;
 
 }

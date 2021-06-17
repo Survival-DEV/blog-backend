@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { from, Observable, pipe } from 'rxjs';
 import { switchMap} from 'rxjs/operators';
 import { Repository } from 'typeorm';
-import { blogDtoModel } from '../model/blog.dto';
+import { CreateBlogDto } from '../model/blog.dto';
 import { BlogEntity } from '../model/blog.entity';
 import { BlogEntry } from '../model/blog.interface';
 
@@ -20,7 +20,7 @@ export class BlogService {
     return await from(this.blogRepository.findOne({ id }));
   }
 
-  async create(blogEntry: blogDtoModel): Promise<Observable<BlogEntry>>{
+  async create(blogEntry: CreateBlogDto): Promise<Observable<BlogEntry>>{
     return await from(this.blogRepository.save(blogEntry))
   }
 
