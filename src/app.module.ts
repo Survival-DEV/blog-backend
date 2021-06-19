@@ -5,7 +5,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BlogsModule } from './blogs/blogs.module';
 import { UsersModule } from './users/users.module';
-import { User } from './users/user.entity';
+import { UserEntity } from './users/user.entity';
+import { BlogEntity } from './blogs/model/blog.entity';
 
 
 @Module({
@@ -15,11 +16,11 @@ import { User } from './users/user.entity';
       type: 'postgres',
       url: process.env.DATABASE_URL,
       autoLoadEntities: true,
-      entities: [User],
-      synchronize:true
+      entities: [UserEntity, BlogEntity],
+      synchronize: true,
     }),
     UsersModule,
-    BlogsModule
+    BlogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
