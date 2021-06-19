@@ -17,6 +17,6 @@
     "allowJs": true,
     "lib": ["es7"]
   },
-  "include": ["packages/**/*", "integration/**/*"],
+  "include": ["packages/**/*", "integration/**/*","./tsconfig.eslint.json","./eslintrc.js", "**/*.config.js", "./src/"],
   "exclude": ["node_modules", "**/*.spec.ts"]
   }
