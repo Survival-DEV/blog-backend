@@ -1,53 +1,53 @@
 import { type } from "os";
+import { UserEntity } from "src/users/user.entity";
 import { BeforeUpdate, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('blog')
 export class BlogEntity {
   @PrimaryGeneratedColumn()
-  id: string
+  id: string;
 
   @Column()
-  title: string
+  title: string;
 
   @Column()
-  metaTitle: string
+  metaTitle: string;
 
   @Column()
-  slug: string
+  slug: string;
 
-  @Column({default:''})
-  summary: string
+  @Column({ default: '' })
+  summary: string;
 
-  @Column({type:'timestamp', default:()=>"CURRENT_TIMESTAMP"})
-  createdAt: Date
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
 
-  @Column({type:'timestamp', default:()=>"CURRENT_TIMESTAMP"})
-  updatedAt: Date
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  updatedAt: Date;
 
   @BeforeUpdate()
   updateTimestamp() {
-    this.updatedAt= new Date
+    this.updatedAt = new Date();
   }
 
   @Column({ default: 0 })
-  claps: number
-  
+  claps: number;
+
   @Column({ nullable: true })
-  headerImage: string  
+  headerImage: string;
 
-  @Column({nullable: true})
-  publishedAt: Date
+  @Column({ nullable: true })
+  publishedAt: Date;
 
-  @Column({ default:''})
-  content: string
+  @Column({ default: '' })
+  content: string;
 
-  @Column({nullable:true})
-  isDraft: boolean
+  @Column({ nullable: true })
+  isDraft: boolean;
 
-  @Column({nullable:true})
-  parentId: number
+  @Column({ nullable: true })
+  parentId: number;
 
-  // @ManyToOne(type => UserEntity, user => user.blogEntry)
-  // author: UserEntity;
-
+  @ManyToOne(type => UserEntity, user => user.blogEntries)
+  author_id: UserEntity;
 }
