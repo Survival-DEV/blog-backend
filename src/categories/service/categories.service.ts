@@ -1,17 +1,16 @@
-import { Injectable } from "@nestjs/common";
-import { DeleteResult, Repository, UpdateResult } from "typeorm";
-import { InjectRepository } from "@nestjs/typeorm";
+import { Injectable } from '@nestjs/common';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
-
-import { CategoryEntity } from "../model/category.entity";
-import { CategoryInterface } from "../model/category.interface";
-import { CreateCategoryDto } from "../model/category.dto";
+import { CategoryEntity } from '../model/category.entity';
+import { CategoryInterface } from '../model/category.interface';
+import { CreateCategoryDto } from '../model/category.dto';
 
 @Injectable()
 export class CategoriesService {
   constructor(
     @InjectRepository(CategoryEntity)
-    private readonly categroyRepository: Repository<CategoryEntity>
+    private readonly categroyRepository: Repository<CategoryEntity>,
   ) {}
 
   async findAll(): Promise<CategoryInterface[]> {
@@ -28,7 +27,7 @@ export class CategoriesService {
 
   async update(
     id: string,
-    categoryEntry: CreateCategoryDto
+    categoryEntry: CreateCategoryDto,
   ): Promise<UpdateResult> {
     return await this.categroyRepository.update(id, categoryEntry);
   }
