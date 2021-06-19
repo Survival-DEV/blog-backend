@@ -1,6 +1,11 @@
-import { type } from "os";
-import { UserEntity } from "src/users/user.entity";
-import { BeforeUpdate, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { UserEntity } from 'src/users/user.entity';
+import {
+  BeforeUpdate,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('blog')
 export class BlogEntity {

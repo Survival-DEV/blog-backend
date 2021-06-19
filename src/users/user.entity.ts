@@ -31,7 +31,7 @@ export class UserEntity {
   linked_in: string;
 
   @Column({ type: 'bytea', nullable: true })
-  photo: string ;
+  photo: string;
 
   @OneToMany(type => BlogEntity, blogEntity => blogEntity.author_id)
   blogEntries: BlogEntity[];

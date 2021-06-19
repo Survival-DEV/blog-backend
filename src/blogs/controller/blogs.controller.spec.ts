@@ -4,7 +4,7 @@ import { BlogsController } from './blogs.controller';
 
 describe('BlogsController', () => {
   let controller: BlogsController;
-  let service : BlogService
+  let service: BlogService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
