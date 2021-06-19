@@ -1,34 +1,34 @@
-import {Entity,Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
-    @PrimaryGeneratedColumn()
-    id:number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    first_name:string;
+  @Column()
+  first_name: string;
 
-    @Column()
-    last_name:string;
+  @Column()
+  last_name: string;
 
-    @Column({ type: 'varchar' })
-    password:string;
+  @Column({ type: 'varchar', select: false })
+  password: string;
 
-    @Column({ type: 'text', unique: true })
-    email:string;
+  @Column({ type: 'text', unique: true })
+  email: string;
 
-    @Column({type:'text'})
-    bio:string | null;
+  @Column({ type: 'text', nullable: true })
+  bio: string | null;
 
-    @Column({type:'date'})
-    created_at:string;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created_at: Date;
 
-    @Column()
-    github:string | null;
+  @Column({ nullable: true })
+  github: string | null;
 
-    @Column()
-    linked_in:string | null;
+  @Column({ nullable: true })
+  linked_in: string | null;
 
-    @Column({type:'bytea'})
-    photo:string | null;
+  @Column({ type: 'bytea', nullable: true })
+  photo: string | null;
 }
