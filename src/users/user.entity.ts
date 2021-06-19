@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { BlogEntity } from '../blogs/model/blog.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
-export class User {
+export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -18,17 +19,20 @@ export class User {
   email: string;
 
   @Column({ type: 'text', nullable: true })
-  bio: string | null;
+  bio: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
   @Column({ nullable: true })
-  github: string | null;
+  github: string;
 
   @Column({ nullable: true })
-  linked_in: string | null;
+  linked_in: string;
 
   @Column({ type: 'bytea', nullable: true })
-  photo: string | null;
+  photo: string;
+
+  @OneToMany(type => BlogEntity, blogEntity => blogEntity.author_id)
+  blogEntries: BlogEntity[];
 }

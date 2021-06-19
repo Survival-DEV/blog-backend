@@ -7,7 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { User } from './user.entity';
+import { UserEntity } from './user.entity';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -15,11 +15,11 @@ export class UsersController {
   constructor(private users: UsersService) {}
 
   @Get()
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<UserEntity[]> {
     return await this.users.findAll();
   }
   @Post()
-  async create(@Body() data: any): Promise<User> {
+  async create(@Body() data: any): Promise<UserEntity> {
     return await this.users.create(data);
   }
   @Put(':id')
