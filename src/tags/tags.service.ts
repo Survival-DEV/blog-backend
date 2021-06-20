@@ -24,7 +24,7 @@ export class TagsService {
     return this.tagRepository.findOne(id);
   }
 
-  update(id: string, data: any): Promise<UpdateResult> {
+  update(id: string, data: UpdateTagDto): Promise<UpdateResult> {
     return this.tagRepository.update(id, data);
   }
 
