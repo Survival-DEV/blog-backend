@@ -8,6 +8,7 @@ import { BlogEntity } from './blogs/model/blog.entity';
 import { CategoriesModule } from './categories/categories.module';
 import { BlogsModule } from './blogs/blogs.module';
 import { UsersModule } from './users/users.module';
+import { TagsModule } from './tags/tags.module';
 import { Tag } from "./tags/entities/tag.entity";
 
 
@@ -28,6 +29,7 @@ import { Tag } from "./tags/entities/tag.entity";
     UsersModule,
     BlogsModule,
     CategoriesModule,
+    TagsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

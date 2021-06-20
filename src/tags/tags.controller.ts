@@ -17,7 +17,7 @@ export class TagsController {
   constructor(private tagsService: TagsService) {}
 
   @Post()
-  async create(@Body() data: any):Promise<Tag> {
+  async create(@Body() data: CreateTagDto):Promise<Tag> {
     return await this.tagsService.create(data);
   }
 
@@ -28,16 +28,16 @@ export class TagsController {
 
   @Get(":id")
   findOne(@Param("id") id: string) {
-    return this.tagsService.findOne(+id);
+    return this.tagsService.findOne(id);
   }
 
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateTagDto: UpdateTagDto) {
-    return this.tagsService.update(+id, updateTagDto);
+    return this.tagsService.update(id, updateTagDto);
   }
 
   @Delete(":id")
   remove(@Param("id") id: string) {
-    return this.tagsService.remove(+id);
+    return this.tagsService.remove(id);
   }
 }
