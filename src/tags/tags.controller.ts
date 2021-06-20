@@ -11,6 +11,7 @@ import { TagsService } from "./tags.service";
 import { CreateTagDto } from "./dto/create-tag.dto";
 import { UpdateTagDto } from "./dto/update-tag.dto";
 import { Tag } from './entities/tag.entity';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 @Controller("tags")
 export class TagsController {
@@ -22,22 +23,22 @@ export class TagsController {
   }
 
   @Get()
-  findAll() {
+  findAll():Promise <Tag[]> {
     return this.tagsService.findAll();
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
+  findOne(@Param("id") id: string):Promise <Tag> {
     return this.tagsService.findOne(id);
   }
 
   @Patch(":id")
-  update(@Param("id") id: string, @Body() updateTagDto: UpdateTagDto) {
+  update(@Param("id") id: string, @Body() updateTagDto: UpdateTagDto):Promise <UpdateResult> {
     return this.tagsService.update(id, updateTagDto);
   }
 
   @Delete(":id")
-  remove(@Param("id") id: string) {
+  remove(@Param("id") id: string):Promise <DeleteResult> {
     return this.tagsService.remove(id);
   }
 }
