@@ -1,4 +1,4 @@
-import { PartialType } from "@nestjs/mapped-types";
+import { PartialType } from '@nestjs/mapped-types';
 
 export class CreateCategoryDto {
   readonly id: string;

@@ -1,5 +1,16 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
-import { DeleteResult, Entity, EntityRepository, Repository, UpdateResult } from 'typeorm';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import {
+  DeleteResult,
+  Entity,
+  EntityRepository,
+  Repository,
+  UpdateResult,
+} from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { CategoryEntity } from '../model/category.entity';
@@ -9,7 +20,6 @@ import { CreateCategoryDto, UpdateCategoryDto } from '../model/category.dto';
 @Injectable()
 @EntityRepository(CategoryEntity)
 export class CategoriesService extends Repository<CategoryEntity> {
-
   async findAll(): Promise<CategoryInterface[]> {
     return await this.find({});
   }
@@ -22,7 +32,9 @@ export class CategoriesService extends Repository<CategoryEntity> {
     return category;
   }
 
-  public async createCategory(categoryEntry: CreateCategoryDto): Promise<CategoryInterface> {
+  public async createCategory(
+    categoryEntry: CreateCategoryDto,
+  ): Promise<CategoryInterface> {
     try {
       const { title } = categoryEntry;
       const category = new CategoryEntity();

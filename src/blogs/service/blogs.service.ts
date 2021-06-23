@@ -26,7 +26,9 @@ export class BlogService {
     return blog;
   }
 
-  async create(blogEntry: CreateBlogDto): Promise<Observable<BlogEntryInterface>> {
+  async create(
+    blogEntry: CreateBlogDto,
+  ): Promise<Observable<BlogEntryInterface>> {
     return await from(this.blogRepository.save(blogEntry));
   }
 
@@ -40,8 +42,8 @@ export class BlogService {
   }
 
   async deleteOne(id: string): Promise<Observable<DeleteResult>> {
-    const blog = await this.blogRepository.findOne(id)
-    if (!blog) throw new NotFoundException()
+    const blog = await this.blogRepository.findOne(id);
+    if (!blog) throw new NotFoundException();
     return await from(this.blogRepository.delete(id));
   }
 }

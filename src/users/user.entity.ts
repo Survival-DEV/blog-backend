@@ -1,5 +1,11 @@
 import { BlogEntity } from '../blogs/model/blog.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  BaseEntity,
+} from 'typeorm';
 
 @Entity()
 export class UserEntity extends BaseEntity {
