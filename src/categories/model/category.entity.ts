@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BlogCategoryEntity } from 'src/blogs/model/blog-category.entity';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class CategoryEntity {
+export class CategoryEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
@@ -16,4 +17,10 @@ export class CategoryEntity {
 
   @Column({ nullable: true })
   parent_id: string;
+
+  @OneToMany(
+    _type => BlogCategoryEntity,
+    blogCategroyEntity => blogCategroyEntity.category,
+  )
+  public blogCategoryEntity: BlogCategoryEntity[];
 }

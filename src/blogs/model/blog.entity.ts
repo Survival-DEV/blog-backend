@@ -1,16 +1,19 @@
 import { UserEntity } from '../../users/user.entity';
 import {
+  BaseEntity,
   BeforeUpdate,
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { BlogCategoryEntity } from './blog-category.entity';
 
 @Entity('blog')
-export class BlogEntity {
-  @PrimaryGeneratedColumn()
-  id: string;
+export class BlogEntity extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
   @Column()
   title: string;
@@ -53,6 +56,15 @@ export class BlogEntity {
   @Column({ nullable: true })
   parentId: number;
 
-  @ManyToOne(type => UserEntity, user => user.blogEntries)
-  author_id: UserEntity;
+  @ManyToOne(_type => UserEntity, user => user.blogEntries)
+  author!: UserEntity | undefined;
+
+  @Column({ nullable: false })
+  author_id!: UserEntity['id'];
+
+  @OneToMany(
+    _type => BlogCategoryEntity,
+    blogCategroyEntity => blogCategroyEntity.blog,
+  )
+  public blogCategoryEntity: BlogCategoryEntity[];
 }
