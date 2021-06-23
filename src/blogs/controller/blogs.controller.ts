@@ -7,11 +7,14 @@ import {
   Delete,
   Param,
   Request,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { BlogService } from '../service/blogs.service';
-import { CreateBlogDto } from '../model/blog.dto';
-import { BlogEntry } from '../model/blog.interface';
+import { CreateBlogDto, UpdateBlogDto } from '../model/blog.dto';
+import { DeleteResult } from 'typeorm';
+import { BlogEntryInterface } from '../model/blog.interface';
 
 @Controller('blogs')
 export class BlogsController {
@@ -22,31 +25,30 @@ export class BlogsController {
     return this.blogService.findAll();
   }
 
-  @Get(':id')
+  @Get('/:id')
   async findBlog(@Param('id') id: string): Promise<Observable<CreateBlogDto>> {
     return this.blogService.findOne(id);
   }
 
-  @Post()
-  async create(
+  @Post('/create')
+  @UseInterceptors(ClassSerializerInterceptor)
+  public async create(
     @Body() blogEntry: CreateBlogDto,
     @Request() req,
   ): Promise<Observable<CreateBlogDto>> {
     return this.blogService.create(blogEntry);
   }
 
-  @Put(':id')
+  @Put('/edit/:id')
   async updateBlog(
     @Param('id') id: string,
-    @Body() blogEntry: BlogEntry,
-  ): Promise<Observable<Observable<BlogEntry>>> {
+    @Body() blogEntry: UpdateBlogDto,
+  ): Promise<Observable<Observable<BlogEntryInterface>>> {
     return this.blogService.updateOne(id, blogEntry);
   }
 
-  @Delete('id')
-  async deleteBlog(
-    @Param('id') id: string,
-  ): Promise<Observable<CreateBlogDto>> {
+  @Delete('/delete/id')
+  async deleteBlog(@Param('id') id: string): Promise<Observable<DeleteResult>> {
     return this.blogService.deleteOne(id);
   }
 }
