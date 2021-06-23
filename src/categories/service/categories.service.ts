@@ -1,38 +1,53 @@
-import { Injectable } from '@nestjs/common';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { DeleteResult, Entity, EntityRepository, Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { CategoryEntity } from '../model/category.entity';
 import { CategoryInterface } from '../model/category.interface';
-import { CreateCategoryDto } from '../model/category.dto';
+import { CreateCategoryDto, UpdateCategoryDto } from '../model/category.dto';
 
 @Injectable()
-export class CategoriesService {
-  constructor(
-    @InjectRepository(CategoryEntity)
-    private readonly categroyRepository: Repository<CategoryEntity>,
-  ) {}
+@EntityRepository(CategoryEntity)
+export class CategoriesService extends Repository<CategoryEntity> {
 
   async findAll(): Promise<CategoryInterface[]> {
-    return await this.categroyRepository.find();
+    return await this.find({});
   }
 
-  async findOne(id: string): Promise<CategoryInterface> {
-    return await this.categroyRepository.findOne({ id });
+  public async findById(id: string): Promise<CategoryInterface> {
+    const category = await this.findOne(id);
+    if (!category) {
+      throw new NotFoundException(`Category #${id} is not found`);
+    }
+    return category;
   }
 
-  async create(categoryEntry: CreateCategoryDto): Promise<CategoryInterface> {
-    return await this.categroyRepository.save(categoryEntry);
+  public async createCategory(categoryEntry: CreateCategoryDto): Promise<CategoryInterface> {
+    try {
+      const { title } = categoryEntry;
+      const category = new CategoryEntity();
+      category.title = title;
+
+      await this.save(category);
+      return category;
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
+    }
   }
 
-  async update(
+  public async updateCategory(
     id: string,
-    categoryEntry: CreateCategoryDto,
+    categoryEntry: UpdateCategoryDto,
   ): Promise<UpdateResult> {
-    return await this.categroyRepository.update(id, categoryEntry);
+    const category = await this.findOne({ id });
+    if (!category) {
+      throw new NotFoundException(`Category #${id} is not found`);
+    }
+    return await this.update(id, categoryEntry);
   }
 
-  async delete(id: string): Promise<DeleteResult> {
-    return await this.categroyRepository.delete(id);
+  public async removeCategory(id: string): Promise<CategoryInterface> {
+    const category = await this.findOne(id);
+    return await this.remove(category);
   }
 }

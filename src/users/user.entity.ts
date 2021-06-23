@@ -1,10 +1,10 @@
 import { BlogEntity } from '../blogs/model/blog.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, BaseEntity } from 'typeorm';
 
 @Entity()
-export class UserEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class UserEntity extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id!: string & { __brand: 'user_Id' };
 
   @Column()
   first_name: string;
@@ -33,6 +33,6 @@ export class UserEntity {
   @Column({ type: 'bytea', nullable: true })
   photo: string;
 
-  @OneToMany(type => BlogEntity, blogEntity => blogEntity.author_id)
-  blogEntries: BlogEntity[];
+  @OneToMany(_type => BlogEntity, blogEntity => blogEntity.author_id)
+  blogEntries: BlogEntity['id'];
 }
