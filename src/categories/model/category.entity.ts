@@ -1,4 +1,4 @@
-import { BlogCategoryEntity } from 'src/blogs/model/blog-category.entity';
+import { BlogCategoryEntity } from '../../blogs/model/blog-category.entity';
 import {
   BaseEntity,
   Column,
