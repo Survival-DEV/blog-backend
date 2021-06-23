@@ -1,4 +1,4 @@
-export interface BlogEntry {
+export interface BlogEntryInterface {
   id?: string;
   title?: string;
   slug?: string;
