@@ -6,7 +6,7 @@ labels: ''
 assignees: ''
 
 ---
-
+## What sort of issues is that?
 - [ ] Feature
 - [ ] Bug
 - [ ] Enhancement/ Refactor
