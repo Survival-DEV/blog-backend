@@ -35,12 +35,5 @@ If applicable, add screenshots to help explain your problem.
  const error = console.log('Add here your code snippest')
  ```
 
-### :compass:  How to test
-Steps to test your PR:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
-
 **Any further info needs to be mentioned?**
 Add any other context about the problem here.
