@@ -1,9 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { from, Observable, pipe } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { DeleteResult, Repository } from 'typeorm';
-import { CreateBlogDto, UpdateBlogDto } from './dto/blog.dto';
+import { from, Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
+import { CreateBlogDto } from './dto/create-blog.dto';
+import { UpdateBlogDto } from './dto/update-blog.dto';
 import { BlogEntity } from '../database/entities/blog.entity';
 import { BlogEntryInterface } from './interface/blog.interface';
 

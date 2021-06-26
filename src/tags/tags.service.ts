@@ -1,18 +1,18 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { DeleteResult, Repository, UpdateResult } from "typeorm";
-import { CreateTagDto } from "./dto/create-tag.dto";
-import { UpdateTagDto } from "./dto/update-tag.dto";
-import { TagEntity } from "../database/entities/tag.entity";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { CreateTagDto } from './dto/create-tag.dto';
+import { UpdateTagDto } from './dto/update-tag.dto';
+import { TagEntity } from '../database/entities/tag.entity';
 
 @Injectable()
 export class TagsService {
   constructor(
     @InjectRepository(TagEntity)
-    private tagRepository: Repository<TagEntity>
+    private tagRepository: Repository<TagEntity>,
   ) {}
 
-  create(data: CreateTagDto):Promise<TagEntity> {
+  create(data: CreateTagDto): Promise<TagEntity> {
     return this.tagRepository.save(data);
   }
 
@@ -28,7 +28,7 @@ export class TagsService {
     return this.tagRepository.update(id, data);
   }
 
-  remove(id: string):Promise<DeleteResult> {
+  remove(id: string): Promise<DeleteResult> {
     return this.tagRepository.delete(id);
   }
 }

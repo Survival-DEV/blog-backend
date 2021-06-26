@@ -5,13 +5,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import {
-  DeleteResult,
-  Entity,
   EntityRepository,
   Repository,
   UpdateResult,
 } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 
 import { CategoryEntity } from '../database/entities/category.entity';
 import { CategoryInterface } from './interface/category.interface';

@@ -1,4 +1,4 @@
-import Faker, { fake } from 'faker';
+import Faker from 'faker';
 import { CategoryEntity } from '../entities/category.entity';
 import { define } from 'typeorm-seeding';
 

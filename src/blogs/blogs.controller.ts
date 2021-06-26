@@ -11,10 +11,10 @@ import {
   ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { BlogService } from '../blogs.service';
-import { CreateBlogDto, UpdateBlogDto } from '../dto/blog.dto';
+import { BlogService } from './blogs.service';
+import { CreateBlogDto, UpdateBlogDto } from './dto/update-blog.dto';
 import { DeleteResult } from 'typeorm';
-import { BlogEntryInterface } from '../interface/blog.interface';
+import { BlogEntryInterface } from './interface/blog.interface';
 
 @Controller('blogs')
 export class BlogsController {
