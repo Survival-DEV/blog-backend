@@ -1,5 +1,6 @@
+import { ApiProperty } from '@nestjs/swagger';
 export interface BlogEntry {
-  id?: string;
+   id?: string;
   title?: string;
   slug?: string;
   description?: string;

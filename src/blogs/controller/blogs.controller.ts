@@ -12,22 +12,26 @@ import { Observable } from 'rxjs';
 import { BlogService } from '../service/blogs.service';
 import { CreateBlogDto } from '../model/blog.dto';
 import { BlogEntry } from '../model/blog.interface';
-
+import { ApiBody, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 @Controller('blogs')
 export class BlogsController {
   constructor(private blogService: BlogService) {}
 
   @Get('')
+  @ApiOkResponse({description: 'blogs Found'})
   async findAllBlogs(): Promise<Observable<CreateBlogDto[]>> {
     return this.blogService.findAll();
   }
 
   @Get(':id')
+  @ApiOkResponse({description: 'blog Found'})
   async findBlog(@Param('id') id: string): Promise<Observable<CreateBlogDto>> {
     return this.blogService.findOne(id);
   }
 
   @Post()
+  @ApiCreatedResponse({description:'blog Added'})
+  @ApiBody({ type: [CreateBlogDto] })
   async create(
     @Body() blogEntry: CreateBlogDto,
     @Request() req,
@@ -36,6 +40,8 @@ export class BlogsController {
   }
 
   @Put(':id')
+  @ApiCreatedResponse({description:'blog Updated'})
+  @ApiBody({ type: [CreateBlogDto] })
   async updateBlog(
     @Param('id') id: string,
     @Body() blogEntry: BlogEntry,
