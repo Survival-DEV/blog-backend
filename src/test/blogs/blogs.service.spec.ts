@@ -1,14 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from '../../src/users/users.service';
+import { BlogsController } from '../../blogs/blogs.controller';
+import { BlogService } from '../../blogs/blogs.service';
 
-describe('UsersService', () => {
-  let service: UsersService;
+describe('BlogsService', () => {
+  let service: BlogService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      controllers: [BlogsController],
       providers: [
         {
-          provide: UsersService,
+          provide: BlogService,
           useValue: {
             findAll: jest.fn(),
           },
@@ -16,7 +18,7 @@ describe('UsersService', () => {
       ],
     }).compile();
 
-    service = module.get<UsersService>(UsersService);
+    service = await module.resolve(BlogService);
   });
 
   it('should be defined', () => {
