@@ -3,9 +3,7 @@ import { ConnectionOptions } from 'typeorm';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 import { PROD_ENV } from './src/constants';
-// const { TypeOrmModuleOptions } = require('@nestjs/typeorm');
-// const { ConnectionOptions }  =require('typeorm')
-// const { PROD_ENV } = require('./src/constants');
+
 
 const config = {
   url: process.env.DATABASE_URL,
@@ -14,7 +12,7 @@ const config = {
 const connectionOptions: TypeOrmModuleOptions | ConnectionOptions = {
   type: 'postgres',
   url: config.url,
-  entities: ['dist/database/entities/*.entity.js'],
+  entities: [join(__dirname, '**/**', '*.entity.{ts,js}')],
   synchronize: true,
   dropSchema: false,
   keepConnectionAlive: true,
