@@ -9,9 +9,9 @@ import {
   Request,
 } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
-import { CreateCategoryDto } from '../model/category.dto';
-import { CategoryInterface } from '../model/category.interface';
-import { CategoriesService } from '../service/categories.service';
+import { CreateCategoryDto } from '../dto/category.dto';
+import { CategoryInterface } from '../interface/category.interface';
+import { CategoriesService } from '../categories.service';
 
 @Controller('categories')
 export class CategoriesController {
