@@ -11,7 +11,7 @@ import { UserEntity } from './user.entity';
 import { UsersService } from './users.service';
 import {ApiBody, ApiCreatedResponse,ApiOkResponse} from '@nestjs/swagger';
 import {CreateUserDto} from './dto/create-user.dto';
-import {UpdateUserDto} from './dto/update-user.dto'
+import {UpdateUserDto} from './dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
