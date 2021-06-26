@@ -1,4 +1,4 @@
-import { BlogEntity } from '../blogs/model/blog.entity';
+import { BlogEntity } from './blog.entity';
 import {
   Entity,
   Column,
@@ -39,6 +39,6 @@ export class UserEntity extends BaseEntity {
   @Column({ type: 'bytea', nullable: true })
   photo: string;
 
-  @OneToMany(_type => BlogEntity, blogEntity => blogEntity.author_id)
+  @OneToMany(_type => BlogEntity, blogEntity => blogEntity.id)
   blogEntries: BlogEntity['id'];
 }

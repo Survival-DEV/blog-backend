@@ -7,12 +7,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { CategoryEntity } from '../../categories/model/category.entity';
+import { CategoryEntity } from './category.entity';
 import { BlogEntity } from './blog.entity';
 
 @Entity()
 export class BlogCategoryEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ManyToOne(() => BlogEntity, blog => blog.blogCategoryEntity)

@@ -1,4 +1,4 @@
-import { UserEntity } from '../../users/user.entity';
+import { UserEntity } from './user.entity';
 import {
   BaseEntity,
   BeforeUpdate,
@@ -7,6 +7,8 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { BlogCategoryEntity } from './blog-category.entity';
 
@@ -27,10 +29,10 @@ export class BlogEntity extends BaseEntity {
   @Column({ default: '' })
   summary: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
   @BeforeUpdate()
@@ -57,10 +59,7 @@ export class BlogEntity extends BaseEntity {
   parentId: number;
 
   @ManyToOne(_type => UserEntity, user => user.blogEntries)
-  author!: UserEntity | undefined;
-
-  @Column({ nullable: false })
-  author_id!: UserEntity['id'];
+  author_id!: UserEntity['id'] | undefined;
 
   @OneToMany(
     _type => BlogCategoryEntity,

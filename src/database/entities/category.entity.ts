@@ -1,4 +1,4 @@
-import { BlogCategoryEntity } from '../../blogs/model/blog-category.entity';
+import { BlogCategoryEntity } from '../../database/entities/blog-category.entity';
 import {
   BaseEntity,
   Column,
@@ -9,7 +9,7 @@ import {
 
 @Entity()
 export class CategoryEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ length: 50 })
