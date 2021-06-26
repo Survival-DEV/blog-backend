@@ -3,29 +3,24 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserEntity } from './users/user.entity';
-import { BlogEntity } from './blogs/model/blog.entity';
+import { UserEntity } from './database/entities/user.entity';
+import { BlogEntity } from './database/entities/blog.entity';
 import { CategoriesModule } from './categories/categories.module';
 import { BlogsModule } from './blogs/blogs.module';
 import { UsersModule } from './users/users.module';
 import { TagsModule } from './tags/tags.module';
-import { Tag } from "./tags/entities/tag.entity";
+import { TagEntity } from "./database/entities/tag.entity";
+import { CategoryEntity } from './database/entities/category.entity';
+import connectionOptions from '../ormconfig';
+
 
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-          isGlobal: true,
-          envFilePath: ['.env.development'],
-        }),
-    TypeOrmModule.forRoot({
-      type: "postgres",
-      url: process.env.DATABASE_URL,
-      autoLoadEntities: true,
-      keepConnectionAlive: true,
-      entities: [UserEntity, BlogEntity,Tag],
-      synchronize: true,
-    }),
+    // ConfigModule.forRoot({
+    //   isGlobal: true,
+    // }),
+    TypeOrmModule.forRoot(connectionOptions),
     UsersModule,
     BlogsModule,
     CategoriesModule,
@@ -35,3 +30,4 @@ import { Tag } from "./tags/entities/tag.entity";
   providers: [AppService],
 })
 export class AppModule {}
+

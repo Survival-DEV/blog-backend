@@ -1,11 +1,13 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BlogsController } from './controller/blogs.controller';
-import { BlogService } from './service/blogs.service';
-import { BlogEntity } from './model/blog.entity';
-
+import { BlogService } from './blogs.service';
+import { BlogEntity } from '../database/entities/blog.entity';
+import { BlogCategoryEntity } from '../database/entities/blog-category.entity';
+@Global()
 @Module({
-  imports: [TypeOrmModule.forFeature([BlogEntity])],
+  imports: [TypeOrmModule.forFeature([BlogEntity, BlogCategoryEntity])],
+  exports:[TypeOrmModule.forFeature([BlogEntity, BlogCategoryEntity])],
   controllers: [BlogsController],
   providers: [BlogService],
 })
