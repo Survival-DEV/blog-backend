@@ -4,11 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import {
-  EntityRepository,
-  Repository,
-  UpdateResult,
-} from 'typeorm';
+import { EntityRepository, Repository, UpdateResult } from 'typeorm';
 
 import { CategoryEntity } from '../database/entities/category.entity';
 import { CategoryInterface } from './interface/category.interface';
