@@ -7,7 +7,7 @@ import {
   BaseEntity,
 } from 'typeorm';
 
-@Entity()
+@Entity('users')
 export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string & { __brand: 'user_Id' };
@@ -39,6 +39,8 @@ export class UserEntity extends BaseEntity {
   @Column({ type: 'bytea', nullable: true })
   photo: string;
 
-  @OneToMany(_type => BlogEntity, blogEntity => blogEntity.id)
-  blogEntries: BlogEntity['id'];
+  @OneToMany(() => BlogEntity, blogEntity => blogEntity.author_id, {
+    onDelete: 'CASCADE',
+  })
+  blogs!: BlogEntity[];
 }

@@ -1,4 +1,3 @@
-import { UserEntity } from './user.entity';
 import {
   BaseEntity,
   BeforeUpdate,
@@ -11,9 +10,11 @@ import {
   UpdateDateColumn,
   JoinColumn,
 } from 'typeorm';
+import { UserEntity } from './user.entity';
 import { BlogCategoryEntity } from './blog-category.entity';
+import { CategoryEntity } from './category.entity';
 
-@Entity('blog')
+@Entity('blogs')
 export class BlogEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
@@ -59,15 +60,12 @@ export class BlogEntity extends BaseEntity {
   @Column({ nullable: true })
   parent_id: number;
 
-  @ManyToOne(_type => UserEntity, user => user.blogEntries, {
+  @ManyToOne(() => UserEntity, user => user.blogs, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'author_id' })
-  author_id!: UserEntity[] | undefined;
+  author_id!: UserEntity['id'];
 
-  @OneToMany(
-    _type => BlogCategoryEntity,
-    blog_categroy_entity => blog_categroy_entity.blog,
-  )
-  public blog_category_entity: BlogCategoryEntity[];
+  @OneToMany(() => BlogCategoryEntity, blogCategory => blogCategory.blog)
+  public blog_category: CategoryEntity[];
 }
