@@ -13,15 +13,15 @@ export class BlogCategoryEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => BlogEntity, blog => blog.blogCategoryEntity)
+  @ManyToOne(() => BlogEntity, blog => blog.blog_category_entity)
   public blog: BlogEntity;
 
-  @ManyToOne(() => CategoryEntity, category => category.blogCategoryEntity)
+  @ManyToOne(() => CategoryEntity, category => category.blog_category_entity)
   public category: CategoryEntity;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
+  created_at: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
-  updatedAt: Date;
+  updated_at: Date;
 }

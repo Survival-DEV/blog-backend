@@ -26,7 +26,7 @@ export class CategoryEntity extends BaseEntity {
 
   @OneToMany(
     _type => BlogCategoryEntity,
-    blogCategroyEntity => blogCategroyEntity.category,
+    blog_category_entity => blog_category_entity.category,
   )
-  public blogCategoryEntity: BlogCategoryEntity[];
+  public blog_category_entity: BlogCategoryEntity[];
 }

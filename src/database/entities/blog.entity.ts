@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  JoinColumn,
 } from 'typeorm';
 import { BlogCategoryEntity } from './blog-category.entity';
 
@@ -21,7 +22,7 @@ export class BlogEntity extends BaseEntity {
   title: string;
 
   @Column()
-  metaTitle: string;
+  meta_title: string;
 
   @Column()
   slug: string;
@@ -30,40 +31,43 @@ export class BlogEntity extends BaseEntity {
   summary: string;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
+  created_at: Date;
 
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
+  updated_at: Date;
 
   @BeforeUpdate()
   updateTimestamp() {
-    this.updatedAt = new Date();
+    this.updated_at = new Date();
   }
 
   @Column({ default: 0 })
   claps: number;
 
   @Column({ nullable: true })
-  headerImage: string;
+  header_image: string;
 
   @Column({ nullable: true })
-  publishedAt: Date;
+  published_at: Date;
 
   @Column({ default: '' })
   content: string;
 
   @Column({ nullable: true })
-  isDraft: boolean;
+  is_draft: boolean;
 
   @Column({ nullable: true })
-  parentId: number;
+  parent_id: number;
 
-  @ManyToOne(_type => UserEntity, user => user.blogEntries)
-  author_id!: UserEntity['id'] | undefined;
+  @ManyToOne(_type => UserEntity, user => user.blogEntries, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'author_id' })
+  author_id!: UserEntity[] | undefined;
 
   @OneToMany(
     _type => BlogCategoryEntity,
-    blogCategroyEntity => blogCategroyEntity.blog,
+    blog_categroy_entity => blog_categroy_entity.blog,
   )
-  public blogCategoryEntity: BlogCategoryEntity[];
+  public blog_category_entity: BlogCategoryEntity[];
 }
