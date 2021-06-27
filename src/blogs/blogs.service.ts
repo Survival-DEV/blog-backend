@@ -17,7 +17,11 @@ export class BlogService {
   ) {}
 
   async findAll(): Promise<Observable<BlogEntryInterface[]>> {
-    return await from(this.blogRepository.find({ relations: ['author_id'] }));
+    return await from(
+      this.blogRepository.find({
+        relations: ['author_id'],
+      }),
+    );
   }
 
   async findOne(id: string): Promise<Observable<BlogEntryInterface>> {

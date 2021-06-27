@@ -10,9 +10,10 @@ export class UsersService {
     private usersRepository: Repository<UserEntity>,
   ) {}
 
-  findAll(): Promise<UserEntity[]> {
-    return this.usersRepository.find();
+  async findAll(): Promise<UserEntity[]> {
+    return await this.usersRepository.find({ relations: ['blogs'], });
   }
+  
   findOne(id: string): Promise<UserEntity> {
     return this.usersRepository.findOne(id);
   }
