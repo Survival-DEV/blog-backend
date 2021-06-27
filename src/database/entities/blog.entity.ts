@@ -4,14 +4,15 @@ import {
   Column,
   Entity,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
   JoinColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
-import { BlogCategoryEntity } from './blog-category.entity';
+
 import { CategoryEntity } from './category.entity';
 
 @Entity('blogs')
@@ -38,7 +39,7 @@ export class BlogEntity extends BaseEntity {
   updated_at: Date;
 
   @BeforeUpdate()
-  updateTimestamp() {
+  updateTimestamp(): void {
     this.updated_at = new Date();
   }
 
@@ -66,6 +67,9 @@ export class BlogEntity extends BaseEntity {
   @JoinColumn({ name: 'author_id' })
   author_id!: UserEntity['id'];
 
-  @OneToMany(() => BlogCategoryEntity, blogCategory => blogCategory.blog)
-  public blog_category: CategoryEntity[];
+  @ManyToMany(() => CategoryEntity, category => category.blogs, {
+    onDelete: 'CASCADE',
+  })
+  @JoinTable()
+  categories!: CategoryEntity[];
 }

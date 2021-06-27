@@ -3,11 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BlogsController } from './blogs.controller';
 import { BlogService } from './blogs.service';
 import { BlogEntity } from '../database/entities/blog.entity';
-import { BlogCategoryEntity } from '../database/entities/blog-category.entity';
 @Global()
 @Module({
-  imports: [TypeOrmModule.forFeature([BlogEntity, BlogCategoryEntity])],
-  exports: [TypeOrmModule.forFeature([BlogEntity, BlogCategoryEntity])],
+  imports: [TypeOrmModule.forFeature([BlogEntity])],
+  exports: [TypeOrmModule.forFeature([BlogEntity, ])],
   controllers: [BlogsController],
   providers: [BlogService],
 })

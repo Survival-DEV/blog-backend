@@ -1,16 +1,17 @@
-import { BlogCategoryEntity } from '../../database/entities/blog-category.entity';
+// import { BlogCategoryEntity } from '../../database/entities/blog-category.entity';
 import {
   BaseEntity,
   Column,
   Entity,
-  OneToMany,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { BlogEntity } from './blog.entity';
 
 @Entity('categories')
 export class CategoryEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ length: 50 })
   title: string;
@@ -24,6 +25,8 @@ export class CategoryEntity extends BaseEntity {
   @Column({ nullable: true })
   parent_id: string;
 
-  @OneToMany(() => BlogCategoryEntity, blogCategory => blogCategory.category)
-  public BlogCategory: BlogCategoryEntity[];
+  @ManyToMany(() => BlogEntity, blog => blog.categories, {
+    onDelete: 'CASCADE',
+  })
+  blogs!: BlogEntity[];
 }
