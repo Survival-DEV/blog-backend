@@ -28,7 +28,7 @@ export class CategoriesController {
   @Get(':id')
   @ApiOkResponse({ description: 'category founf' })
   async findOne(@Param('id') id: string): Promise<CategoryInterface> {
-    return await this.categoryService.findOne(id);
+    return await this.categoryService.findById(id);
   }
 
   @Post()
@@ -38,7 +38,7 @@ export class CategoriesController {
     @Body() categoryEntry: CreateCategoryDto,
     @Request() req,
   ): Promise<CategoryInterface> {
-    return this.categoryService.create(categoryEntry);
+    return this.categoryService.createCategory(categoryEntry);
   }
 
   @Put(':id')
@@ -48,11 +48,11 @@ export class CategoriesController {
     @Param('id') id: string,
     @Body() categoryEntry: CreateCategoryDto,
   ): Promise<UpdateResult> {
-    return this.categoryService.update(id, categoryEntry);
+    return this.categoryService.updateCategory(id, categoryEntry);
   }
 
   @Delete(':id')
-  async deleteCategory(@Param('id') id: string): Promise<DeleteResult> {
-    return this.categoryService.delete(id);
+  async deleteCategory(@Param('id') id: string): Promise<CategoryInterface> {
+    return this.categoryService.removeCategory(id);
   }
 }
