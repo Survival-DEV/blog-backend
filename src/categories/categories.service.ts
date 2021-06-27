@@ -12,14 +12,17 @@ import { CreateCategoryDto, UpdateCategoryDto } from './dto/category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
-export class CategoriesService{
+export class CategoriesService {
   constructor(
     @InjectRepository(CategoryEntity)
     private readonly categoryRepository: Repository<CategoryEntity>,
   ) {}
 
   async findAll(): Promise<CategoryInterface[]> {
-    return await this.categoryRepository.find({});
+    return await this.categoryRepository
+      .createQueryBuilder('category')
+      .leftJoinAndSelect('category.blogs', 'blogs')
+      .getMany();
   }
 
   public async findById(id: string): Promise<CategoryInterface> {
