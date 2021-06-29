@@ -4,10 +4,10 @@ import { define } from 'typeorm-seeding';
 
 define(CategoryEntity, (faker: typeof Faker) => {
   console.log('category.factory.ts is running...');
-  const user = new CategoryEntity();
-  user.title = faker.name.title();
-  user.meta_title = faker.random.words();
-  user.slug = faker.lorem.slug();
+  const category = new CategoryEntity();
+  category.title = faker.name.title();
+  category.meta_title = faker.random.words();
+  category.slug = faker.lorem.slug();
 
-  return user;
+  return category;
 });
