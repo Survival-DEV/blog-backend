@@ -3,12 +3,18 @@ import {
   Column,
   Entity,
   JoinColumn,
-  ManyToMany,
   PrimaryGeneratedColumn,
+  Tree,
+  TreeChildren,
+  TreeParent,
 } from 'typeorm';
-import { BlogEntity } from './blog.entity';
 
 @Entity('categories')
+@Tree('closure-table', {
+  closureTableName: 'category_closure',
+  ancestorColumnName: column => 'ancestor_' + column.propertyName,
+  descendantColumnName: column => 'descendant_' + column.propertyName,
+})
 export class CategoryEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
@@ -22,12 +28,10 @@ export class CategoryEntity extends BaseEntity {
   @Column()
   slug: string;
 
-  @Column({ nullable: true })
-  parent_id: string;
+  @TreeChildren()
+  children: CategoryEntity[];
 
-  @ManyToMany(() => BlogEntity, blog => blog.categories, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn({ name: 'blog_id' })
-  blogs!: Promise<BlogEntity[]>;
+  @TreeParent()
+  @JoinColumn({ name: 'parent_id' })
+  parent: CategoryEntity;
 }

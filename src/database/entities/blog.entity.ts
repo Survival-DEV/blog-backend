@@ -67,11 +67,4 @@ export class BlogEntity extends BaseEntity {
   })
   @JoinColumn({ name: 'author_id' })
   author_id!: UserEntity['id'];
-
-  @ManyToMany(() => CategoryEntity, category => category.blogs, {
-    onDelete: 'CASCADE',
-  })
-  @JoinTable({ name: 'blogCategory' })
-  @JoinColumn({ name: 'category_id' })
-  categories!: CategoryEntity[];
 }
