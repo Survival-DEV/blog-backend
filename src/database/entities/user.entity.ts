@@ -5,6 +5,8 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   BaseEntity,
+  CreateDateColumn,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity('users')
@@ -27,7 +29,7 @@ export class UserEntity extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   bio: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
   @Column({ nullable: true })
@@ -42,5 +44,6 @@ export class UserEntity extends BaseEntity {
   @OneToMany(() => BlogEntity, blogEntity => blogEntity.author_id, {
     onDelete: 'CASCADE',
   })
+  @JoinColumn({ name: 'blogs' })
   blogs!: BlogEntity[];
 }

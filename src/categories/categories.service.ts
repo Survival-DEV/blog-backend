@@ -19,14 +19,7 @@ export class CategoriesService {
   ) {}
 
   async findAll(): Promise<CategoryInterface[]> {
-    return await this.categoryRepository.find({
-      join: {
-        alias: 'category',
-        leftJoinAndSelect: {
-          blogs: 'category.blogs',
-        },
-      },
-    });
+    return await this.categoryRepository.find();
   }
 
   public async findById(id: string): Promise<CategoryInterface> {
