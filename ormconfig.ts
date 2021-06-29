@@ -3,7 +3,6 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 import { PROD_ENV } from './src/constants';
 
-
 const config = {
   url: process.env.DATABASE_URL,
 };
@@ -11,13 +10,17 @@ const config = {
 const connectionOptions: TypeOrmModuleOptions | ConnectionOptions = {
   type: 'postgres',
   url: config.url,
-  entities: ['dist/src/**/*.entity.js'],
-  synchronize: true,
+  synchronize: false,
+  migrationsRun: true,
+  logging: !!process.env.logDB,
+  migrationsTableName: 'migrations',
+  maxQueryExecutionTime: 1000,
+  entities: ['dist/src/database/entities/*.entity.js'],
   migrations: ['dist/src/database/migrations/*.js'],
-  logging: ['warn', 'error'],
   logger: process.env.NODE_ENV === PROD_ENV ? 'file' : 'debug',
   cli: {
-    migrationsDir: 'src/database/migrations',
+    entitiesDir: `./src/database/entities`,
+    migrationsDir: `./src/database/migrations`,
   },
 };
 
