@@ -17,7 +17,7 @@ const connectionOptions: TypeOrmModuleOptions | ConnectionOptions = {
   maxQueryExecutionTime: 1000,
   entities: ['dist/src/database/entities/*.entity.js'],
   migrations: ['dist/src/database/migrations/*.js'],
-  logger: process.env.NODE_ENV === PROD_ENV ? 'file' : 'debug',
+  logger: process.env.NODE_ENV === PROD_ENV ? 'file' : 'advanced-console',
   cli: {
     entitiesDir: `./src/database/entities`,
     migrationsDir: `./src/database/migrations`,
