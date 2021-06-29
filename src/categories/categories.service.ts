@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { EntityRepository, Repository, UpdateResult } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 
 import { CategoryEntity } from '../database/entities/category.entity';
 import { CategoryInterface } from './interface/category.interface';
@@ -19,10 +19,14 @@ export class CategoriesService {
   ) {}
 
   async findAll(): Promise<CategoryInterface[]> {
-    return await this.categoryRepository
-      .createQueryBuilder('category')
-      .leftJoinAndSelect('category.blogs', 'blogs')
-      .getMany();
+    return await this.categoryRepository.find({
+      join: {
+        alias: 'category',
+        leftJoinAndSelect: {
+          blogs: 'category.blogs',
+        },
+      },
+    });
   }
 
   public async findById(id: string): Promise<CategoryInterface> {

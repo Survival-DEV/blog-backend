@@ -1,8 +1,8 @@
-// import { BlogCategoryEntity } from '../../database/entities/blog-category.entity';
 import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -28,5 +28,6 @@ export class CategoryEntity extends BaseEntity {
   @ManyToMany(() => BlogEntity, blog => blog.categories, {
     onDelete: 'CASCADE',
   })
-  blogs!: BlogEntity[];
+  @JoinColumn({ name: 'blog_id' })
+  blogs!: Promise<BlogEntity[]>;
 }

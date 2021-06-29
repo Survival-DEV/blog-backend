@@ -1,4 +1,4 @@
-import { BlogEntryInterface } from "src/blogs/interface/blog.interface";
+import { BlogEntryInterface } from 'src/blogs/interface/blog.interface';
 
 export class CategoryInterface {
   id?: string;
@@ -6,5 +6,4 @@ export class CategoryInterface {
   meta_title?: string;
   slug?: string;
   parent_id?: string;
-  blogs?: BlogEntryInterface[]
 }

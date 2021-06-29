@@ -6,7 +6,6 @@ import { BlogEntity } from '../database/entities/blog.entity';
 @Global()
 @Module({
   imports: [TypeOrmModule.forFeature([BlogEntity])],
-  exports: [TypeOrmModule.forFeature([BlogEntity, ])],
   controllers: [BlogsController],
   providers: [BlogService],
 })

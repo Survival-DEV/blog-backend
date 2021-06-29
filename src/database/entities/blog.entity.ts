@@ -12,6 +12,7 @@ import {
   JoinTable,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
+import 'reflect-metadata';
 
 import { CategoryEntity } from './category.entity';
 
@@ -70,6 +71,7 @@ export class BlogEntity extends BaseEntity {
   @ManyToMany(() => CategoryEntity, category => category.blogs, {
     onDelete: 'CASCADE',
   })
-  @JoinTable()
+  @JoinTable({ name: 'blogCategory' })
+  @JoinColumn({ name: 'category_id' })
   categories!: CategoryEntity[];
 }
