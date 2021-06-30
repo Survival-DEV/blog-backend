@@ -7,7 +7,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { BlogMetaEntity } from 'src/blog-meta/entities/blog-meta.entity';
+import { BlogMetaEntity } from '../../blog-meta/entities/blog-meta.entity';
 
 @Entity('blog')
 export class BlogEntity {
