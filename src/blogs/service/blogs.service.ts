@@ -20,7 +20,7 @@ export class BlogService {
 
   async findOne(id: string): Promise<Observable<BlogEntry>> {
     return await from(
-      this.blogRepository.findOne({ id }, { relations: ['author_id'] }),
+      this.blogRepository.findOne({ id }, { relations: ['author_id', 'blog_meta'] }),
     );
   }
 
