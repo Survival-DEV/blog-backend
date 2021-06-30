@@ -10,6 +10,8 @@ import { BlogsModule } from './blogs/blogs.module';
 import { UsersModule } from './users/users.module';
 import { TagsModule } from './tags/tags.module';
 import { Tag } from "./tags/entities/tag.entity";
+import { BlogMetaModule } from './blog-meta/blog-meta.module';
+import { BlogMetaEntity } from './blog-meta/entities/blog-meta.entity';
 
 
 @Module({
@@ -23,13 +25,14 @@ import { Tag } from "./tags/entities/tag.entity";
       url: process.env.DATABASE_URL,
       autoLoadEntities: true,
       keepConnectionAlive: true,
-      entities: [UserEntity, BlogEntity,Tag],
+      entities: [UserEntity, BlogEntity,Tag, BlogMetaEntity],
       synchronize: true,
     }),
     UsersModule,
     BlogsModule,
     CategoriesModule,
     TagsModule,
+    BlogMetaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
