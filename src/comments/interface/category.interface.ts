@@ -1,4 +1,4 @@
-import { BlogEntity } from 'src/blogs/model/blog.entity';
+import { BlogEntity } from '../../blogs/model/blog.entity';
 
 export class CommentInterface {
   id: string;

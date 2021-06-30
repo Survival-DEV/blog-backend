@@ -3,7 +3,6 @@ import { CategoriesService } from './categories.service';
 
 describe('CategoriesService', () => {
   let service: CategoriesService;
-
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
