@@ -3,9 +3,12 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { CommentEntity } from 'src/comments/entities/comment.entity';
 
 @Entity('blog')
 export class BlogEntity {
@@ -16,7 +19,7 @@ export class BlogEntity {
   title: string;
 
   @Column()
-  metaTitle: string;
+  meta_title: string;
 
   @Column()
   slug: string;
@@ -25,34 +28,38 @@ export class BlogEntity {
   summary: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
+  created_at: Date;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
+  updated_at: Date;
 
   @BeforeUpdate()
   updateTimestamp() {
-    this.updatedAt = new Date();
+    this.updated_at = new Date();
   }
 
   @Column({ default: 0 })
   claps: number;
 
   @Column({ nullable: true })
-  headerImage: string;
+  header_image: string;
 
   @Column({ nullable: true })
-  publishedAt: Date;
+  published_at: Date;
 
   @Column({ default: '' })
   content: string;
 
   @Column({ nullable: true })
-  isDraft: boolean;
+  is_draft: boolean;
 
   @Column({ nullable: true })
-  parentId: number;
+  next_blog_id: number;
 
-  @ManyToOne(type => UserEntity, user => user.blogEntries)
+  @ManyToOne(() => UserEntity, user => user.blogEntries, { nullable: true })
+  @JoinColumn({ name: 'author_id' })
   author_id: UserEntity;
+
+  @OneToMany(() => CommentEntity, comment => comment.blog_id)
+  comments: CommentEntity[];
 }
