@@ -1,4 +1,3 @@
-import { UserEntity } from '../../users/user.entity';
 import {
   BeforeUpdate,
   Column,
@@ -7,7 +6,9 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { BlogMetaEntity } from '../../blog-meta/entities/blog-meta.entity';
+
+import { UserEntity } from '../../users/user.entity';
+import { BlogMetaInterface } from './blog.interface';
 
 @Entity('blog')
 export class BlogEntity {
@@ -53,11 +54,14 @@ export class BlogEntity {
   is_draft: boolean;
 
   @Column({ nullable: true })
-  parent_id: number;
+  next_blog_id: number;
 
   @ManyToOne(() => UserEntity, user => user.blogEntries)
   author_id: UserEntity;
 
-  @OneToOne(() => BlogMetaEntity, blogMeta => blogMeta.blog_id)
-  blog_meta: BlogMetaEntity;
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+  })
+  public blog_meta: BlogMetaInterface;
 }
