@@ -1,11 +1,14 @@
-import { UserEntity } from '../../users/user.entity';
 import {
   BeforeUpdate,
   Column,
   Entity,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+
+import { UserEntity } from '../../users/user.entity';
+import { BlogMetaInterface } from './blog.interface';
 
 @Entity('blog')
 export class BlogEntity {
@@ -15,8 +18,8 @@ export class BlogEntity {
   @Column()
   title: string;
 
-  @Column()
-  metaTitle: string;
+  @Column({ nullable: true })
+  meta_title: string;
 
   @Column()
   slug: string;
@@ -25,34 +28,40 @@ export class BlogEntity {
   summary: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
+  created_at: Date;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  updatedAt: Date;
+  updated_at: Date;
 
   @BeforeUpdate()
   updateTimestamp() {
-    this.updatedAt = new Date();
+    this.updated_at = new Date();
   }
 
   @Column({ default: 0 })
   claps: number;
 
   @Column({ nullable: true })
-  headerImage: string;
+  header_image: string;
 
   @Column({ nullable: true })
-  publishedAt: Date;
+  published_at: Date;
 
   @Column({ default: '' })
   content: string;
 
   @Column({ nullable: true })
-  isDraft: boolean;
+  is_draft: boolean;
 
   @Column({ nullable: true })
-  parentId: number;
+  next_blog_id: number;
 
-  @ManyToOne(type => UserEntity, user => user.blogEntries)
+  @ManyToOne(() => UserEntity, user => user.blogEntries)
   author_id: UserEntity;
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+  })
+  public blog_meta: BlogMetaInterface;
 }
