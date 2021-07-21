@@ -1,4 +1,3 @@
-import { UserEntity } from '../../users/user.entity';
 import {
   BeforeUpdate,
   Column,
@@ -10,6 +9,9 @@ import {
 } from 'typeorm';
 import { CommentEntity } from '../../comments/entities/comment.entity';
 
+import { UserEntity } from '../../users/user.entity';
+import { BlogMetaInterface } from './blog.interface';
+
 @Entity('blog')
 export class BlogEntity {
   @PrimaryGeneratedColumn()
@@ -18,7 +20,7 @@ export class BlogEntity {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ nullable: true })
   meta_title: string;
 
   @Column()
@@ -65,4 +67,10 @@ export class BlogEntity {
   })
   @JoinColumn({ name: 'comment_id' })
   comments: CommentEntity[];
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+  })
+  public blog_meta: BlogMetaInterface;
 }

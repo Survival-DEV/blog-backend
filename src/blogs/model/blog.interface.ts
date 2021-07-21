@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 export interface BlogEntry {
-   id?: string;
+  id?: string;
   title?: string;
   slug?: string;
   description?: string;
@@ -11,4 +11,10 @@ export interface BlogEntry {
   headerImage?: string;
   publishedAt?: Date;
   isPublished?: boolean;
+}
+
+export interface BlogMetaInterface {
+  title?: string;
+  meta_title?: string;
+  summary?: string;
 }
