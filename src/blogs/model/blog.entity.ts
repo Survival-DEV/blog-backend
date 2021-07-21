@@ -60,6 +60,9 @@ export class BlogEntity {
   @JoinColumn({ name: 'author_id' })
   author_id: UserEntity;
 
-  @OneToMany(() => CommentEntity, comment => comment.blog_id)
+  @OneToMany(() => CommentEntity, comment => comment.blog_id, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'comment_id' })
   comments: CommentEntity[];
 }
