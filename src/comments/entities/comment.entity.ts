@@ -7,10 +7,13 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   Tree,
+  TreeChildren,
+  TreeParent,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('comments')
+@Tree('closure-table')
 export class CommentEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -34,6 +37,10 @@ export class CommentEntity {
   @JoinColumn({ name: 'blog_id' })
   blog_id: BlogEntity;
 
-  @Column({ nullable: true })
-  parent_id: string;
+  @TreeChildren()
+  children: CommentEntity[];
+
+  @TreeParent()
+  @JoinColumn({ name: 'parent_id' })
+  public parent: CommentEntity;
 }
