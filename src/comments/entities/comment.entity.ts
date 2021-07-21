@@ -18,12 +18,6 @@ export class CommentEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'varchar', length: 250 })
-  title: string;
-
-  @Column()
-  is_published: boolean;
-
   @CreateDateColumn()
   created_at: Date;
 
