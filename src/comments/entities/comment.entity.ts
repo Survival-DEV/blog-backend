@@ -1,4 +1,3 @@
-import { BlogEntity } from '../../blogs/model/blog.entity';
 import {
   Column,
   CreateDateColumn,
@@ -11,6 +10,7 @@ import {
   TreeParent,
   UpdateDateColumn,
 } from 'typeorm';
+import { BlogEntity } from '../../blogs/model/blog.entity';
 
 @Entity('comments')
 @Tree('closure-table')
