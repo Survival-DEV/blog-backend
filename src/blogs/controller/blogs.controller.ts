@@ -29,13 +29,6 @@ export class BlogsController {
     return this.blogService.findOne(id);
   }
 
-  @Get(':blogId/:commentId')
-  async findCommentsPerBlog(
-    @Param('blogId') blogId: string, @Param('commentId') commentId: string,
-  ): Promise<Observable<CreateBlogDto>> {
-    return this.blogService.findCommentsPerBlog(commentId);
-  }
-
   @Post()
   @ApiCreatedResponse({ description: 'blog Added' })
   @ApiBody({ type: [CreateBlogDto] })

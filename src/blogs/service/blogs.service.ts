@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { from, Observable, pipe } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Repository } from 'typeorm';
 import { CommentEntity } from 'src/comments/entities/comment.entity';
@@ -27,14 +27,6 @@ export class BlogService {
         },
         relations: ['author_id', 'comments'],
       }),
-    );
-  }
-
-  async findCommentsPerBlog(
-    id: string,
-  ): Promise<Observable<CommentEntity | BlogEntity>> {
-    return await from(
-      this.blogRepository.findOne({ id }, { relations: ['comment_id'] }),
     );
   }
 
