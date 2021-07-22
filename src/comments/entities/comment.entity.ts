@@ -27,7 +27,7 @@ export class CommentEntity {
   @Column({ type: 'varchar' })
   content: string;
 
-  @ManyToOne(() => BlogEntity, blog => blog.id)
+  @ManyToOne(() => BlogEntity, blog => blog.comments)
   @JoinColumn({ name: 'blog_id' })
   blog_id: BlogEntity;
 
@@ -35,6 +35,5 @@ export class CommentEntity {
   children: CommentEntity[];
 
   @TreeParent()
-  @JoinColumn({ name: 'parent_id' })
   public parent: CommentEntity;
 }
