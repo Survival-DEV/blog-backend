@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BlogService } from 'src/blogs/service/blogs.service';
+import { BlogService } from '../blogs/service/blogs.service';
 import { DeleteResult, TreeRepository } from 'typeorm';
 
 import { CreateCommentDto } from './dto/create-comment.dto';
