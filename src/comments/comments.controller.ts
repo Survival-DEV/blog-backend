@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UsePipes } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
@@ -13,8 +13,9 @@ export class CommentsController {
   }
 
   @Get()
+  @UsePipes(new ValidationPipe({ transform: true }))
   findAll() {
-    return this.commentsService.findAll();
+    return this.commentsService.findAllComments();
   }
 
   @Get(':id')
