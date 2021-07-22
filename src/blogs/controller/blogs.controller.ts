@@ -18,19 +18,26 @@ export class BlogsController {
   constructor(private blogService: BlogService) {}
 
   @Get('')
-  @ApiOkResponse({description: 'blogs Found'})
+  @ApiOkResponse({ description: 'blogs Found' })
   async findAllBlogs(): Promise<Observable<CreateBlogDto[]>> {
     return this.blogService.findAll();
   }
 
   @Get(':id')
-  @ApiOkResponse({description: 'blog Found'})
+  @ApiOkResponse({ description: 'blog Found' })
   async findBlog(@Param('id') id: string): Promise<Observable<CreateBlogDto>> {
     return this.blogService.findOne(id);
   }
 
+  @Get(':blogId/:commentId')
+  async findCommentsPerBlog(
+    @Param('blogId') blogId: string, @Param('commentId') commentId: string,
+  ): Promise<Observable<CreateBlogDto>> {
+    return this.blogService.findCommentsPerBlog(commentId);
+  }
+
   @Post()
-  @ApiCreatedResponse({description:'blog Added'})
+  @ApiCreatedResponse({ description: 'blog Added' })
   @ApiBody({ type: [CreateBlogDto] })
   async create(
     @Body() blogEntry: CreateBlogDto,
@@ -40,7 +47,7 @@ export class BlogsController {
   }
 
   @Put(':id')
-  @ApiCreatedResponse({description:'blog Updated'})
+  @ApiCreatedResponse({ description: 'blog Updated' })
   @ApiBody({ type: [CreateBlogDto] })
   async updateBlog(
     @Param('id') id: string,
