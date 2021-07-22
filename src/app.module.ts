@@ -14,6 +14,7 @@ import { TagsModule } from './tags/tags.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: ['.env.development'],
     }),
     TypeOrmModule.forRoot(connectionOptions),
     UsersModule,

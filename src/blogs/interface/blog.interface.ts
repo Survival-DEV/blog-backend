@@ -11,3 +11,9 @@ export interface BlogEntryInterface {
   publishedAt?: Date;
   isPublished?: boolean;
 }
+
+export interface BlogMetaInterface {
+  title?: string;
+  meta_title?: string;
+  summary?: string;
+}
