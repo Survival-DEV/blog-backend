@@ -14,7 +14,7 @@ import { BlogMetaInterface } from './blog.interface';
 
 @Entity('blog')
 export class BlogEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
