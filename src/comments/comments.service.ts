@@ -20,7 +20,7 @@ export class CommentsService {
     return await this.commentTreeRepositry.save(createCommentDto);
   }
 
-  //! TODO: find all comments per blog only
+  //! TODO: find all comments per blog only & fix the children tree
   async findAllComments(): Promise<CommentInterface[]> {
     return await this.commentTreeRepositry.findTrees();
   }
