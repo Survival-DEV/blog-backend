@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   Tree,
   TreeChildren,
+  TreeLevelColumn,
   TreeParent,
   UpdateDateColumn,
 } from 'typeorm';
@@ -31,9 +32,13 @@ export class CommentEntity {
   @JoinColumn({ name: 'blog_id' })
   blog_id: BlogEntity;
 
-  @TreeChildren()
-  children: CommentEntity[];
-
   @TreeParent()
   public parent: CommentEntity;
+
+  @TreeChildren({ cascade: true })
+  children: CommentEntity[];
+
+  @TreeLevelColumn()
+  @Column({ nullable: true })
+  level: number;
 }
