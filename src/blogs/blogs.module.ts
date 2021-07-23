@@ -8,5 +8,6 @@ import { BlogEntity } from './model/blog.entity';
   imports: [TypeOrmModule.forFeature([BlogEntity])],
   controllers: [BlogsController],
   providers: [BlogService],
+  exports: [BlogService],
 })
 export class BlogsModule {}

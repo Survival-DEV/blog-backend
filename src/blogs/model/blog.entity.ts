@@ -2,17 +2,19 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
-  OneToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { CommentEntity } from '../../comments/entities/comment.entity';
 
 import { UserEntity } from '../../users/user.entity';
 import { BlogMetaInterface } from './blog.interface';
 
 @Entity('blog')
 export class BlogEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
@@ -56,8 +58,15 @@ export class BlogEntity {
   @Column({ nullable: true })
   next_blog_id: number;
 
-  @ManyToOne(() => UserEntity, user => user.blogEntries)
+  @ManyToOne(() => UserEntity, user => user.blogEntries, { nullable: true })
+  @JoinColumn({ name: 'author_id' })
   author_id: UserEntity;
+
+  @OneToMany(() => CommentEntity, comment => comment.blog_id, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'comment_id' })
+  comments: CommentEntity[];
 
   @Column({
     type: 'jsonb',

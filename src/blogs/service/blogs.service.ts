@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { from, Observable, pipe } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Repository } from 'typeorm';
+import { CommentEntity } from 'src/comments/entities/comment.entity';
 import { CreateBlogDto } from '../model/blog.dto';
 import { BlogEntity } from '../model/blog.entity';
 import { BlogEntry } from '../model/blog.interface';
@@ -18,9 +19,14 @@ export class BlogService {
     return await from(this.blogRepository.find({ relations: ['author_id'] }));
   }
 
-  async findOne(id: string): Promise<Observable<BlogEntry>> {
+  async findOne(blogId: string): Promise<Observable<BlogEntry>> {
     return await from(
-      this.blogRepository.findOne({ id }, { relations: ['author_id'] }),
+      this.blogRepository.findOneOrFail({
+        where: {
+          id: blogId,
+        },
+        relations: ['author_id', 'comments'],
+      }),
     );
   }
 
