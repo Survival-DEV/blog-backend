@@ -7,7 +7,6 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  TableInheritance,
   Tree,
   TreeChildren,
   TreeLevelColumn,
@@ -16,14 +15,7 @@ import {
 } from 'typeorm';
 import { BlogEntity } from '../../blogs/model/blog.entity';
 
-export enum FILE_TYPE {
-  FOLDER = 'FOLDER',
-  FILE = 'FILE',
-}
-
 @Entity('comments')
-// @TableInheritance({ column: { type: 'varchar', name: 'type' } })
-// @TableInheritance({ column: { type: 'enum', name: 'type', enum: FILE_TYPE } })
 @Tree('closure-table')
 export class CommentEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -61,6 +53,6 @@ export class CommentEntity extends BaseEntity {
   blog_id: BlogEntity;
 
   @TreeLevelColumn()
-  @Column({ default: 4, nullable: true })
+  @Column({ default: 2, nullable: true })
   private level: number;
 }

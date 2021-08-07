@@ -74,17 +74,5 @@ export class BlogEntity {
     type: 'jsonb',
     nullable: true,
   })
-  public blog_meta: BlogMetaInterface; //TODO: { [p: string]: any }
-
-  // @Column({
-  //   type: 'bigint',
-  //   nullable: false,
-  //   unsigned: true,
-  //   default: 0,
-  //   transformer: {
-  //     from: (val: any) => BigInt(val || '0'),
-  //     to: (val: bigint) => val?.toString(),
-  //   },
-  // })
-  // viewed?: bigint;
+  public blog_meta: BlogMetaInterface;  //TODO: { [p: string]: any }
 }

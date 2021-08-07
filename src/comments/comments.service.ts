@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BlogService } from '../blogs/service/blogs.service';
 import {
   DeleteResult,
   TreeRepository
@@ -16,21 +15,15 @@ export class CommentsService {
   constructor(
     @InjectRepository(CommentEntity)
     private readonly commentTreeRepositry: TreeRepository<CommentEntity>,
-    // private readonly ErrorTreeRepositry: TreeRepositoryNotSupportedError,
-
-    private readonly blogRepository: BlogService,
   ) {}
 
   async create(createCommentDto: CreateCommentDto): Promise<CommentEntity[]> {
     const comment = await this.commentTreeRepositry.save(createCommentDto);
     return await this.commentTreeRepositry.findAncestors(comment);
   }
-
-  //! TODO: find all comments per blog only & fix the children tree
+  //! TODO: find all comments per blog only
   async findAllComments(): Promise<CommentInterface[]> {
     const data = await this.commentTreeRepositry.findTrees();
-    //TODO: const trees = await manager.getTreeRepository(Category).findTrees();
-
     return data;
   }
 
