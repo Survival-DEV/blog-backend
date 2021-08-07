@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BlogService } from '../blogs/service/blogs.service';
-import { DeleteResult, TreeRepository } from 'typeorm';
+import {
+  DeleteResult,
+  TreeRepository
+} from 'typeorm';
 
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
@@ -13,23 +16,26 @@ export class CommentsService {
   constructor(
     @InjectRepository(CommentEntity)
     private readonly commentTreeRepositry: TreeRepository<CommentEntity>,
+    // private readonly ErrorTreeRepositry: TreeRepositoryNotSupportedError,
+
     private readonly blogRepository: BlogService,
   ) {}
 
-  async create(createCommentDto: CreateCommentDto): Promise<CommentInterface> {
-    return await this.commentTreeRepositry.save(createCommentDto);
+  async create(createCommentDto: CreateCommentDto): Promise<CommentEntity[]> {
+    const comment = await this.commentTreeRepositry.save(createCommentDto);
+    return await this.commentTreeRepositry.findAncestors(comment);
   }
 
   //! TODO: find all comments per blog only & fix the children tree
   async findAllComments(): Promise<CommentInterface[]> {
-    return await this.commentTreeRepositry.findTrees();
+    const data = await this.commentTreeRepositry.findTrees();
+    //TODO: const trees = await manager.getTreeRepository(Category).findTrees();
+
+    return data;
   }
 
-  findOne(id: string): Promise<CommentInterface> {
-    return this.commentTreeRepositry.findOne(
-      { id },
-      { relations: ['blog_id'] },
-    );
+  async findOne(id: string): Promise<CommentEntity> {
+    return await this.commentTreeRepositry.findOne({ id });
   }
 
   update(id: string, updateCommentDto: UpdateCommentDto) {
