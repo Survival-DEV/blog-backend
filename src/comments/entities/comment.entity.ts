@@ -7,6 +7,7 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  RelationId,
   Tree,
   TreeChildren,
   TreeLevelColumn,
@@ -37,20 +38,26 @@ export class CommentEntity extends BaseEntity {
   @MaxLength(255, { message: 'FIELD_LENGTH_MAX' })
   content: string;
 
-  @TreeChildren({ cascade: ['soft-remove', 'remove', 'recover'] })
-  public children: CommentEntity[];
+  @TreeChildren({
+    cascade: ['soft-remove', 'remove', 'recover', 'insert', 'update'],
+  })
+  public replies: CommentEntity[];
 
   @TreeParent({ onDelete: 'CASCADE' })
+  @Column({ name: 'parent_id', nullable: true, default: null })
   public parent?: CommentEntity;
 
   @ManyToOne(() => BlogEntity, blog => blog.comments, {
     onDelete: 'CASCADE',
     cascade: true,
-    eager: true,
   })
   @ValidateNested()
   @JoinColumn({ name: 'blog_id' })
-  blog_id: BlogEntity;
+  blog: BlogEntity;
+
+  @Column({ nullable: false })
+  @RelationId((comment: CommentEntity) => comment.blog)
+  blog_id: string;
 
   @TreeLevelColumn()
   @Column({ default: 2, nullable: true })
