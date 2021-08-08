@@ -20,10 +20,9 @@ export class CommentsService {
 
   async create(
     createCommentDto: CreateCommentDto,
-  ): Promise<CommentEntity[] | CommentEntity | string | CommentEntity> {
+  ): Promise<CommentEntity> {
     if (!createCommentDto.parent_id) {
-      const parent = await this.commentTreeRepository.save(createCommentDto);
-      return await this.commentTreeRepository.findAncestors(parent);
+      return await this.commentTreeRepository.save(createCommentDto);
     }
     const parent = await this.commentTreeRepository.findOne(
       createCommentDto.parent_id,
