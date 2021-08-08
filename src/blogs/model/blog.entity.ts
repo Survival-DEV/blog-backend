@@ -2,6 +2,7 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -13,6 +14,7 @@ import { UserEntity } from '../../users/user.entity';
 import { BlogMetaInterface } from './blog.interface';
 
 @Entity('blog')
+@Index(['title'], { fulltext: true })
 export class BlogEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -72,5 +74,5 @@ export class BlogEntity {
     type: 'jsonb',
     nullable: true,
   })
-  public blog_meta: BlogMetaInterface;
+  public blog_meta: BlogMetaInterface;  //TODO: { [p: string]: any }
 }

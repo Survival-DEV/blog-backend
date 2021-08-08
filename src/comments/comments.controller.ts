@@ -18,9 +18,10 @@ export class CommentsController {
     return this.commentsService.findAllComments();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.commentsService.findOne(id);
+  @Get('/blog/:id')
+  @UsePipes(new ValidationPipe({ transform: true }))
+  findCommentsPerBlog(@Param('id') id: string) {
+    return this.commentsService.findCommentsPerBlog(id);
   }
 
   @Patch(':id')

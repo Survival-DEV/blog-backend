@@ -1,42 +1,58 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BlogService } from '../blogs/service/blogs.service';
-import { DeleteResult, TreeRepository } from 'typeorm';
+import {
+  DeleteResult,
+  TreeRepository,
+} from 'typeorm';
+
 
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { CommentEntity } from './entities/comment.entity';
-import { CommentInterface } from './interface/category.interface';
+import { CommentInterface } from './interface/comment.interface';
 
 @Injectable()
 export class CommentsService {
   constructor(
     @InjectRepository(CommentEntity)
-    private readonly commentTreeRepositry: TreeRepository<CommentEntity>,
-    private readonly blogRepository: BlogService,
+    protected readonly commentTreeRepository: TreeRepository<CommentEntity>,
   ) {}
 
-  async create(createCommentDto: CreateCommentDto): Promise<CommentInterface> {
-    return await this.commentTreeRepositry.save(createCommentDto);
+  async create(
+    createCommentDto: CreateCommentDto,
+  ): Promise<CommentEntity> {
+    if (!createCommentDto.parent_id) {
+      return await this.commentTreeRepository.save(createCommentDto);
+    }
+    const parent = await this.commentTreeRepository.findOne(
+      createCommentDto.parent_id,
+    );
+
+    const child = await this.commentTreeRepository.create({
+      content: createCommentDto.content,
+      blog_id: createCommentDto.blog_id,
+    });
+    child.parent = parent;
+       
+    return await this.commentTreeRepository.save(child);
   }
 
-  //! TODO: find all comments per blog only & fix the children tree
   async findAllComments(): Promise<CommentInterface[]> {
-    return await this.commentTreeRepositry.findTrees();
+    return await this.commentTreeRepository.findTrees();
   }
 
-  findOne(id: string): Promise<CommentInterface> {
-    return this.commentTreeRepositry.findOne(
-      { id },
-      { relations: ['blog_id'] },
+  async findCommentsPerBlog(blog_id: string): Promise<CommentEntity> {
+    return await this.commentTreeRepository.findOne(
+      { blog_id },
+      { relations: ['replies'] },
     );
   }
 
   update(id: string, updateCommentDto: UpdateCommentDto) {
-    return this.commentTreeRepositry.update(id, updateCommentDto);
+    return this.commentTreeRepository.update(id, updateCommentDto);
   }
 
   remove(id: string): Promise<DeleteResult> {
-    return this.commentTreeRepositry.delete(id);
+    return this.commentTreeRepository.delete(id);
   }
 }

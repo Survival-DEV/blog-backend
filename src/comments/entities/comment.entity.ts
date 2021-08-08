@@ -1,10 +1,13 @@
+import { MaxLength, ValidateNested } from 'class-validator';
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  RelationId,
   Tree,
   TreeChildren,
   TreeLevelColumn,
@@ -15,30 +18,48 @@ import { BlogEntity } from '../../blogs/model/blog.entity';
 
 @Entity('comments')
 @Tree('closure-table')
-export class CommentEntity {
+export class CommentEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({
+    type: 'timestamp with time zone',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({
+    type: 'timestamp with time zone',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   updated_at: Date;
 
   @Column({ type: 'varchar' })
+  @MaxLength(255, { message: 'FIELD_LENGTH_MAX' })
   content: string;
 
-  @ManyToOne(() => BlogEntity, blog => blog.comments)
+  @TreeChildren({
+    cascade: ['soft-remove', 'remove', 'recover', 'insert', 'update'],
+  })
+  public replies: CommentEntity[];
+
+  @TreeParent({ onDelete: 'CASCADE' })
+  @Column({ name: 'parent_id', nullable: true, default: null })
+  public parent?: CommentEntity;
+
+  @ManyToOne(() => BlogEntity, blog => blog.comments, {
+    onDelete: 'CASCADE',
+    cascade: true,
+  })
+  @ValidateNested()
   @JoinColumn({ name: 'blog_id' })
-  blog_id: BlogEntity;
+  blog: BlogEntity;
 
-  @TreeParent()
-  public parent: CommentEntity;
-
-  @TreeChildren({ cascade: true })
-  children: CommentEntity[];
+  @Column({ nullable: false })
+  @RelationId((comment: CommentEntity) => comment.blog)
+  blog_id: string;
 
   @TreeLevelColumn()
-  @Column({ nullable: true })
-  level: number;
+  @Column({ default: 2, nullable: true })
+  private level: number;
 }
