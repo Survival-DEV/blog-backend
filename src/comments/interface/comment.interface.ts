@@ -4,5 +4,5 @@ export class CommentInterface {
   id: string;
   created_at: Date;
   content: string;
-  blog_id: BlogEntity;
+  blog_id: string;
 }
