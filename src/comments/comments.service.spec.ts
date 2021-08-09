@@ -1,13 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CategoriesService } from '../../categories/categories.service';
+import { CommentsService } from './comments.service';
 
-describe('CategoriesService', () => {
-  let service: CategoriesService;
+describe('CommentsService', () => {
+  let service: CommentsService;
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         {
-          provide: CategoriesService,
+          provide: CommentsService,
           useValue: {
             findAll: jest.fn(),
           },
@@ -15,7 +16,7 @@ describe('CategoriesService', () => {
       ],
     }).compile();
 
-    service = module.get<CategoriesService>(CategoriesService);
+    service = module.get<CommentsService>(CommentsService);
   });
 
   it('should be defined', () => {
