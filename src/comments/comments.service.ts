@@ -3,12 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {
   DeleteResult,
   TreeRepository,
+  UpdateResult,
 } from 'typeorm';
 
 
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
-import { CommentEntity } from './entities/comment.entity';
+import { CommentEntity } from '../database/entities/comment.entity';
 import { CommentInterface } from './interface/comment.interface';
 
 @Injectable()
@@ -48,7 +49,7 @@ export class CommentsService {
     );
   }
 
-  update(id: string, updateCommentDto: UpdateCommentDto) {
+  update(id: string, updateCommentDto: UpdateCommentDto): Promise<UpdateResult> {
     return this.commentTreeRepository.update(id, updateCommentDto);
   }
 

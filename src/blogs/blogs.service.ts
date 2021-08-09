@@ -24,9 +24,14 @@ export class BlogService {
     );
   }
 
-  async findOne(id: string): Promise<Observable<BlogEntryInterface>> {
+  async findOne(blogId: string): Promise<Observable<BlogEntryInterface>> {
     const blog = await from(
-      this.blogRepository.findOne({ id }, { relations: ['author_id'] }),
+      this.blogRepository.findOneOrFail({
+        where: {
+          id: blogId,
+        },
+        relations: ['author_id', 'comments'],
+      }),
     );
     if (!blog) throw new NotFoundException();
     return blog;
