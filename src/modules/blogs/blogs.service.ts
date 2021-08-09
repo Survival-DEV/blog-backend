@@ -6,7 +6,7 @@ import { switchMap } from 'rxjs/operators';
 
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
-import { BlogEntity } from '../database/entities/blog.entity';
+import { BlogEntity } from '../../database/entities/blog.entity';
 import { BlogEntryInterface } from './interface/blog.interface';
 
 @Injectable()

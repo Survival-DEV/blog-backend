@@ -7,7 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { UserEntity } from '../database/entities/user.entity';
+import { UserEntity } from '../../database/entities/user.entity';
 import { UsersService } from './users.service';
 import {ApiBody, ApiCreatedResponse,ApiOkResponse} from '@nestjs/swagger';
 import {CreateUserDto} from './dto/create-user.dto';

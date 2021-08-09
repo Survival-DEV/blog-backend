@@ -14,7 +14,7 @@ import {
 import { UserEntity } from './user.entity';
 import 'reflect-metadata';
 
-import { BlogMetaInterface } from 'src/blogs/interface/blog.interface';
+import { BlogMetaInterface } from 'src/modules/blogs/interface/blog.interface';
 import { CommentEntity } from './comment.entity';
 
 @Entity('blogs')

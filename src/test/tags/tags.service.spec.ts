@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TagsService } from '../../tags/tags.service';
+import { TagsService } from '../../modules/tags/tags.service';
 
 describe('TagsService', () => {
   let service: TagsService;
