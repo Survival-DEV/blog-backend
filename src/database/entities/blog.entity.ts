@@ -15,7 +15,7 @@ import { UserEntity } from './user.entity';
 import 'reflect-metadata';
 
 import { BlogMetaInterface } from 'src/blogs/interface/blog.interface';
-import { CommentEntity } from 'src/database/entities/comment.entity';
+import { CommentEntity } from './comment.entity';
 
 @Entity('blogs')
 @Index(['title'], { fulltext: true })
