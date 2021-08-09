@@ -1,22 +1,24 @@
 import {
   BaseEntity,
-  BeforeUpdate,
-  Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
+  Column,
+  JoinColumn,
+  BeforeUpdate,
   CreateDateColumn,
   UpdateDateColumn,
-  JoinColumn,
-  ManyToMany,
-  JoinTable,
+  Index,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
 import 'reflect-metadata';
 
-import { CategoryEntity } from './category.entity';
+import { BlogMetaInterface } from 'src/blogs/interface/blog.interface';
+import { CommentEntity } from 'src/database/entities/comment.entity';
 
 @Entity('blogs')
+@Index(['title'], { fulltext: true })
 export class BlogEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
@@ -24,7 +26,7 @@ export class BlogEntity extends BaseEntity {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ nullable: true })
   meta_title: string;
 
   @Column()
@@ -64,7 +66,21 @@ export class BlogEntity extends BaseEntity {
 
   @ManyToOne(() => UserEntity, user => user.blogs, {
     onDelete: 'CASCADE',
+    nullable: true,
   })
   @JoinColumn({ name: 'author_id' })
   author_id!: UserEntity['id'];
+
+  @OneToMany(() => CommentEntity, comment => comment.blog_id, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'comment_id' })
+  comments: CommentEntity[];
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+  })
+  public blog_meta: BlogMetaInterface; //TODO: { [p: string]: any }
 }
+
