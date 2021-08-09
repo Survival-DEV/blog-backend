@@ -11,12 +11,8 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "noImplicitAny": false,
-    "noUnusedLocals": false,
-    "noLib": false,
-    "allowJs": true,
-    "lib": ["es7"]
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
   },
-  "include": ["packages/**/*", "integration/**/*","./tsconfig.eslint.json","./eslintrc.js", "**/*.config.js", "./src/"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
-  }
+}
