@@ -14,7 +14,7 @@ import {
   TreeParent,
   UpdateDateColumn,
 } from 'typeorm';
-import { BlogEntity } from '../../blogs/model/blog.entity';
+import { BlogEntity } from './blog.entity';
 
 @Entity('comments')
 @Tree('closure-table')
