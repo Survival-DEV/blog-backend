@@ -10,7 +10,7 @@ import {
 import { TagsService } from './tags.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { TagEntity } from '../../database/entities/tag.entity';
+import { TagEntity } from '../../models/entities/tag.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { ApiBody, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 

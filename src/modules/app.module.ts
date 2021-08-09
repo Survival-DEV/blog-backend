@@ -2,14 +2,14 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import connectionOptions from '../ormconfig';
+import connectionOptions from '../../ormconfig';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CategoriesModule } from './modules/categories/categories.module';
-import { BlogsModule } from './modules/blogs/blogs.module';
-import { UsersModule } from './modules/users/users.module';
-import { TagsModule } from './modules/tags/tags.module';
-import { CommentsModule } from './modules/comments/comments.module';
+import { CategoriesModule } from './categories/categories.module';
+import { BlogsModule } from './blogs/blogs.module';
+import { UsersModule } from './users/users.module';
+import { TagsModule } from './tags/tags.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [

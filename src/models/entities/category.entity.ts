@@ -10,11 +10,7 @@ import {
 } from 'typeorm';
 
 @Entity('categories')
-@Tree('closure-table', {
-  closureTableName: 'category_closure',
-  ancestorColumnName: column => 'ancestor_' + column.propertyName,
-  descendantColumnName: column => 'descendant_' + column.propertyName,
-})
+@Tree('closure-table')
 export class CategoryEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
@@ -22,7 +18,7 @@ export class CategoryEntity extends BaseEntity {
   @Column({ length: 50 })
   title: string;
 
-  @Column()
+  @Column({ nullable: true })
   meta_title: string;
 
   @Column()

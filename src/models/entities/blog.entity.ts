@@ -66,7 +66,6 @@ export class BlogEntity extends BaseEntity {
 
   @ManyToOne(() => UserEntity, user => user.blogs, {
     onDelete: 'CASCADE',
-    nullable: true,
   })
   @JoinColumn({ name: 'author_id' })
   author_id!: UserEntity['id'];
@@ -83,4 +82,3 @@ export class BlogEntity extends BaseEntity {
   })
   public blog_meta: BlogMetaInterface; //TODO: { [p: string]: any }
 }
-

@@ -43,7 +43,7 @@ export class UserEntity extends BaseEntity {
 
   @OneToMany(() => BlogEntity, blogEntity => blogEntity.author_id, {
     onDelete: 'CASCADE',
-    nullable: true
+    nullable: true,
   })
   @JoinColumn({ name: 'blogs' })
   blogs!: BlogEntity[];

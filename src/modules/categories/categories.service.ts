@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Repository, UpdateResult } from 'typeorm';
 
-import { CategoryEntity } from '../../database/entities/category.entity';
+import { CategoryEntity } from '../../models/entities/category.entity';
 import { CategoryInterface } from './interface/category.interface';
 import { CreateCategoryDto, UpdateCategoryDto } from './dto/category.dto';
 import { InjectRepository } from '@nestjs/typeorm';

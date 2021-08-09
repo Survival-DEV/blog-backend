@@ -9,7 +9,7 @@ import {
 
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
-import { CommentEntity } from '../../database/entities/comment.entity';
+import { CommentEntity } from '../../models/entities/comment.entity';
 import { CommentInterface } from './interface/comment.interface';
 
 @Injectable()
