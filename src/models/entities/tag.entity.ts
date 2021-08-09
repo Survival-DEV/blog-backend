@@ -8,7 +8,7 @@ export class TagEntity {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ nullable: true })
   meta_title: string;
 
   @Column()

@@ -58,7 +58,7 @@ export class BlogEntity extends BaseEntity {
   @Column({ default: '' })
   content: string;
 
-  @Column({ nullable: true })
+  @Column({ default: true, nullable: true })
   is_draft: boolean;
 
   @Column({ nullable: true })
