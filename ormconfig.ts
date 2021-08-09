@@ -22,13 +22,13 @@ const connectionOptions: CustomeConnectionOptions = {
   logging: !!process.env.logDB,
   logger: process.env.NODE_ENV === PROD_ENV ? 'file' : 'advanced-console',
   namingStrategy: new SnakeNamingStrategy(),
-  entities: ['dist/src/database/entities/*.entity.js'],
-  migrations: ['dist/src/database/migrations/*.js'],
-  factories: ['dist/src/database/factories/*.js'],
-  seeds: ['dist/**/database/seeds/**/*.js'],
+  entities: ['dist/src/models/entities/*.entity.js'],
+  migrations: ['dist/src/models/migrations/*.js'],
+  factories: ['dist/src/models/factories/*.js'],
+  seeds: ['dist/src/models/seeds/**/*.js'],
   cli: {
-    entitiesDir: `./src/database/entities`,
-    migrationsDir: `./src/database/migrations`,
+    entitiesDir: `./src/models/entities`,
+    migrationsDir: `./src/models/migrations`,
   },
 };
 
