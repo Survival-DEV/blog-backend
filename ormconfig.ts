@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { PROD_ENV } from './src/constants';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 const config = {
   url: process.env.DATABASE_URL,
@@ -20,6 +21,7 @@ const connectionOptions: CustomeConnectionOptions = {
   maxQueryExecutionTime: 1000,
   logging: !!process.env.logDB,
   logger: process.env.NODE_ENV === PROD_ENV ? 'file' : 'advanced-console',
+  namingStrategy: new SnakeNamingStrategy(),
   entities: ['dist/src/database/entities/*.entity.js'],
   migrations: ['dist/src/database/migrations/*.js'],
   factories: ['dist/src/database/factories/*.js'],
