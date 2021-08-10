@@ -1,15 +1,31 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 import 'reflect-metadata';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
 import 'reflect-metadata';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { json, urlencoded } from 'express';
+import helmet from 'helmet';
+import csurf from 'csurf';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: ['log', 'warn', 'debug'],
+  });
+
   app.setGlobalPrefix('api');
+  app.use(helmet());
+  app.use(csurf());
+  app.use(cookieParser());
+  app.use(urlencoded({ extended: true }));
+  app.enableCors();
+  app.use(
+    json({
+      limit: '10mb',
+    }),
+  );
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -20,16 +36,12 @@ async function bootstrap() {
       },
     }),
   );
-  app.enableCors();
-  const config = new DocumentBuilder()
-    .setTitle('LECTURA')
-    .setDescription('blog API')
-    .setVersion('1.0')
-    .addTag('blogs')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
 
+  app.set('trust proxy', (ip: string) => {
+    if (ip !== process.env.TRUSTED_IP) return false;
+    return true;
+  });
+  
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
