@@ -4,7 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { setupSwagger } from './swagger';
+import { setupSwagger } from './utils/swagger';
 import { setupSecurity } from './middlewares/security';
 
 async function bootstrap() {
