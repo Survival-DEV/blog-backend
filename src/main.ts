@@ -6,6 +6,7 @@ import { AppModule } from './app.module';
 import 'reflect-metadata';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { json, urlencoded } from 'express';
+import { setupSwagger } from './swagger';
 import helmet from 'helmet';
 import csurf from 'csurf';
 import cookieParser from 'cookie-parser';
@@ -37,6 +38,8 @@ async function bootstrap() {
     }),
   );
 
+  setupSwagger(app);
+  
   app.set('trust proxy', (ip: string) => {
     if (ip !== process.env.TRUSTED_IP) return false;
     return true;
