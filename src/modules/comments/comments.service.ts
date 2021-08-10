@@ -1,11 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  DeleteResult,
-  TreeRepository,
-  UpdateResult,
-} from 'typeorm';
-
+import { DeleteResult, TreeRepository, UpdateResult } from 'typeorm';
 
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
@@ -19,22 +14,18 @@ export class CommentsService {
     protected readonly commentTreeRepository: TreeRepository<CommentEntity>,
   ) {}
 
-  async create(
-    createCommentDto: CreateCommentDto,
-  ): Promise<CommentEntity> {
+  async create(createCommentDto: CreateCommentDto): Promise<CommentEntity> {
     if (!createCommentDto.parent_id) {
       return await this.commentTreeRepository.save(createCommentDto);
     }
-    const parent = await this.commentTreeRepository.findOne(
-      createCommentDto.parent_id,
-    );
-
     const child = await this.commentTreeRepository.create({
       content: createCommentDto.content,
       blog_id: createCommentDto.blog_id,
     });
-    child.parent = parent;
-       
+    child.parent = await this.commentTreeRepository.findOne(
+      createCommentDto.parent_id,
+    );
+
     return await this.commentTreeRepository.save(child);
   }
 
@@ -49,7 +40,10 @@ export class CommentsService {
     );
   }
 
-  update(id: string, updateCommentDto: UpdateCommentDto): Promise<UpdateResult> {
+  update(
+    id: string,
+    updateCommentDto: UpdateCommentDto,
+  ): Promise<UpdateResult> {
     return this.commentTreeRepository.update(id, updateCommentDto);
   }
 
