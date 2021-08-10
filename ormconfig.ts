@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import { PROD_ENV } from './src/constants';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';

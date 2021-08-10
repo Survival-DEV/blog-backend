@@ -21,5 +21,22 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 2 : 0,
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    'no-var-requires': true,
+    '@typescript-eslint/ban-types': [
+      'error',
+      {
+        types: {
+          String: false,
+          Boolean: false,
+          Number: false,
+          Symbol: false,
+          '{}': false,
+          Object: false,
+          object: false,
+          Function: false,
+        },
+        extendDefaults: true,
+      },
+    ],
   },
 };
