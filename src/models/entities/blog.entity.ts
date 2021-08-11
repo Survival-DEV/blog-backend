@@ -88,11 +88,11 @@ export class BlogEntity extends BaseEntity {
   @JoinTable({
     name: 'blogs_tags',
     joinColumn: {
-      name: 'blogs',
+      name: 'blog',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'tags',
+      name: 'tag',
       referencedColumnName: 'id',
     },
   })
