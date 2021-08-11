@@ -16,6 +16,7 @@ import 'reflect-metadata';
 
 import { BlogMetaInterface } from 'src/modules/blogs/interface/blog.interface';
 import { CommentEntity } from './comment.entity';
+import { CategoryEntity } from './category.entity';
 
 @Entity('blogs')
 @Index(['title'], { fulltext: true })
@@ -75,6 +76,10 @@ export class BlogEntity extends BaseEntity {
   })
   @JoinColumn({ name: 'comment_id' })
   comments: CommentEntity[];
+
+  @ManyToOne(() => CategoryEntity, categroy => categroy.blogs, { eager: true })
+  @JoinColumn({ name: 'category_id' })
+  categroy: CategoryEntity;
 
   @Column({
     type: 'jsonb',
