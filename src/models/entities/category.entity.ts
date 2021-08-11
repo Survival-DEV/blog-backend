@@ -2,15 +2,12 @@ import {
   BaseEntity,
   Column,
   Entity,
-  JoinColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
-  Tree,
-  TreeChildren,
-  TreeParent,
 } from 'typeorm';
+import { BlogEntity } from './blog.entity';
 
 @Entity('categories')
-@Tree('closure-table')
 export class CategoryEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
@@ -24,10 +21,6 @@ export class CategoryEntity extends BaseEntity {
   @Column()
   slug: string;
 
-  @TreeChildren()
-  children: CategoryEntity[];
-
-  @TreeParent()
-  @JoinColumn({ name: 'parent_id' })
-  parent: CategoryEntity;
+  @OneToMany(() => BlogEntity, blog => blog.id)
+  blogs: BlogEntity[];
 }

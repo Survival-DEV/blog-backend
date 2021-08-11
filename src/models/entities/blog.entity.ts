@@ -10,12 +10,16 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Index,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
 import 'reflect-metadata';
 
 import { BlogMetaInterface } from 'src/modules/blogs/interface/blog.interface';
 import { CommentEntity } from './comment.entity';
+import { CategoryEntity } from './category.entity';
+import { TagEntity } from './tag.entity';
 
 @Entity('blogs')
 @Index(['title'], { fulltext: true })
@@ -75,6 +79,24 @@ export class BlogEntity extends BaseEntity {
   })
   @JoinColumn({ name: 'comment_id' })
   comments: CommentEntity[];
+
+  @ManyToOne(() => CategoryEntity, categroy => categroy.blogs, { eager: true })
+  @JoinColumn({ name: 'category_id' })
+  categroy: CategoryEntity;
+
+  @ManyToMany(() => TagEntity, { eager: true })
+  @JoinTable({
+    name: 'blogs_tags',
+    joinColumn: {
+      name: 'blog',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'tag',
+      referencedColumnName: 'id',
+    },
+  })
+  tags: TagEntity[];
 
   @Column({
     type: 'jsonb',
