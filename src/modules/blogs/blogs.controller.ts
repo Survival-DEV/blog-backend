@@ -19,19 +19,20 @@ import { UpdateBlogDto } from './dto/update-blog.dto';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { BlogEntryInterface } from './interface/blog.interface';
 
+
 @Controller('blogs')
 export class BlogsController {
   constructor(private blogService: BlogService) {}
 
   @Get('')
   @ApiOkResponse({ description: 'blogs Found' })
-  async findAllBlogs(): Promise<Observable<CreateBlogDto[]>> {
+  async findAllBlogs(): Promise<Observable<BlogEntryInterface[]>> {
     return this.blogService.findAll();
   }
 
   @Get(':id')
   @ApiOkResponse({ description: 'blog Found' })
-  async findBlog(@Param('id') id: string): Promise<Observable<CreateBlogDto>> {
+  async findBlog(@Param('id') id: string): Promise<Observable<BlogEntryInterface>> {
     return this.blogService.findOne(id);
   }
 
@@ -42,7 +43,7 @@ export class BlogsController {
   public async create(
     @Body() blogEntry: CreateBlogDto,
     @Request() req,
-  ): Promise<Observable<CreateBlogDto>> {
+  ): Promise<Observable<BlogEntryInterface>> {
     return this.blogService.create(blogEntry);
   }
 

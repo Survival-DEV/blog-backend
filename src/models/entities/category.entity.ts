@@ -16,11 +16,11 @@ export class CategoryEntity extends BaseEntity {
   title: string;
 
   @Column({ nullable: true })
-  meta_title: string;
+  meta_title?: string;
 
   @Column()
   slug: string;
 
   @OneToMany(() => BlogEntity, blog => blog.id)
-  blogs: BlogEntity[];
+  blogs?: BlogEntity[];
 }
