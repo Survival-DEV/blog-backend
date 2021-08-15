@@ -7,7 +7,9 @@ import {
   CreateDateColumn,
   JoinColumn,
   AfterLoad,
+  BeforeInsert,
 } from 'typeorm';
+import bcrypt from 'bcrypt';
 import { BlogEntity } from './blog.entity';
 
 @Entity('users')
@@ -31,6 +33,11 @@ export class UserEntity extends BaseEntity {
 
   @Column({ type: 'varchar', select: false })
   password: string;
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 
   @Column({ type: 'text', unique: true })
   email: string;
