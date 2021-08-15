@@ -2,7 +2,7 @@ import { Transform } from 'class-transformer';
 import { IsOptional, IsString } from 'class-validator';
 
 export class CreateCommentDto {
-  @Transform(id => toString(), { toClassOnly: true }) 
+  @Transform(id => toString(), { toClassOnly: true })
   readonly id: string;
   readonly created_at?: Date;
   readonly upadted_at?: Date;

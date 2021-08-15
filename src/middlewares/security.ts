@@ -6,7 +6,6 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import morgan from 'morgan';
 
-
 export function setupSecurity(app: INestApplication): void {
   app.use(helmet());
   app.use(compression());

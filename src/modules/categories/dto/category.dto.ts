@@ -17,7 +17,6 @@ export class CreateCategoryDto {
   @ApiProperty({ type: String, description: 'slug' })
   @IsString()
   readonly slug: string;
-
 }
 
 export class UpdateCategoryDto extends PartialType(CreateCategoryDto) {}
