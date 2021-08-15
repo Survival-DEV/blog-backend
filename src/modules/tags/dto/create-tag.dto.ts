@@ -14,6 +14,6 @@ export class CreateTagDto {
   meta_title?: string;
 
   @ApiProperty({ type: String, description: 'slug' })
-  @IsString()  
+  @IsString()
   slug: string;
 }

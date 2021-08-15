@@ -34,7 +34,7 @@ export class CreateUserDto {
   github?: string;
 
   @ApiProperty({ type: String, description: 'linked in link' })
-  @IsOptional()  
+  @IsOptional()
   linked_in?: string;
 
   @ApiProperty({ type: String, description: 'photo' })

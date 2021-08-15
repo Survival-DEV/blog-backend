@@ -12,13 +12,14 @@ import { BlogsModule } from './modules/blogs/blogs.module';
 import { UsersModule } from './modules/users/users.module';
 import { TagsModule } from './modules/tags/tags.module';
 import { CommentsModule } from './modules/comments/comments.module';
+import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 
 @Module({
   imports: [
-    MorganModule,
     ThrottlerModule.forRoot({
       ttl: 60,
       limit: 10,
+      storage: new ThrottlerStorageRedisService(),
     }),
     ConfigModule.forRoot({
       isGlobal: true,
