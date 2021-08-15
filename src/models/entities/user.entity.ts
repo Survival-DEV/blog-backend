@@ -1,4 +1,3 @@
-import { BlogEntity } from './blog.entity';
 import {
   Entity,
   Column,
@@ -7,7 +6,9 @@ import {
   BaseEntity,
   CreateDateColumn,
   JoinColumn,
+  AfterLoad,
 } from 'typeorm';
+import { BlogEntity } from './blog.entity';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -19,6 +20,14 @@ export class UserEntity extends BaseEntity {
 
   @Column()
   last_name: string;
+
+  @Column({ nullable: true })
+  full_name: string;
+
+  @AfterLoad()
+  afterLoad() {
+    this.full_name = `${this.first_name} ${this.last_name}`;
+  }
 
   @Column({ type: 'varchar', select: false })
   password: string;
