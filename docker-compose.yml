@@ -4,6 +4,6 @@ services:
     image: 'redis:alpine'
     container_name: redis
     ports:
-      - '6379:6379'
+      - '6380:6380'
     environment:
       - REDIS_REPLICATION_MODE=master
