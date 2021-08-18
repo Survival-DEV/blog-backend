@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { MorganModule } from 'nest-morgan';
 
 import connectionOptions from '../ormconfig';
 import { AppController } from './app.controller';
@@ -13,6 +12,7 @@ import { UsersModule } from './modules/users/users.module';
 import { TagsModule } from './modules/tags/tags.module';
 import { CommentsModule } from './modules/comments/comments.module';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -26,6 +26,7 @@ import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
       envFilePath: ['.env.development'],
     }),
     TypeOrmModule.forRoot(connectionOptions),
+    AuthModule,
     UsersModule,
     BlogsModule,
     CategoriesModule,
