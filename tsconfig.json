@@ -15,5 +15,10 @@
     "skipLibCheck": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-  },
+    "paths": {
+      "@user/*": [
+        "src/modules/users/*"
+      ],
+    }
+  }
 }
