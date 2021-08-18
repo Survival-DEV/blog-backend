@@ -27,6 +27,7 @@ export class UsersController {
   async findAll(): Promise<UserEntity[]> {
     return await this.users.findAll();
   }
+
   @Post()
   @ApiCreatedResponse({ description: 'User Added' })
   @ApiResponse({ status: 201, type: UserEntity })
@@ -40,6 +41,7 @@ export class UsersController {
   async update(@Param('id') id: string, @Body() data: UpdateUserDto) {
     return await this.users.update(data);
   }
+  
   @Delete()
   async delete(@Body() id: string) {
     return this.users.remove(id);
