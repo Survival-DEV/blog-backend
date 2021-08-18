@@ -17,6 +17,7 @@ import {
 } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { InsertResult } from 'typeorm';
 
 @Controller('users')
 export class UsersController {
@@ -31,7 +32,7 @@ export class UsersController {
   @Post()
   @ApiCreatedResponse({ description: 'User Added' })
   @ApiResponse({ status: 201, type: UserEntity })
-  async create(@Body() data: CreateUserDto): Promise<UserEntity> {
+  async create(@Body() data: CreateUserDto): Promise<InsertResult> {
     return await this.users.create(data);
   }
 
@@ -41,7 +42,7 @@ export class UsersController {
   async update(@Param('id') id: string, @Body() data: UpdateUserDto) {
     return await this.users.update(data);
   }
-  
+
   @Delete()
   async delete(@Body() id: string) {
     return this.users.remove(id);

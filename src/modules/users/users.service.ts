@@ -1,9 +1,15 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import bcrypt from 'bcrypt';
-import { Repository } from 'typeorm';
+import { InsertResult, QueryFailedError, Repository } from 'typeorm';
 import { UserEntity } from '../../models/entities/user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
+import { DatabaseError } from 'pg-protocol';
 
 @Injectable()
 export class UsersService {
@@ -42,9 +48,17 @@ export class UsersService {
     return await this.usersRepository.save(data);
   }
 
-  async create(data: any): Promise<UserEntity> {
-    data.password = await bcrypt.hash(data.password, 12);
-    return await this.usersRepository.save(data);
+  async create(data: any): Promise<InsertResult> {
+    try {
+      if (!!data.password) {
+        data.password = await bcrypt.hash(data.password, 12);
+      }
+      return await this.usersRepository.insert(data);
+    } catch (error) {
+      if (error.code === '23505') {
+        throw new ConflictException('email already exist');
+      }
+    }
   }
 
   async remove(id: string): Promise<void> {
