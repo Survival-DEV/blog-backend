@@ -16,8 +16,9 @@ export class AppController {
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   @ApiBody({ type: [LoginUserDto] })
-  login(@Request() req): any {
-    return this.authService.login(req.user);
+  async login(@Request() req): Promise<any> {
+    const { email, password } = req.user;
+    return this.authService.login({ email, password });
   }
 
   @UseGuards(JwtAuthGuard)
@@ -26,7 +27,7 @@ export class AppController {
     return req.user;
   }
 
-  @Get('protected')
+  @Get()
   getHello(): string {
     return this.appService.getHello();
   }
