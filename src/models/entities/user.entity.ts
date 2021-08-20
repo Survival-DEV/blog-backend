@@ -1,4 +1,3 @@
-import { BlogEntity } from './blog.entity';
 import {
   Entity,
   Column,
@@ -8,6 +7,8 @@ import {
   CreateDateColumn,
   JoinColumn,
 } from 'typeorm';
+import bcrypt from 'bcrypt';
+import { BlogEntity } from './blog.entity';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -20,7 +21,7 @@ export class UserEntity extends BaseEntity {
   @Column()
   last_name: string;
 
-  @Column({ type: 'varchar', select: false })
+  @Column({ type: 'varchar', select: false, nullable: false })
   password: string;
 
   @Column({ type: 'text', unique: true })
