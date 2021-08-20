@@ -9,7 +9,6 @@ import bcrypt from 'bcrypt';
 import { InsertResult, QueryFailedError, Repository } from 'typeorm';
 import { UserEntity } from '../../models/entities/user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
-import { DatabaseError } from 'pg-protocol';
 
 @Injectable()
 export class UsersService {
@@ -35,7 +34,7 @@ export class UsersService {
     if (!user)
       throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
 
-    const areEqual = await bcrypt.compare(user.password, password);
+    const areEqual = await bcrypt.compare(password, user.password);
 
     if (!areEqual) {
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
@@ -56,7 +55,7 @@ export class UsersService {
       return await this.usersRepository.insert(data);
     } catch (error) {
       if (error.code === '23505') {
-        throw new ConflictException('email already exist');
+        throw new ConflictException('Email already exist');
       }
     }
   }
