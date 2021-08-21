@@ -8,7 +8,7 @@ import {
   Put,
   Request,
 } from '@nestjs/common';
-import { DeleteResult, UpdateResult } from 'typeorm';
+import { UpdateResult } from 'typeorm';
 import { ApiBody, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 
 import { CreateCategoryDto } from './dto/category.dto';
