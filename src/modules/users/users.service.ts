@@ -1,14 +1,12 @@
-import {
-  ConflictException,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { Injectable, HttpStatus } from '@nestjs/common';
+import { ConflictException, HttpException } from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
+import { InsertResult, Repository, UpdateResult } from 'typeorm';
 import bcrypt from 'bcrypt';
-import { InsertResult, QueryFailedError, Repository } from 'typeorm';
+
 import { UserEntity } from '../../models/entities/user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -43,8 +41,8 @@ export class UsersService {
     return user;
   }
 
-  async update(data: any): Promise<UserEntity> {
-    return await this.usersRepository.save(data);
+  async update(data: UpdateUserDto, id: string): Promise<UpdateResult> {
+    return await this.usersRepository.update({ id }, data);
   }
 
   async create(data: any): Promise<InsertResult> {

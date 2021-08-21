@@ -3,21 +3,25 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Put,
 } from '@nestjs/common';
-import { UserEntity } from '../../models/entities/user.entity';
-import { UsersService } from './users.service';
 import {
   ApiBody,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiResponse,
 } from '@nestjs/swagger';
+import { InsertResult } from 'typeorm';
+
+import { UserEntity } from '../../models/entities/user.entity';
+import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { InsertResult } from 'typeorm';
+
 
 @Controller('users')
 export class UsersController {
@@ -40,7 +44,16 @@ export class UsersController {
   @ApiCreatedResponse({ description: 'User Updated' })
   @ApiBody({ type: [UpdateUserDto] })
   async update(@Param('id') id: string, @Body() data: UpdateUserDto) {
-    return await this.users.update(data);
+    const result = await this.users.update(data, id);
+    if (result.affected === 0) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NO_CONTENT,
+          error: 'UPDATE FAILED',
+        },
+        HttpStatus.FORBIDDEN,
+      );
+    }
   }
 
   @Delete()
