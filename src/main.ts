@@ -1,4 +1,4 @@
-require('dotenv').config();
+import { config } from 'dotenv';
 import 'reflect-metadata';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -7,8 +7,11 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { setupSwagger } from './utils/swagger';
 import { setupSecurity } from './middlewares/security';
 
+config();
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    //TODO: use winston to create custome logs in production mode
     logger: ['log', 'warn', 'debug'],
   });
 
@@ -26,11 +29,6 @@ async function bootstrap() {
 
   setupSecurity(app);
   setupSwagger(app);
-
-  app.set('trust proxy', (ip: string) => {
-    if (ip !== process.env.TRUSTED_IP) return false;
-    return true;
-  });
 
   await app.listen(process.env.PORT || 3000);
 }

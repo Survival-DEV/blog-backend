@@ -10,6 +10,7 @@ export function setupSwagger(app: INestApplication): void {
     .setDescription('blog API')
     .setVersion('1.0')
     .addTag('blogs')
+    //TODO: Replace those with env var(s)
     .setContact(
       'Blogger_Backend',
       'https://github.com/Survival-DEV/blog-backend/',

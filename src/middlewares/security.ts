@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { json, urlencoded } from 'express';
 import helmet from 'helmet';
 import csurf from 'csurf';
@@ -6,8 +6,7 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import morgan from 'morgan';
 
-
-export function setupSecurity(app: INestApplication): void {
+export function setupSecurity(app: NestExpressApplication): void {
   app.use(helmet());
   app.use(compression());
   app.use(morgan('combined'));
@@ -43,5 +42,10 @@ export function setupSecurity(app: INestApplication): void {
     }
     res.cookie('XSRF-TOKEN', req.csrfToken());
     next();
+  });
+
+  app.set('trust proxy', (ip: string) => {
+    if (ip !== process.env.TRUSTED_IP) return false;
+    return true;
   });
 }
