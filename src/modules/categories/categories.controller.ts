@@ -1,11 +1,11 @@
 import {
   Body,
   Controller,
-  Delete,
-  Get,
-  Param,
   Post,
-  Put,
+  Get,
+  Patch,
+  Delete,
+  Param,
   Request,
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
@@ -41,7 +41,7 @@ export class CategoriesController {
     return this.categoryService.createCategory(categoryEntry);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @ApiCreatedResponse({ description: 'category updated' })
   @ApiBody({ type: [CreateCategoryDto] })
   async updateBlog(

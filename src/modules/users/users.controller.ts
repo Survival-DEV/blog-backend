@@ -6,8 +6,8 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 import {
   ApiBody,
@@ -40,7 +40,7 @@ export class UsersController {
     return await this.users.create(data);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @ApiCreatedResponse({ description: 'User Updated' })
   @ApiBody({ type: [UpdateUserDto] })
   async update(@Param('id') id: string, @Body() data: UpdateUserDto) {
