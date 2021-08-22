@@ -7,6 +7,7 @@ import bcrypt from 'bcrypt';
 import { UserEntity } from '../../models/entities/user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtPayload } from '../auth/interface/payload.interface';
 
 @Injectable()
 export class UsersService {
@@ -23,9 +24,10 @@ export class UsersService {
     return this.usersRepository.findOne(id);
   }
 
-  async findByLogin({ email, password }: LoginUserDto): Promise<UserEntity> {
+  //TODO: correct the input type name
+  async findByLogin({ email, password }: JwtPayload): Promise<UserEntity> {
     const user = await this.usersRepository.findOne({
-      select: ['id', 'email', 'password'],
+      select: ['id', 'email', 'password', 'first_name'],
       where: { email },
     });
 
@@ -37,7 +39,6 @@ export class UsersService {
     if (!areEqual) {
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     }
-
     return user;
   }
 
