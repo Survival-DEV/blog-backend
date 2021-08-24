@@ -1,8 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
 
 import { CreateUserDto } from '@user/dto/create-user.dto';
 import { JwtConstants } from 'src/constants';
+import { NotificationsService } from '../notifications/notifications.service';
 import { LoginUserDto } from '../users/dto/login-user.dto';
 import { UsersService } from '../users/users.service';
 import { TokenParams } from './interface/login-status.interface';
@@ -14,6 +16,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly notificationService: NotificationsService,
   ) {}
 
   async register(data: CreateUserDto): Promise<RegistrationStatus> {
@@ -23,7 +26,25 @@ export class AuthService {
     };
 
     try {
-      await this.usersService.create(data);
+      const user = await this.usersService.create(data);
+
+      if (user) {
+        const { email, password } = user;
+        console.log(email);
+
+        const { accessToken } = await this._generateAuthToken({
+          email,
+          password,
+        });
+
+        const url = `${process.env.EMAIL_CONFIRMATION_URL}?token=${accessToken}`;
+
+        await this.notificationService.sendVerificationEmail({
+          email: user.email,
+          firstName: user.first_name,
+          verification_link: url,
+        });
+      }
     } catch (error) {
       status = {
         success: false,
@@ -46,7 +67,7 @@ export class AuthService {
     return null;
   }
 
-  async login({ email, password, firstName }: LoginUserDto) {
+  async login({ email, password, firstName }: LoginCredentialsPayload) {
     const token = this._generateAuthToken({ email, password });
 
     return {
@@ -55,10 +76,11 @@ export class AuthService {
     };
   }
 
-  private _generateAuthToken({
+  //TODO: this has to be private
+  async _generateAuthToken({
     email,
     password,
-  }: LoginCredentialsPayload): TokenParams {
+  }: LoginCredentialsPayload): Promise<TokenParams> {
     return {
       expiresIn: JwtConstants.expiresIn,
       accessToken: this.jwtService.sign({ email, password }),

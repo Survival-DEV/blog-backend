@@ -11,7 +11,6 @@ import {
 import { ApiBody } from '@nestjs/swagger';
 import { CreateUserDto } from '@user/dto/create-user.dto';
 import { LoginUserDto } from '@user/dto/login-user.dto';
-import { NotificationsService } from '../notifications/notifications.service';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -19,10 +18,7 @@ import { RegistrationStatus } from './interface/registeration-status.interface';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly notificationService: NotificationsService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('signup')
   @ApiBody({ type: [CreateUserDto] })
@@ -31,17 +27,6 @@ export class AuthController {
 
     if (!result.success) {
       throw new HttpException(result.message, HttpStatus.BAD_REQUEST);
-    }
-    if (result.success) {
-      try {
-        const { email, first_name } = data;
-        await this.notificationService.sendVerificationEmail({
-          email,
-          firstName: first_name,
-        });
-      } catch (error) {
-        throw new Error(error);
-      }
     }
     return result;
   }
