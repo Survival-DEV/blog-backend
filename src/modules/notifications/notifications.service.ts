@@ -72,4 +72,22 @@ export class NotificationsService {
     }
   }
 
+  async resendConfirmationEmail(userId: string) {
+    const user = await this.usersService.findOne(userId);
+    if (user.isEmailConfirmed) {
+      throw new BadRequestException('Email already confirmed');
+    }
+    //TODO: Redundunt lines as authService/register
+    const { email, password } = user;
+    const { accessToken } = await this.authService._generateAuthToken({
+      email,
+      password,
+    });
+    const url = `${process.env.EMAIL_CONFIRMATION_URL}?token=${accessToken}`;
+    await this.sendVerificationEmail({
+      email: user.email,
+      firstName: user.first_name,
+      verification_link: url,
+    });
+  }
 }

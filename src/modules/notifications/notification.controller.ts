@@ -23,4 +23,9 @@ export class NotificationsController {
     await this.notification.confirmEmail(email);
   }
 
+  @Post('resend')
+  @UseGuards(JwtAuthGuard)
+  async resendConfirmationLink(@Req() req: RequestWithUser) {
+    await this.notification.resendConfirmationEmail(req.user.id);
+  }
 }
