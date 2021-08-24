@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 import { IsOptional } from 'class-validator';
 
 export class UpdateUserDto {
@@ -13,7 +14,8 @@ export class UpdateUserDto {
   last_name?: string;
 
   @ApiProperty({ type: String, description: 'password' })
-  password?: string;
+  @Exclude()
+  password: string;
 
   @ApiProperty({ type: String, description: 'email' })
   @IsOptional()

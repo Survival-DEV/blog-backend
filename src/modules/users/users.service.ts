@@ -8,6 +8,7 @@ import { UserEntity } from '../../models/entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginCredentialsPayload } from '../auth/interface/payload.interface';
 import { comparePasswords } from '../../utils';
+import { ERRORS } from '../../constants';
 
 @Injectable()
 export class UsersService {
@@ -35,21 +36,22 @@ export class UsersService {
     });
 
     if (!user)
-      throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(ERRORS.USER_NOT_FOUND, HttpStatus.UNAUTHORIZED);
 
     const areMatchedPasswords = comparePasswords(password, user.password);
 
     if (!areMatchedPasswords) {
-      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(
+        ERRORS.INVALID_CREDENTIALS,
+        HttpStatus.UNAUTHORIZED,
+      );
     }
     return user;
   }
 
-
   async update(data: UpdateUserDto, id: string): Promise<UpdateResult> {
     return await this.usersRepository.update({ id }, data);
   }
-
 
   async create(data: any): Promise<InsertResult> {
     try {
@@ -59,7 +61,7 @@ export class UsersService {
       return await this.usersRepository.insert(data);
     } catch (error) {
       if (error.code === '23505') {
-        throw new ConflictException('Email already exist');
+        throw new ConflictException(ERRORS.USER_EMAIL_ALREADY_EXISTS);
       }
     }
   }
