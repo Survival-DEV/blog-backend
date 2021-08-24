@@ -1,9 +1,12 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { CreateUserDto } from '@user/dto/create-user.dto';
+import { JwtConstants } from 'src/constants';
 import { LoginUserDto } from '../users/dto/login-user.dto';
 import { UsersService } from '../users/users.service';
+import { TokenParams } from './interface/login-status.interface';
+import { LoginCredentialsPayload } from './interface/payload.interface';
 import { RegistrationStatus } from './interface/registeration-status.interface';
 
 @Injectable()
@@ -31,6 +34,7 @@ export class AuthService {
     return status;
   }
 
+  //TODO: update that any type
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.usersService.findByLogin({ email, password });
 
@@ -38,14 +42,26 @@ export class AuthService {
       const { password, email, ...rest } = user;
       return rest;
     }
-    //TODO: handle unsuccessfull login properly
+    //TODO: handle unsuccessfull login properly, first error cb
     return null;
   }
 
   async login({ email, password, firstName }: LoginUserDto) {
+    const token = this._generateAuthToken({ email, password });
+
     return {
-      user_Name: firstName,
-      access_token: this.jwtService.sign({ email, password }),
+      firstName,
+      ...token,
+    };
+  }
+
+  private _generateAuthToken({
+    email,
+    password,
+  }: LoginCredentialsPayload): TokenParams {
+    return {
+      expiresIn: JwtConstants.expiresIn,
+      accessToken: this.jwtService.sign({ email, password }),
     };
   }
 }
