@@ -4,8 +4,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { setupSwagger } from './utils/swagger';
-import { setupSecurity } from './middlewares/security';
+import { setupSwagger } from './utils';
+import { setupSecurity } from './middlewares';
 
 config();
 

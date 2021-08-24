@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import morgan from 'morgan';
 
-export function setupSecurity(app: NestExpressApplication): void {
+export const setupSecurity = (app: NestExpressApplication): void => {
   app.use(helmet());
   app.use(compression());
   app.use(morgan('combined'));
@@ -48,4 +48,4 @@ export function setupSecurity(app: NestExpressApplication): void {
     if (ip !== process.env.TRUSTED_IP) return false;
     return true;
   });
-}
+};
