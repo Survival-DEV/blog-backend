@@ -3,7 +3,7 @@ import { NotificationsService } from './notifications.service';
 import { SendGridModule } from '@anchan828/nest-sendgrid';
 import { config } from 'dotenv';
 
-config({ path: process.cwd() + '/.env' });
+
 
 @Module({
   imports: [

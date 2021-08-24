@@ -1,4 +1,4 @@
-export class CategoryInterface {
+export interface CategoryInterface {
   id?: string;
   title?: string;
   meta_title?: string;
