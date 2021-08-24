@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
+import Joi from 'joi';
+
 
 import connectionOptions from '../ormconfig';
 import { AppController } from './app.controller';
@@ -24,7 +26,13 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
     }),
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.development'],
+      envFilePath: ['.env'],
+      //TODO: move this validation into a separate pipe function
+      validationSchema: Joi.object({
+        JWT_VERIFICATION_TOKEN_SECRET: Joi.string().required(),
+        JWT_VERIFICATION_TOKEN_EXPIRATION_TIME: Joi.string().required(),
+        EMAIL_CONFIRMATION_URL: Joi.string().required(),
+      })
     }),
     TypeOrmModule.forRoot(connectionOptions),
     AuthModule,
