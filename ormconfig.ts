@@ -9,6 +9,7 @@ const config = {
 interface CustomeConnectionOptions extends PostgresConnectionOptions {
   readonly seeds?: (Function | string)[];
   readonly factories?: (Function | string)[];
+  readonly autoSchemaSync: boolean;
 }
 
 const connectionOptions: CustomeConnectionOptions = {
@@ -29,6 +30,7 @@ const connectionOptions: CustomeConnectionOptions = {
     entitiesDir: `./src/models/entities`,
     migrationsDir: `./src/models/migrations`,
   },
+  autoSchemaSync: false,
 };
 
 export default connectionOptions;
