@@ -14,7 +14,6 @@ export class UpdateUserDto {
   last_name?: string;
 
   @ApiProperty({ type: String, description: 'password' })
-  @Exclude()
   password: string;
 
   @ApiProperty({ type: String, description: 'email' })

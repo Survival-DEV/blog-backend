@@ -16,7 +16,6 @@ export class CreateUserDto {
 
   @ApiProperty({ type: String, description: 'password' })
   @IsString()
-  @Exclude()
   password: string;
 
   @ApiProperty({ type: String, description: 'email' })
@@ -24,7 +23,7 @@ export class CreateUserDto {
   email: string;
 
   @ApiProperty({ type: String, description: 'bio' })
-  @IsString()
+  @IsOptional()
   bio: string;
 
   @ApiProperty({ type: Date, description: 'created at' })
