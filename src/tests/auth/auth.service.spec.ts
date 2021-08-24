@@ -1,15 +1,13 @@
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { Test, TestingModule } from '@nestjs/testing';
-import { jwtConstants } from '../../constants';
+import { JwtConstants } from '../../constants';
 import { UsersModule } from '../../modules/users/users.module';
 import { AuthService } from '../../modules/auth/auth.service';
 import { LocalStrategy } from '../../modules/auth/strategies/local.strategy';
 import { JwtStrategy } from '../../modules/auth/strategies/jwt.strategy';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from '../../models/entities/user.entity';
 
-const { secret, expiresIn } = jwtConstants;
+const { secret, expiresIn } = JwtConstants;
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -42,7 +40,7 @@ describe('AuthService', () => {
           UsersModule,
           PassportModule,
           JwtModule.register({
-            secret: jwtConstants.secret,
+            secret: JwtConstants.secret,
             signOptions: { expiresIn: '60s' },
           }),
         ],
@@ -72,7 +70,7 @@ describe('AuthService', () => {
           UsersModule,
           PassportModule,
           JwtModule.register({
-            secret: jwtConstants.secret,
+            secret: JwtConstants.secret,
             signOptions: { expiresIn: '60s' },
           }),
         ],
@@ -84,10 +82,11 @@ describe('AuthService', () => {
 
     it('should return JWT object when credentials are valid', async () => {
       const res = await service.login({
-        email: 'jood3@gmail.com',
+        email: 'jood@gmail.com',
         password: '123456789',
+        firstName: 'jood',
       });
-      expect(res.access_token).toBeDefined();
+      expect(res.accessToken).toBeDefined();
     });
   });
 });

@@ -1,7 +1,8 @@
-import { LoginUserDto } from '@user/dto/login-user.dto';
-
-export interface LoginStatus {
-  email: string;
+import { PartialType } from '@nestjs/mapped-types';
+export class JwtPayload {
+  firstName: string;
   accessToken: string;
   expiresIn: string;
 }
+
+export class TokenParams extends PartialType(JwtPayload) {}
