@@ -5,9 +5,9 @@ import { InsertResult, Repository, UpdateResult } from 'typeorm';
 import bcrypt from 'bcrypt';
 
 import { UserEntity } from '../../models/entities/user.entity';
-import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { JwtPayload } from '../auth/interface/payload.interface';
+import { LoginCredentialsPayload } from '../auth/interface/payload.interface';
+import { comparePasswords } from '../../utils';
 
 @Injectable()
 export class UsersService {
@@ -25,7 +25,10 @@ export class UsersService {
   }
 
   //TODO: correct the input type name
-  async findByLogin({ email, password }: JwtPayload): Promise<UserEntity> {
+  async findByLogin({
+    email,
+    password,
+  }: LoginCredentialsPayload): Promise<UserEntity> {
     const user = await this.usersRepository.findOne({
       select: ['id', 'email', 'password', 'first_name'],
       where: { email },
@@ -34,17 +37,19 @@ export class UsersService {
     if (!user)
       throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
 
-    const areEqual = await bcrypt.compare(password, user.password);
+    const areMatchedPasswords = comparePasswords(password, user.password);
 
-    if (!areEqual) {
+    if (!areMatchedPasswords) {
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     }
     return user;
   }
 
+
   async update(data: UpdateUserDto, id: string): Promise<UpdateResult> {
     return await this.usersRepository.update({ id }, data);
   }
+
 
   async create(data: any): Promise<InsertResult> {
     try {

@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { PROD_ENV } from '../constants';
 
-export function setupSwagger(app: INestApplication): void {
+export const setupSwagger = (app: INestApplication): void => {
   const url = process.env.NODE_ENV === PROD_ENV ? 'https' : 'http';
 
   const config = new DocumentBuilder()
@@ -21,4 +21,4 @@ export function setupSwagger(app: INestApplication): void {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-}
+};
