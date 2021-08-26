@@ -7,8 +7,8 @@ import {
   CreateDateColumn,
   JoinColumn,
 } from 'typeorm';
-import bcrypt from 'bcrypt';
 import { BlogEntity } from './blog.entity';
+import { Role } from '../../modules/auth/enum/role.enum';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -48,4 +48,7 @@ export class UserEntity extends BaseEntity {
   })
   @JoinColumn({ name: 'blogs' })
   blogs!: BlogEntity[];
+
+  @Column({ type: 'varchar', nullable: false, default: 'Guest' })
+  role: Role[];
 }
