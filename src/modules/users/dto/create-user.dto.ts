@@ -42,3 +42,8 @@ export class CreateUserDto {
   @IsOptional()
   photo?: string;
 }
+
+export class RegisterUserDto {
+  email: string;
+  password: string;
+}
