@@ -16,7 +16,7 @@ const connectionOptions: CustomeConnectionOptions = {
   type: 'postgres',
   url: config.url,
   synchronize: false,
-  migrationsRun: true,
+  migrationsRun: false,
   migrationsTableName: 'migrations',
   maxQueryExecutionTime: 1000,
   logging: !!process.env.logDB,
