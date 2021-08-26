@@ -4,9 +4,10 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
-  Put,
   Request,
+  UseGuards,
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import { ApiBody, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
@@ -14,6 +15,10 @@ import { ApiBody, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { CreateCategoryDto } from './dto/category.dto';
 import { CategoryInterface } from './interface/category.interface';
 import { CategoriesService } from './categories.service';
+import { AuthGuard } from '@nestjs/passport';
+import { PermissionsGuard } from '../auth/guards/permissions.guard';
+import { Permissions } from '../auth/enum/roles.decorator';
+import { Role } from '../auth/enum/role.enum';
 
 @Controller('categories')
 export class CategoriesController {
@@ -31,7 +36,9 @@ export class CategoriesController {
     return await this.categoryService.findById(id);
   }
 
+  @UseGuards(AuthGuard('jwt'), PermissionsGuard)
   @Post()
+  @Permissions(Role.Admin)
   @ApiCreatedResponse({ description: 'category added' })
   @ApiBody({ type: [CreateCategoryDto] })
   async create(
@@ -41,7 +48,10 @@ export class CategoriesController {
     return this.categoryService.createCategory(categoryEntry);
   }
 
-  @Put(':id')
+  
+  @UseGuards(AuthGuard('jwt'), PermissionsGuard)
+  @Patch(':id')
+  @Permissions(Role.Admin)
   @ApiCreatedResponse({ description: 'category updated' })
   @ApiBody({ type: [CreateCategoryDto] })
   async updateBlog(
@@ -51,7 +61,9 @@ export class CategoriesController {
     return this.categoryService.updateCategory(id, categoryEntry);
   }
 
+  @UseGuards(AuthGuard('jwt'), PermissionsGuard)
   @Delete(':id')
+  @Permissions(Role.Admin)
   async deleteCategory(@Param('id') id: string): Promise<CategoryInterface> {
     return this.categoryService.removeCategory(id);
   }
