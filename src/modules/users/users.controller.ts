@@ -6,8 +6,8 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 import {
   ApiBody,
@@ -15,7 +15,6 @@ import {
   ApiOkResponse,
   ApiResponse,
 } from '@nestjs/swagger';
-import { InsertResult } from 'typeorm';
 
 import { UserEntity } from '../../models/entities/user.entity';
 import { UsersService } from './users.service';
@@ -36,11 +35,11 @@ export class UsersController {
   @Post()
   @ApiCreatedResponse({ description: 'User Added' })
   @ApiResponse({ status: 201, type: UserEntity })
-  async create(@Body() data: CreateUserDto): Promise<InsertResult> {
+  async create(@Body() data: CreateUserDto): Promise<UserEntity> {
     return await this.users.create(data);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @ApiCreatedResponse({ description: 'User Updated' })
   @ApiBody({ type: [UpdateUserDto] })
   async update(@Param('id') id: string, @Body() data: UpdateUserDto) {

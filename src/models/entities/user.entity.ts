@@ -7,7 +7,6 @@ import {
   CreateDateColumn,
   JoinColumn,
 } from 'typeorm';
-import bcrypt from 'bcrypt';
 import { BlogEntity } from './blog.entity';
 
 @Entity('users')
@@ -26,6 +25,9 @@ export class UserEntity extends BaseEntity {
 
   @Column({ type: 'text', unique: true })
   email: string;
+
+  @Column({ default: false })
+  isEmailConfirmed: boolean;
 
   @Column({ type: 'text', nullable: true })
   bio: string;

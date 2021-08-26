@@ -1,12 +1,15 @@
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { ConflictException, HttpException } from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
-import { InsertResult, Repository, UpdateResult } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import bcrypt from 'bcrypt';
 
 import { UserEntity } from '../../models/entities/user.entity';
-import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { RegisterUserDto } from './dto/create-user.dto';
+import { LoginCredentialsPayload } from '../auth/interface/payload.interface';
+import { comparePasswords } from '../../utils';
+import { ERRORS, PostgresErrorCode } from '../../constants';
 
 @Injectable()
 export class UsersService {
@@ -23,38 +26,83 @@ export class UsersService {
     return this.usersRepository.findOne(id);
   }
 
-  async findByLogin({ email, password }: LoginUserDto): Promise<UserEntity> {
+  //TODO: correct this input type
+  async findByLogin({
+    email,
+    password,
+  }: LoginCredentialsPayload): Promise<UserEntity> {
     const user = await this.usersRepository.findOne({
-      select: ['id', 'email', 'password'],
+      select: ['id', 'email', 'password', 'first_name'],
       where: { email },
     });
 
     if (!user)
-      throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(ERRORS.USER_NOT_FOUND, HttpStatus.UNAUTHORIZED);
 
-    const areEqual = await bcrypt.compare(password, user.password);
-
-    if (!areEqual) {
-      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+    if (!user.isEmailConfirmed) {
+      throw new HttpException(
+        ERRORS.USER_EMAIL_NOT_VERIFIED,
+        HttpStatus.UNAUTHORIZED,
+      );
     }
+    const areMatchedPasswords = comparePasswords(password, user.password);
 
+    if (!areMatchedPasswords) {
+      throw new HttpException(
+        ERRORS.INVALID_CREDENTIALS,
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
     return user;
+  }
+
+  async findByEmail(email: string): Promise<UserEntity> {
+    const user = await this.usersRepository.findOne({ email });
+
+    if (user) return user;
+
+    throw new HttpException(
+      'User with this email does not exist',
+      HttpStatus.NOT_FOUND,
+    );
+  }
+
+  async markEmailAsConfirmed(email: string) {
+    const updated = await this.usersRepository.update(
+      {
+        email,
+      },
+      { isEmailConfirmed: true },
+    );
+    if (!!updated.affected) {
+      return 'congratulations your Account has been confirmed';
+    }
   }
 
   async update(data: UpdateUserDto, id: string): Promise<UpdateResult> {
     return await this.usersRepository.update({ id }, data);
   }
 
-  async create(data: any): Promise<InsertResult> {
+  async create(userData: RegisterUserDto): Promise<UserEntity> {
     try {
-      if (!!data.password) {
-        data.password = await bcrypt.hash(data.password, 12);
-      }
-      return await this.usersRepository.insert(data);
+      const hashedPassword = await bcrypt.hash(userData.password, 12);
+
+      const newUser = await this.usersRepository.create({
+        ...userData,
+        password: hashedPassword,
+      });
+
+      await this.usersRepository.save(newUser);
+
+      return newUser;
     } catch (error) {
-      if (error.code === '23505') {
-        throw new ConflictException('Email already exist');
+      if (error.code === PostgresErrorCode.UniqueViolation) {
+        throw new ConflictException(ERRORS.USER_EMAIL_ALREADY_EXISTS);
       }
+      throw new HttpException(
+        'Something went wrong',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 

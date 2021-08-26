@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
+import Joi from 'joi';
+
 
 import connectionOptions from '../ormconfig';
 import { AppController } from './app.controller';
@@ -13,6 +15,7 @@ import { UsersModule } from './modules/users/users.module';
 import { TagsModule } from './modules/tags/tags.module';
 import { CommentsModule } from './modules/comments/comments.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 
 @Module({
   imports: [
@@ -23,7 +26,13 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.development'],
+      envFilePath: ['.env'],
+      //TODO: move this validation into a separate pipe function
+      validationSchema: Joi.object({
+        JWT_VERIFICATION_TOKEN_SECRET: Joi.string().required(),
+        JWT_VERIFICATION_TOKEN_EXPIRATION_TIME: Joi.string().required(),
+        EMAIL_CONFIRMATION_URL: Joi.string().required(),
+      })
     }),
     TypeOrmModule.forRoot(connectionOptions),
     AuthModule,
@@ -32,6 +41,7 @@ import { AuthModule } from './modules/auth/auth.module';
     CategoriesModule,
     TagsModule,
     CommentsModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
