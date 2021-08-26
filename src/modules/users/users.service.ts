@@ -6,10 +6,10 @@ import bcrypt from 'bcrypt';
 
 import { UserEntity } from '../../models/entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { RegisterUserDto } from './dto/create-user.dto';
 import { LoginCredentialsPayload } from '../auth/interface/payload.interface';
 import { comparePasswords } from '../../utils';
-import { ERRORS } from '../../constants';
-import { CreateUserDto } from './dto/create-user.dto';
+import { ERRORS, PostgresErrorCode } from '../../constants';
 
 @Injectable()
 export class UsersService {
@@ -57,37 +57,52 @@ export class UsersService {
   }
 
   async findByEmail(email: string): Promise<UserEntity> {
-    console.log('----------FindBy email', email);
+    const user = await this.usersRepository.findOne({ email });
 
-    return await this.usersRepository.findOneOrFail({ email });
+    if (user) return user;
+
+    throw new HttpException(
+      'User with this email does not exist',
+      HttpStatus.NOT_FOUND,
+    );
   }
 
   async markEmailAsConfirmed(email: string) {
-    console.log('----------Marked as confiremd', email);
-
-    return this.usersRepository.update(
+    const updated = await this.usersRepository.update(
       {
         email,
       },
       { isEmailConfirmed: true },
     );
+    if (!!updated.affected) {
+      return 'congratulations your Account has been confirmed';
+    }
   }
 
   async update(data: UpdateUserDto, id: string): Promise<UpdateResult> {
     return await this.usersRepository.update({ id }, data);
   }
 
-  async create(data: CreateUserDto): Promise<UserEntity> {
+  async create(userData: RegisterUserDto): Promise<UserEntity> {
     try {
-      if (!!data.password) {
-        data.password = await bcrypt.hash(data.password, 12);
-      }
+      const hashedPassword = await bcrypt.hash(userData.password, 12);
 
-      return await this.usersRepository.create(data);
+      const newUser = await this.usersRepository.create({
+        ...userData,
+        password: hashedPassword,
+      });
+
+      await this.usersRepository.save(newUser);
+
+      return newUser;
     } catch (error) {
-      if (error.code === '23505') {
+      if (error.code === PostgresErrorCode.UniqueViolation) {
         throw new ConflictException(ERRORS.USER_EMAIL_ALREADY_EXISTS);
       }
+      throw new HttpException(
+        'Something went wrong',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 
