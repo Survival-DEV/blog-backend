@@ -1,11 +1,9 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
 
 import { CreateUserDto } from '@user/dto/create-user.dto';
 import { JwtConstants } from 'src/constants';
 import { NotificationsService } from '../notifications/notifications.service';
-import { LoginUserDto } from '../users/dto/login-user.dto';
 import { UsersService } from '../users/users.service';
 import { TokenParams } from './interface/login-status.interface';
 import { LoginCredentialsPayload } from './interface/payload.interface';
@@ -29,19 +27,17 @@ export class AuthService {
       const user = await this.usersService.create(data);
 
       if (user) {
-        const { email, password } = user;
-        console.log(email);
-
+        user.password = undefined;
+        const { email, password, first_name: firstName } = user;
         const { accessToken } = await this._generateAuthToken({
           email,
           password,
         });
 
         const url = `${process.env.EMAIL_CONFIRMATION_URL}?token=${accessToken}`;
-
         await this.notificationService.sendVerificationEmail({
-          email: user.email,
-          firstName: user.first_name,
+          email,
+          firstName,
           verification_link: url,
         });
       }
@@ -83,7 +79,7 @@ export class AuthService {
   }: LoginCredentialsPayload): Promise<TokenParams> {
     return {
       expiresIn: JwtConstants.expiresIn,
-      accessToken: this.jwtService.sign({ email, password }),
+      accessToken: await this.jwtService.signAsync({ email, password }),
     };
   }
 }

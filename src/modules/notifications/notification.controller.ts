@@ -20,7 +20,7 @@ export class NotificationsController {
   @Post()
   async confirm(@Query('token') token: ConfirmEmailDto) {
     const email = await this.notification.decodeConfirmationToken(token);
-    await this.notification.confirmEmail(email);
+    return await this.notification.confirmEmail(email);
   }
 
   @Post('resend')

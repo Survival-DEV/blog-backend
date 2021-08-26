@@ -8,7 +8,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '@user/users.service';
-import { ERRORS } from '../../constants';
+import { ERRORS, JwtConstants } from '../../constants';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable()
@@ -51,16 +51,16 @@ export class NotificationsService {
     if (user.isEmailConfirmed) {
       throw new BadRequestException(ERRORS.USER_EMAIL_ALREADY_CONFIRMED);
     }
-    await this.usersService.markEmailAsConfirmed(email);
+    return await this.usersService.markEmailAsConfirmed(email);
   }
 
-  public async decodeConfirmationToken(accessToken: any) {
+  public async decodeConfirmationToken(accessToken: any): Promise<string> {
     try {
       const payload = await this.jwtService.verify(accessToken, {
-        secret: this.configService.get('JWT_VERIFICATION_TOKEN_SECRET'),
+        secret: JwtConstants.secret,
       });
- 
-          if (typeof payload === 'object' && 'email' in payload) {
+
+      if (typeof payload === 'object' && 'email' in payload) {
         return payload.email;
       }
       throw new BadRequestException();
@@ -72,22 +72,26 @@ export class NotificationsService {
     }
   }
 
-  async resendConfirmationEmail(userId: string) {
-    const user = await this.usersService.findOne(userId);
-    if (user.isEmailConfirmed) {
-      throw new BadRequestException('Email already confirmed');
+  public async resendConfirmationEmail(userId: string) {
+    try {
+      const user = await this.usersService.findOne(userId);
+      if (user.isEmailConfirmed) {
+        throw new BadRequestException('Email already confirmed');
+      }
+      //TODO: Redundunt lines as authService/register
+      const { email, password } = user;
+      const { accessToken } = await this.authService._generateAuthToken({
+        email,
+        password,
+      });
+      const url = `${process.env.EMAIL_CONFIRMATION_URL}?token=${accessToken}`;
+      await this.sendVerificationEmail({
+        email: user.email,
+        firstName: user.first_name,
+        verification_link: url,
+      });
+    } catch (error) {
+      throw new Error(error);
     }
-    //TODO: Redundunt lines as authService/register
-    const { email, password } = user;
-    const { accessToken } = await this.authService._generateAuthToken({
-      email,
-      password,
-    });
-    const url = `${process.env.EMAIL_CONFIRMATION_URL}?token=${accessToken}`;
-    await this.sendVerificationEmail({
-      email: user.email,
-      firstName: user.first_name,
-      verification_link: url,
-    });
   }
 }
