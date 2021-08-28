@@ -21,8 +21,8 @@ import { CreateBlogDto } from './dto/create-blog.dto';
 import { BlogEntryInterface } from './interface/blog.interface';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { PermissionsGuard } from '../auth/guards/permissions.guard';
-import { Permissions } from '../auth/enum/roles.decorator';
-import { Role } from '../auth/enum/role.enum';
+import { Permissions } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/decorators/roles.enum';
 
 @Controller('blogs')
 export class BlogsController {

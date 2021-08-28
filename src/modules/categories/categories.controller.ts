@@ -17,8 +17,8 @@ import { CategoryInterface } from './interface/category.interface';
 import { CategoriesService } from './categories.service';
 import { AuthGuard } from '@nestjs/passport';
 import { PermissionsGuard } from '../auth/guards/permissions.guard';
-import { Permissions } from '../auth/enum/roles.decorator';
-import { Role } from '../auth/enum/role.enum';
+import { Permissions } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/decorators/roles.enum';
 
 @Controller('categories')
 export class CategoriesController {

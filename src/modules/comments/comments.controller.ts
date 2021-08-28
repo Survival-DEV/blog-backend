@@ -18,8 +18,8 @@ import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { CommentInterface } from './interface/comment.interface';
 import { PermissionsGuard } from '../auth/guards/permissions.guard';
-import { Permissions } from '../auth/enum/roles.decorator';
-import { Role } from '../auth/enum/role.enum';
+import { Permissions } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/decorators/roles.enum';
 
 @Controller('comments')
 export class CommentsController {
