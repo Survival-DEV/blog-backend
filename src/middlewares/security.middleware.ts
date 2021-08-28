@@ -8,9 +8,6 @@ import morgan from 'morgan';
 
 export const setupSecurity = (app: NestExpressApplication): void => {
   app.use(helmet());
-  app.use(helmet.noSniff());
-  app.use(helmet.hidePoweredBy());
-  app.use(helmet.contentSecurityPolicy());
   app.use(compression());
   app.use(morgan('combined'));
   app.use(
