@@ -8,7 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { BlogEntity } from './blog.entity';
-import { Role } from '../../modules/auth/enum/role.enum';
+import { Role } from '../../modules/auth/decorators/roles.enum';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -53,5 +53,5 @@ export class UserEntity extends BaseEntity {
   blogs!: BlogEntity[];
 
   @Column({ type: 'varchar', nullable: false, default: 'Guest' })
-  role: Role[];
+  role: Role;
 }
