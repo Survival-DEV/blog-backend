@@ -84,23 +84,22 @@ export class UsersService {
   }
 
   async create(userData: RegisterUserDto): Promise<UserEntity> {
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(userData.password, salt);
+
+    const newUser = await this.usersRepository.create({
+      ...userData,
+      password: hashedPassword,
+    });
     try {
-      const hashedPassword = await bcrypt.hash(userData.password, 12);
-
-      const newUser = await this.usersRepository.create({
-        ...userData,
-        password: hashedPassword,
-      });
-
       await this.usersRepository.save(newUser);
-
       return newUser;
     } catch (error) {
       if (error.code === PostgresErrorCode.UniqueViolation) {
         throw new ConflictException(ERRORS.USER_EMAIL_ALREADY_EXISTS);
       }
       throw new HttpException(
-        'Something went wrong',
+        error.message,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
