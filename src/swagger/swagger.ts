@@ -17,10 +17,10 @@ export const setupSwagger = (app: INestApplication): void => {
         scheme: 'bearer',
         bearerFormat: 'JWT',
       },
-      'authorization',
+      'Authorization',
     )
     .setContact(name, url, email)
-    .addServer(`${url}://`);
+    .addServer(`${server_url}://`);
   for (const tag of SWAGGER_CONGIF.tags) {
     builder.addTag(tag);
   }
