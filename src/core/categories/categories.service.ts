@@ -19,7 +19,9 @@ export class CategoriesService {
   ) {}
 
   async findAll(): Promise<CategoryInterface[]> {
-    return await this.categoryRepository.find();
+    return await this.categoryRepository.find({
+      cache: true,
+    });
   }
 
   public async findById(id: string): Promise<CategoryInterface> {

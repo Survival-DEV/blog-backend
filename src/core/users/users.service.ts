@@ -19,7 +19,10 @@ export class UsersService {
   ) {}
 
   async findAll(): Promise<UserEntity[]> {
-    return await this.usersRepository.find({ relations: ['blogs'] });
+    return await this.usersRepository.find({
+      cache: true,
+      relations: ['blogs'],
+    });
   }
 
   findOne(id: string): Promise<UserEntity> {
@@ -84,7 +87,10 @@ export class UsersService {
       where: userData.username,
     });
     if (IsUserExists) {
-      throw new HttpException('Username already exists', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'Username already exists',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     const newUser = await this.usersRepository.create({

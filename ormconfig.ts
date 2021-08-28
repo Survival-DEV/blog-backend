@@ -30,6 +30,14 @@ const connectionOptions: CustomeConnectionOptions = {
     entitiesDir: `./src/models/entities`,
     migrationsDir: `./src/models/migrations`,
   },
+  cache: {
+    type: 'redis',
+    duration: 30000,
+    options: {
+      host: 'localhost',
+      port: 6379,
+    },
+  },
 };
 
 export default connectionOptions;

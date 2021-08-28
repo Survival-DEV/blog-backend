@@ -18,7 +18,7 @@ export class TagsService {
   }
 
   findAll(): Promise<TagEntity[]> {
-    return this.tagRepository.find();
+    return this.tagRepository.find({ cache: true });
   }
 
   findOne(id: string): Promise<TagEntity> {

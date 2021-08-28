@@ -19,6 +19,7 @@ export class BlogService {
   async findAll(): Promise<Observable<BlogEntryInterface[]>> {
     return await from(
       this.blogRepository.find({
+        cache: true,
         relations: ['author_id'],
       }),
     );
