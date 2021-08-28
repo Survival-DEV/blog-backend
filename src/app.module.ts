@@ -9,13 +9,13 @@ import Joi from 'joi';
 import connectionOptions from '../ormconfig';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CategoriesModule } from './modules/categories/categories.module';
-import { BlogsModule } from './modules/blogs/blogs.module';
-import { UsersModule } from './modules/users/users.module';
-import { TagsModule } from './modules/tags/tags.module';
-import { CommentsModule } from './modules/comments/comments.module';
-import { AuthModule } from './modules/auth/auth.module';
-import { NotificationsModule } from './modules/notifications/notifications.module';
+import { CategoriesModule } from './core/categories/categories.module';
+import { BlogsModule } from './core/blogs/blogs.module';
+import { UsersModule } from './core/users/users.module';
+import { TagsModule } from './core/tags/tags.module';
+import { CommentsModule } from './core/comments/comments.module';
+import { AuthModule } from './core/auth/auth.module';
+import { NotificationsModule } from './core/notifications/notifications.module';
 
 @Module({
   imports: [

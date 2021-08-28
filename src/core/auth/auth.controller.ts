@@ -9,8 +9,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
-import { CreateUserDto } from '@user/dto/create-user.dto';
-import { LoginUserDto } from '@user/dto/login-user.dto';
+import { CreateUserDto } from 'src/core/users/dto/create-user.dto';
+import { LoginUserDto } from 'src/core/users/dto/login-user.dto';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';

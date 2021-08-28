@@ -3,7 +3,7 @@ import { NotificationsService } from './notifications.service';
 import { SendGridModule } from '@anchan828/nest-sendgrid';
 import { config } from 'dotenv';
 import { AuthModule } from '../auth/auth.module';
-import { UsersModule } from '@user/users.module';
+import { UsersModule } from 'src/core/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtConstants } from 'src/constants';
 import { NotificationsController } from './notification.controller';

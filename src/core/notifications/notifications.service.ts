@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from '@user/users.service';
+import { UsersService } from 'src/core/users/users.service';
 import { ERRORS, JwtConstants } from '../../constants';
 import { AuthService } from '../auth/auth.service';
 

@@ -16,7 +16,7 @@ import {
 import { UserEntity } from './user.entity';
 import 'reflect-metadata';
 
-import { BlogMetaInterface } from 'src/modules/blogs/interface/blog.interface';
+import { BlogMetaInterface } from 'src/core/blogs/interface/blog.interface';
 import { CommentEntity } from './comment.entity';
 import { CategoryEntity } from './category.entity';
 import { TagEntity } from './tag.entity';

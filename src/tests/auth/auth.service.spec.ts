@@ -2,10 +2,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtConstants } from '../../constants';
-import { UsersModule } from '../../modules/users/users.module';
-import { AuthService } from '../../modules/auth/auth.service';
-import { LocalStrategy } from '../../modules/auth/strategies/local.strategy';
-import { JwtStrategy } from '../../modules/auth/strategies/jwt.strategy';
+import { UsersModule } from '../../core/users/users.module';
+import { AuthService } from '../../core/auth/auth.service';
+import { LocalStrategy } from '../../core/auth/strategies/local.strategy';
+import { JwtStrategy } from '../../core/auth/strategies/jwt.strategy';
 
 const { secret, expiresIn } = JwtConstants;
 
