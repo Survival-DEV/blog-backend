@@ -10,6 +10,7 @@ import { RegisterUserDto } from './dto/create-user.dto';
 import { LoginCredentialsPayload } from '../auth/interface/payload.interface';
 import { comparePasswords } from '../../utils';
 import { ERRORS, PostgresErrorCode } from '../../constants';
+import { Role } from '../auth/decorators/roles.enum';
 
 @Injectable()
 export class UsersService {
@@ -72,7 +73,10 @@ export class UsersService {
       {
         email,
       },
-      { isEmailConfirmed: true },
+      {
+        isEmailConfirmed: true,
+        role: Role.User
+      },
     );
     if (!!updated.affected) {
       return 'congratulations your Account has been confirmed';

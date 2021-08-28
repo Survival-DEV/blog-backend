@@ -9,6 +9,7 @@ import {
   Request,
   UseInterceptors,
   ClassSerializerInterceptor,
+  UseGuards,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { ApiBody, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
@@ -18,6 +19,10 @@ import { BlogService } from './blogs.service';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { BlogEntryInterface } from './interface/blog.interface';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { PermissionsGuard } from '../auth/guards/permissions.guard';
+import { Permissions } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/decorators/roles.enum';
 
 @Controller('blogs')
 export class BlogsController {
@@ -37,7 +42,9 @@ export class BlogsController {
     return this.blogService.findOne(id);
   }
 
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Post('/create')
+  @Permissions(Role.User)
   @UseInterceptors(ClassSerializerInterceptor)
   @ApiCreatedResponse({ description: 'blog Added' })
   @ApiBody({ type: [CreateBlogDto] })
@@ -48,7 +55,9 @@ export class BlogsController {
     return this.blogService.create(blogEntry);
   }
 
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Put('/edit/:id')
+  @Permissions(Role.User)
   @ApiCreatedResponse({ description: 'blog Updated' })
   @ApiBody({ type: [CreateBlogDto] })
   async updateBlog(
@@ -58,7 +67,9 @@ export class BlogsController {
     return this.blogService.updateOne(id, blogEntry);
   }
 
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Delete('/delete/id')
+  @Permissions(Role.User, Role.Admin)
   async deleteBlog(@Param('id') id: string): Promise<Observable<DeleteResult>> {
     return this.blogService.deleteOne(id);
   }
