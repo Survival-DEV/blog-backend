@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { ClassSerializerInterceptor } from '@nestjs/common/serializer/class-serializer.interceptor';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import RequestWithUser from '../auth/interface/request-user.interface';
+import { RequestWithUser } from '../auth/interface/request-user.interface';
 import { ConfirmEmailDto } from './dto/confirm-email.dto';
 import { NotificationsService } from './notifications.service';
 
@@ -26,6 +26,6 @@ export class NotificationsController {
   @Post('resend')
   @UseGuards(JwtAuthGuard)
   async resendConfirmationLink(@Req() req: RequestWithUser) {
-    await this.notification.resendConfirmationEmail(req.user.id);
+    await this.notification.resendConfirmationEmail(req.user.username);
   }
 }

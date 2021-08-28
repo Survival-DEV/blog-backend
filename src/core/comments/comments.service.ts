@@ -2,8 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, TreeRepository, UpdateResult } from 'typeorm';
 
-import { CreateCommentDto } from './dto/create-comment.dto';
-import { UpdateCommentDto } from './dto/update-comment.dto';
+import { CreateCommentDto, UpdateCommentDto } from './dto';
 import { CommentEntity } from '../../models/entities/comment.entity';
 import { CommentInterface } from './interface/comment.interface';
 

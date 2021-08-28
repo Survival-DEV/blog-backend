@@ -9,7 +9,7 @@ import { Repository, UpdateResult } from 'typeorm';
 
 import { CategoryEntity } from '../../models/entities/category.entity';
 import { CategoryInterface } from './interface/category.interface';
-import { CreateCategoryDto, UpdateCategoryDto } from './dto/category.dto';
+import { CreateCategoryDto, UpdateCategoryDto } from './dto';
 
 @Injectable()
 export class CategoriesService {

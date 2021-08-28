@@ -12,8 +12,7 @@ import {
 import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { CommentsService } from './comments.service';
-import { CreateCommentDto } from './dto/create-comment.dto';
-import { UpdateCommentDto } from './dto/update-comment.dto';
+import { CreateCommentDto, UpdateCommentDto } from './dto';
 import { CommentInterface } from './interface/comment.interface';
 
 @Controller('comments')

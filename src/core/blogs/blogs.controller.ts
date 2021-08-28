@@ -15,15 +15,14 @@ import { ApiBody, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 
 import { BlogService } from './blogs.service';
-import { UpdateBlogDto } from './dto/update-blog.dto';
-import { CreateBlogDto } from './dto/create-blog.dto';
+import { CreateBlogDto, UpdateBlogDto } from './dto';
 import { BlogEntryInterface } from './interface/blog.interface';
 
 @Controller('blogs')
 export class BlogsController {
   constructor(private blogService: BlogService) {}
 
-  @Get('')
+  @Get()
   @ApiOkResponse({ description: 'blogs Found' })
   async findAllBlogs(): Promise<Observable<BlogEntryInterface[]>> {
     return this.blogService.findAll();
@@ -38,7 +37,6 @@ export class BlogsController {
   }
 
   @Post('/create')
-  @UseInterceptors(ClassSerializerInterceptor)
   @ApiCreatedResponse({ description: 'blog Added' })
   @ApiBody({ type: [CreateBlogDto] })
   public async create(
@@ -58,7 +56,7 @@ export class BlogsController {
     return this.blogService.updateOne(id, blogEntry);
   }
 
-  @Delete('/delete/id')
+  @Delete('/delete/:id')
   async deleteBlog(@Param('id') id: string): Promise<Observable<DeleteResult>> {
     return this.blogService.deleteOne(id);
   }

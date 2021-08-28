@@ -11,7 +11,7 @@ import {
 import { UpdateResult } from 'typeorm';
 import { ApiBody, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 
-import { CreateCategoryDto } from './dto/category.dto';
+import { CreateCategoryDto } from './dto';
 import { CategoryInterface } from './interface/category.interface';
 import { CategoriesService } from './categories.service';
 

@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt';
 import { UserEntity } from '../../models/entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { RegisterUserDto } from './dto/create-user.dto';
-import { LoginCredentialsPayload } from '../auth/interface/payload.interface';
+import { LoginCredentialsPayload } from '../auth/interface';
 import { comparePasswords } from '../../helpers';
 import { ERRORS, PostgresErrorCode } from '../../constants';
 

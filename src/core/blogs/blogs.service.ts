@@ -4,8 +4,7 @@ import { DeleteResult, Repository } from 'typeorm';
 import { from, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { CreateBlogDto } from './dto/create-blog.dto';
-import { UpdateBlogDto } from './dto/update-blog.dto';
+import { CreateBlogDto, UpdateBlogDto } from './dto';
 import { BlogEntity } from '../../models/entities/blog.entity';
 import { BlogEntryInterface } from './interface/blog.interface';
 
