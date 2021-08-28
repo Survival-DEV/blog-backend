@@ -1,4 +1,3 @@
-import { SendGridService } from '@anchan828/nest-sendgrid';
 import {
   BadRequestException,
   forwardRef,
@@ -9,14 +8,11 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/core/users/users.service';
 import { sendVerificationEmail } from 'src/helpers';
 import { ERRORS, JwtConstants } from '../../constants';
-import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class NotificationsService {
   constructor(
     private readonly usersService: UsersService,
-    @Inject(forwardRef(() => AuthService))
-    private readonly authService: AuthService,
     @Inject(forwardRef(() => JwtService))
     private readonly jwtService: JwtService,
   ) {}

@@ -1,5 +1,10 @@
-import { SendGridService } from '@anchan828/nest-sendgrid';
+import { Client } from '@sendgrid/client';
+import SendGridService = require('@sendgrid/mail');
 import { generateAuthToken } from './tokenGenerator.helper';
+
+SendGridService.setApiKey(process.env.SEND_GRID_ACCESS_KEY);
+SendGridService.setClient(new Client());
+SendGridService.setSubstitutionWrappers('{{', '}}');
 
 export const sendVerificationEmail = async ({
   email,

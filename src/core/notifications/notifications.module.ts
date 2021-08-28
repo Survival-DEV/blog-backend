@@ -1,6 +1,5 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
-import { SendGridModule } from '@anchan828/nest-sendgrid';
 import { config } from 'dotenv';
 import { AuthModule } from '../auth/auth.module';
 import { UsersModule } from 'src/core/users/users.module';
@@ -14,10 +13,6 @@ config({ path: process.cwd() + '/.env' });
 @Module({
   imports: [
     forwardRef(() => AuthModule),
-    SendGridModule.forRoot({
-      apikey: process.env.SEND_GRID_ACCESS_KEY,
-    }),
-
     JwtModule.register({
       secret: JwtConstants.secret,
       signOptions: { expiresIn: '60s' },
