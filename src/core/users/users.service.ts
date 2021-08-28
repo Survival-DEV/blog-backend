@@ -1,7 +1,7 @@
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { ConflictException, HttpException } from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import bcrypt from 'bcrypt';
 
 import { UserEntity } from '../../models/entities/user.entity';
@@ -18,18 +18,63 @@ export class UsersService {
     private usersRepository: Repository<UserEntity>,
   ) {}
 
-  async findAll(): Promise<UserEntity[]> {
-    return await this.usersRepository.find({
-      cache: true,
+  async createUser(userData: RegisterUserDto): Promise<UserEntity> {
+    const IsUsernameExists = await this.findByEmailOrUsername(
+      userData.username,
+    );
+    if (IsUsernameExists) {
+      throw new HttpException(
+        ERRORS.USERNAME_ALREADY_EXISTS,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    try {
+      const salt = await bcrypt.genSalt();
+      const hashedPassword = await bcrypt.hash(userData.password, salt);
+      const newUser = await this.usersRepository.create({
+        ...userData,
+        password: hashedPassword,
+      });
+      await this.usersRepository.save(newUser);
+      return newUser;
+    } catch (error) {
+      if (error.code === PostgresErrorCode.UniqueViolation) {
+        throw new ConflictException(ERRORS.USER_EMAIL_ALREADY_EXISTS);
+      }
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async findByEmailOrUsername(input: string): Promise<UserEntity> {
+    const user = await this.usersRepository.findOne({
+      where: [
+        input.includes('@') ? `email = :input` : `username = :input`,
+        { input },
+      ],
+      select: [
+        'username',
+        'first_name',
+        'last_name',
+        'bio',
+        'created_at',
+        'email',
+        'github',
+        'linked_in',
+        'photo',
+        'blogs',
+      ],
       relations: ['blogs'],
     });
+
+    if (!user) {
+      throw new HttpException(
+        'User with this email does not exist',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return user;
   }
 
-  findOne(id: string): Promise<UserEntity> {
-    return this.usersRepository.findOne(id);
-  }
-
-  //TODO: correct this input type
   async findByLogin({
     email,
     password,
@@ -40,27 +85,29 @@ export class UsersService {
     });
 
     if (!user)
-      throw new HttpException(ERRORS.USER_NOT_FOUND, HttpStatus.UNAUTHORIZED);
+      throw new HttpException(ERRORS.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
 
-    if (!user.isEmailConfirmed) {
+    if (!user.isEmailConfirmed)
       throw new HttpException(
         ERRORS.USER_EMAIL_NOT_VERIFIED,
         HttpStatus.UNAUTHORIZED,
       );
-    }
+
     comparePasswords(password, user.password);
     return user;
   }
 
-  async findByEmail(email: string): Promise<UserEntity> {
-    const user = await this.usersRepository.findOne({ email });
+  async updateUser(
+    data: UpdateUserDto,
+    username: string,
+  ): Promise<UpdateResult> {
+    this.CheckUserExistance(username);
+    return await this.usersRepository.update({ username }, data);
+  }
 
-    if (user) return user;
-
-    throw new HttpException(
-      'User with this email does not exist',
-      HttpStatus.NOT_FOUND,
-    );
+  async removeUser(username: string): Promise<DeleteResult> {
+    this.CheckUserExistance(username);
+    return await this.usersRepository.delete(username);
   }
 
   async markEmailAsConfirmed(email: string) {
@@ -75,40 +122,9 @@ export class UsersService {
     }
   }
 
-  async update(data: UpdateUserDto, id: string): Promise<UpdateResult> {
-    return await this.usersRepository.update({ id }, data);
-  }
-
-  async create(userData: RegisterUserDto): Promise<UserEntity> {
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(userData.password, salt);
-
-    const IsUserExists = await this.usersRepository.findOne({
-      where: userData.username,
-    });
-    if (IsUserExists) {
-      throw new HttpException(
-        'Username already exists',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
-    const newUser = await this.usersRepository.create({
-      ...userData,
-      password: hashedPassword,
-    });
-    try {
-      await this.usersRepository.save(newUser);
-      return newUser;
-    } catch (error) {
-      if (error.code === PostgresErrorCode.UniqueViolation) {
-        throw new ConflictException(ERRORS.USER_EMAIL_ALREADY_EXISTS);
-      }
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  async remove(id: string): Promise<void> {
-    await this.usersRepository.delete(id);
+  async CheckUserExistance(username) {
+    const IsUserExists = await this.findByEmailOrUsername(username);
+    if (!IsUserExists)
+      throw new HttpException(ERRORS.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
   }
 }
