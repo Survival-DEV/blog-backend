@@ -16,6 +16,7 @@ import { TagsModule } from './modules/tags/tags.module';
 import { CommentsModule } from './modules/comments/comments.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
+import { CaslModule } from './casl/casl.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
     TagsModule,
     CommentsModule,
     NotificationsModule,
+    CaslModule,
   ],
   controllers: [AppController],
   providers: [AppService],
