@@ -1,5 +1,17 @@
 import bcrypt from 'bcrypt';
+import { HttpException } from '@nestjs/common/exceptions/http.exception';
+import { HttpStatus } from '@nestjs/common/enums/http-status.enum';
+import { ERRORS } from 'src/constants';
 
 export const comparePasswords = async (userPassword, currentPassword) => {
-  return await bcrypt.compare(currentPassword, userPassword);
+  const arePasswordsMatched = await bcrypt.compare(
+    currentPassword,
+    userPassword,
+  );
+  if (!arePasswordsMatched) {
+    throw new HttpException(
+      ERRORS.INVALID_CREDENTIALS,
+      HttpStatus.UNAUTHORIZED,
+    );
+  }
 };

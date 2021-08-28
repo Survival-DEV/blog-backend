@@ -45,14 +45,7 @@ export class UsersService {
         HttpStatus.UNAUTHORIZED,
       );
     }
-    const areMatchedPasswords = comparePasswords(password, user.password);
-
-    if (!areMatchedPasswords) {
-      throw new HttpException(
-        ERRORS.INVALID_CREDENTIALS,
-        HttpStatus.UNAUTHORIZED,
-      );
-    }
+    comparePasswords(password, user.password);
     return user;
   }
 
@@ -87,6 +80,13 @@ export class UsersService {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(userData.password, salt);
 
+    const IsUserExists = await this.usersRepository.findOne({
+      where: userData.username,
+    });
+    if (IsUserExists) {
+      throw new HttpException('Username already exists', HttpStatus.BAD_REQUEST);
+    }
+
     const newUser = await this.usersRepository.create({
       ...userData,
       password: hashedPassword,
@@ -98,10 +98,7 @@ export class UsersService {
       if (error.code === PostgresErrorCode.UniqueViolation) {
         throw new ConflictException(ERRORS.USER_EMAIL_ALREADY_EXISTS);
       }
-      throw new HttpException(
-        error.message,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
