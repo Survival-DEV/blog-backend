@@ -1,9 +1,10 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { NotificationsService } from './notifications.service';
+import { JwtModule } from '@nestjs/jwt';
 import { config } from 'dotenv';
+
+import { NotificationsService } from './notifications.service';
 import { AuthModule } from '../auth/auth.module';
 import { UsersModule } from 'src/core/users/users.module';
-import { JwtModule } from '@nestjs/jwt';
 import { JwtConstants } from 'src/constants';
 import { NotificationsController } from './notification.controller';
 

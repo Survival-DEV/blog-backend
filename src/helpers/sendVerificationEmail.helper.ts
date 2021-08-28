@@ -1,5 +1,5 @@
 import { Client } from '@sendgrid/client';
-import SendGridService = require('@sendgrid/mail');
+import SendGridService from '@sendgrid/mail';
 import { generateAuthToken } from './tokenGenerator.helper';
 
 SendGridService.setApiKey(process.env.SEND_GRID_ACCESS_KEY);
