@@ -18,7 +18,7 @@ import {
 
 import { UserEntity } from '../../models/entities/user.entity';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { RegisterUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 
@@ -35,7 +35,7 @@ export class UsersController {
   @Post()
   @ApiCreatedResponse({ description: 'User Added' })
   @ApiResponse({ status: 201, type: UserEntity })
-  async create(@Body() data: CreateUserDto): Promise<UserEntity> {
+  async create(@Body() data: RegisterUserDto): Promise<UserEntity> {
     return await this.users.create(data);
   }
 

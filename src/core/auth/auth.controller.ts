@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
-import { CreateUserDto } from 'src/core/users/dto/create-user.dto';
+import { CreateUserDto, RegisterUserDto } from 'src/core/users/dto/create-user.dto';
 import { LoginUserDto } from 'src/core/users/dto/login-user.dto';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -22,7 +22,7 @@ export class AuthController {
 
   @Post('signup')
   @ApiBody({ type: [CreateUserDto] })
-  async register(@Body() data: CreateUserDto): Promise<RegistrationStatus> {
+  async register(@Body() data: RegisterUserDto): Promise<RegistrationStatus> {
     const result = await this.authService.register(data);
 
     if (!result.success) {

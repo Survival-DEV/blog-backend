@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { CreateUserDto } from 'src/core/users/dto/create-user.dto';
+import { RegisterUserDto } from 'src/core/users/dto/create-user.dto';
 import { JwtConstants } from 'src/constants';
 import { NotificationsService } from '../notifications/notifications.service';
 import { UsersService } from '../users/users.service';
@@ -17,7 +17,7 @@ export class AuthService {
     private readonly notificationService: NotificationsService,
   ) {}
 
-  async register(data: CreateUserDto): Promise<RegistrationStatus> {
+  async register(data: RegisterUserDto): Promise<RegistrationStatus> {
     let status: RegistrationStatus = {
       success: true,
       message: 'Successfully registered',

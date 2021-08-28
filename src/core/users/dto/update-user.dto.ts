@@ -28,11 +28,14 @@ export class UpdateUserDto {
   updated_at: Date;
 
   @ApiProperty({ type: String, description: 'github link' })
+  @IsOptional()
   github?: string;
 
   @ApiProperty({ type: String, description: 'linkedin link' })
+  @IsOptional()
   linked_in?: string;
 
   @ApiProperty({ type: String, description: 'photo' })
+  @IsOptional()
   photo?: string;
 }
