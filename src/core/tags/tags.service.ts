@@ -18,11 +18,17 @@ export class TagsService {
   }
 
   findAll(): Promise<TagEntity[]> {
-    return this.tagRepository.find({ cache: true });
+    return this.tagRepository.find({
+      cache: true,
+      select: ['title', 'meta_title', 'slug'],
+    });
   }
 
-  findOne(id: string): Promise<TagEntity> {
-    return this.tagRepository.findOne(id);
+  findBlogsPerTag(title: string): Promise<TagEntity> {
+    return this.tagRepository.findOne({
+      where: { title },
+      relations: ['blogs'],
+    });
   }
 
   update(id: string, data: UpdateTagDto): Promise<UpdateResult> {

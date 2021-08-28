@@ -32,10 +32,10 @@ export class TagsController {
     return this.tagsService.findAll();
   }
 
-  @Get(':id')
+  @Get(':title')
   @ApiOkResponse({ description: 'tag Found' })
-  findOne(@Param('id') id: string): Promise<TagEntity> {
-    return this.tagsService.findOne(id);
+  findOne(@Param('title') title: string): Promise<TagEntity> {
+    return this.tagsService.findBlogsPerTag(title);
   }
 
   @Patch(':id')
