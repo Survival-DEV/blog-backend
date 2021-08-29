@@ -9,3 +9,11 @@ export class LoginPayload {
   email: string;
   password: string;
 }
+
+export class TokenPayload {
+  id: string;
+  username: string;
+  email: string;
+  sub?: string;
+  name?: string;
+}

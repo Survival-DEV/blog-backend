@@ -45,12 +45,16 @@ export class NotificationsService {
 
   public async resendConfirmationEmail(email: string) {
     try {
-      const { password, username, isEmailConfirmed } =
+      const { id, username, isEmailConfirmed } =
         await this.usersService.findByEmail(email);
       if (isEmailConfirmed) {
         throw new BadRequestException('Email already confirmed');
       }
-      await sendVerificationEmail({ email, password, username });
+      await sendVerificationEmail({
+        id,
+        username,
+        email,
+      });
     } catch (error) {
       throw new Error(error);
     }

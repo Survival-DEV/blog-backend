@@ -63,6 +63,7 @@ export class UsersService {
         'password',
         'first_name',
         'last_name',
+        'username',
         'isEmailConfirmed',
       ],
       where: { email },

@@ -8,15 +8,12 @@ const SendGridService = new MailService();
 SendGridService.setApiKey(process.env.SEND_GRID_ACCESS_KEY);
 
 export const sendVerificationEmail = async ({
-  email,
-  password,
+  id,
   username,
+  email,
 }): Promise<[ClientResponse, {}]> => {
   try {
-    const { accessToken } = await generateAuthToken({
-      email,
-      password,
-    });
+    const { accessToken } = await generateAuthToken({ id, username, email });
     const verification_link = `${process.env.EMAIL_CONFIRMATION_URL}?token=${accessToken}`;
 
     return await SendGridService.send({

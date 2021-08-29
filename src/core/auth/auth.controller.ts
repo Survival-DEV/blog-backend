@@ -37,7 +37,7 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  // @Redirect('/profile', 303)
+  @Redirect('/profile', 303)
   @ApiBody({ type: [LoginUserDto] })
   async login(@Request() req): Promise<any> {
     return this.authService.login(req.user);

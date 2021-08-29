@@ -3,7 +3,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { generateAuthToken, sendVerificationEmail } from '../../helpers';
 import { RegisterUserDto } from '../../core/users/dto/create-user.dto';
-import { LoginCredentialsPayload, RegistrationStatus } from './interface';
+import { RegistrationStatus } from './interface';
 import { ERRORS } from '../../constants';
 
 @Injectable()
@@ -21,9 +21,8 @@ export class AuthService {
       if (user) {
         await this.usersService.save(user);
         user.password = undefined;
-        const { email, password, username } = user;
-
-        await sendVerificationEmail({ email, password, username });
+        const { id, email, username } = user;
+        await sendVerificationEmail({ id, username, email });
       }
     } catch (error) {
       return (status = {
@@ -39,15 +38,15 @@ export class AuthService {
     const user = await this.usersService.findByLogin({ email, password });
 
     if (user) {
-      const { password, email, ...rest } = user;
+      const { password, ...rest } = user;
       return rest;
     }
     throw new HttpException(ERRORS.BAD_TOKEN, HttpStatus.UNAUTHORIZED);
   }
 
-  async login(user: LoginCredentialsPayload) {
-    const { email, password, first_name, last_name } = user;
-    const token = await generateAuthToken({ email, password });
+  async login(user: any) {
+    const { id, email, username, first_name, last_name } = user;
+    const token = await generateAuthToken({ id, username, email });
 
     return {
       first_name,
