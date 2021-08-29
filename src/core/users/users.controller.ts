@@ -1,25 +1,24 @@
 import {
   Body,
+  Param,
   Controller,
+  Post,
+  Patch,
   Delete,
-  Get,
   HttpException,
   HttpStatus,
-  Param,
-  Patch,
-  Post,
 } from '@nestjs/common';
 import {
   ApiBody,
   ApiCreatedResponse,
   ApiOkResponse,
 } from '@nestjs/swagger';
+import { DeleteResult } from 'typeorm';
 
 import { UserEntity } from '../../models/entities/user.entity';
 import { UsersService } from './users.service';
 import { RegisterUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { DeleteResult } from 'typeorm';
 
 @Controller('users')
 export class UsersController {

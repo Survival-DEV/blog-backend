@@ -2,7 +2,9 @@ import {
   Controller,
   Post,
   Query,
+  Redirect,
   Req,
+  Res,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -18,6 +20,7 @@ export class NotificationsController {
   constructor(private notification: NotificationsService) {}
 
   @Post()
+  @Redirect('/auth/login', 201)
   async confirm(@Query('token') token: ConfirmEmailDto) {
     const email = await this.notification.decodeConfirmationToken(token);
     return await this.notification.confirmEmail(email);

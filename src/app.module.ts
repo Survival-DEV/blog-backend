@@ -27,7 +27,6 @@ import { NotificationsModule } from './core/notifications/notifications.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env'],
-      //TODO: move this validation into a separate pipe function
       validationSchema: Joi.object({
         JWT_VERIFICATION_TOKEN_SECRET: Joi.string().required(),
         JWT_VERIFICATION_TOKEN_EXPIRATION_TIME: Joi.string().required(),
@@ -36,12 +35,12 @@ import { NotificationsModule } from './core/notifications/notifications.module';
     }),
     TypeOrmModule.forRoot(connectionOptions),
     AuthModule,
+    NotificationsModule,
     UsersModule,
     BlogsModule,
     CategoriesModule,
     TagsModule,
     CommentsModule,
-    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

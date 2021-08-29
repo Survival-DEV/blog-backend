@@ -5,8 +5,8 @@ import { ERRORS } from '../constants';
 
 export const comparePasswords = async (userPassword, currentPassword) => {
   const arePasswordsMatched = await bcrypt.compare(
-    currentPassword,
     userPassword,
+    currentPassword,
   );
   if (!arePasswordsMatched) {
     throw new HttpException(

@@ -8,15 +8,13 @@ import { UsersModule } from '../../core/users/users.module';
 import { JwtConstants } from '../../constants';
 import { NotificationsController } from './notification.controller';
 
-//TODO: handle this like normal human-being,"Fix the undefined apiKey when removing this"
-config({ path: process.cwd() + '/.env' });
 
 @Module({
   imports: [
     forwardRef(() => AuthModule),
     JwtModule.register({
       secret: JwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: JwtConstants.expiresIn },
     }),
     UsersModule,
   ],

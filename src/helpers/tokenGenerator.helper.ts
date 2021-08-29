@@ -1,7 +1,7 @@
 import { JwtService } from '@nestjs/jwt';
 import { JwtConstants } from '../constants';
 import { TokenParams } from '../core/auth/interface/login-status.interface';
-import { LoginCredentialsPayload } from '../core/auth/interface/payload.interface';
+import { LoginPayload } from '../core/auth/interface/payload.interface';
 
 const jwtService = new JwtService({
   secret: JwtConstants.secret,
@@ -11,9 +11,9 @@ const jwtService = new JwtService({
 export const generateAuthToken = async ({
   email,
   password,
-}: LoginCredentialsPayload): Promise<TokenParams> => {
+}: LoginPayload): Promise<TokenParams> => {
   return {
     expiresIn: JwtConstants.expiresIn,
-    accessToken: await jwtService.signAsync({ email, password }),
+    accessToken: await jwtService.sign({ email, password }),
   };
 };
