@@ -7,9 +7,13 @@ import {
   HttpStatus,
   Request,
   UseGuards,
+  Redirect,
 } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
-import { CreateUserDto, RegisterUserDto } from '../../core/users/dto/create-user.dto';
+import {
+  CreateUserDto,
+  RegisterUserDto,
+} from '../../core/users/dto/create-user.dto';
 import { LoginUserDto } from '../../core/users/dto/login-user.dto';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -20,7 +24,7 @@ import { RegistrationStatus } from './interface/registeration-status.interface';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('signup')
+  @Post('register')
   @ApiBody({ type: [CreateUserDto] })
   async register(@Body() data: RegisterUserDto): Promise<RegistrationStatus> {
     const result = await this.authService.register(data);
@@ -33,10 +37,10 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
+  // @Redirect('/profile', 303)
   @ApiBody({ type: [LoginUserDto] })
   async login(@Request() req): Promise<any> {
-    const { email, password, first_name: firstName } = req.user;
-    return this.authService.login({ email, password, firstName });
+    return this.authService.login(req.user);
   }
 
   @UseGuards(JwtAuthGuard)
