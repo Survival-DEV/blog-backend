@@ -24,13 +24,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersController {
   constructor(private users: UsersService) {}
 
-  @Post()
-  @ApiCreatedResponse({ description: 'User Added' })
-  @ApiOkResponse({ status: 201, type: UserEntity })
-  async create(@Body() data: RegisterUserDto): Promise<UserEntity> {
-    return await this.users.createUser(data);
-  }
-
   @Patch(':username')
   @ApiCreatedResponse({ description: 'User Updated' })
   @ApiBody({ type: [UpdateUserDto] })

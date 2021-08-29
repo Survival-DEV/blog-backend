@@ -106,6 +106,7 @@ export class UsersService {
     }
   }
 
+  //TODO: Like WTH why this isn't updated username vs email
   async CheckUserExistance(username) {
     const IsUserExists = await this.findByEmail(username);
     if (!IsUserExists)

@@ -15,30 +15,24 @@ import { CommentsService } from './comments.service';
 import { CreateCommentDto, UpdateCommentDto } from './dto';
 import { CommentInterface } from './interface/comment.interface';
 
-@Controller('comments')
+@Controller()
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
-  @Get()
-  @UsePipes(new ValidationPipe({ transform: true }))
-  findAll(): Promise<CommentInterface[]> {
-    return this.commentsService.findAllComments();
-  }
-
-  @Post()
+  @Post('/blog/comment')
   create(
     @Body() createCommentDto: CreateCommentDto,
   ): Promise<CommentInterface> {
     return this.commentsService.create(createCommentDto);
   }
 
-  @Get('/blog/:id')
+  @Get('/blog/comment/:id')
   @UsePipes(new ValidationPipe({ transform: true }))
   findCommentsPerBlog(@Param('id') id: string) {
     return this.commentsService.findCommentsPerBlog(id);
   }
 
-  @Patch(':id')
+  @Patch('/blog/comment/:id')
   update(
     @Param('id') id: string,
     @Body() updateCommentDto: UpdateCommentDto,
@@ -46,7 +40,7 @@ export class CommentsController {
     return this.commentsService.update(id, updateCommentDto);
   }
 
-  @Delete(':id')
+  @Delete('/blog/comment/:id')
   remove(@Param('id') id: string): Promise<DeleteResult> {
     return this.commentsService.remove(id);
   }

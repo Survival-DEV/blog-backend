@@ -26,11 +26,6 @@ export class TagsController {
     return await this.tagsService.create(data);
   }
 
-  @Get()
-  @ApiOkResponse({ description: 'tags Found' })
-  findAll(): Promise<TagEntity[]> {
-    return this.tagsService.findAll();
-  }
 
   @Get(':title')
   @ApiOkResponse({ description: 'tag Found' })
