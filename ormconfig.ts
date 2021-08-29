@@ -15,7 +15,7 @@ interface CustomeConnectionOptions extends PostgresConnectionOptions {
 const connectionOptions: CustomeConnectionOptions = {
   type: 'postgres',
   url: config.url,
-  synchronize: false,
+  synchronize: true,
   migrationsRun: false,
   migrationsTableName: 'migrations',
   maxQueryExecutionTime: 1000,
