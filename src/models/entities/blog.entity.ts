@@ -22,7 +22,8 @@ import { CategoryEntity } from './category.entity';
 import { TagEntity } from './tag.entity';
 
 @Entity('blogs')
-@Index(['title'], { fulltext: true })
+//TODO: should add sync: false too
+@Index(['title'], { unique: true, fulltext: true })
 export class BlogEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
@@ -64,6 +65,9 @@ export class BlogEntity extends BaseEntity {
 
   @Column({ default: true, nullable: true })
   is_draft: boolean;
+
+  @Column({ nullable: true })
+  read_time: number;
 
   @Column({ nullable: true })
   parent_id: number;
