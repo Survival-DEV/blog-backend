@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt';
 import { UserEntity } from '../../models/entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { RegisterUserDto } from './dto/create-user.dto';
-import { LoginCredentialsPayload } from '../auth/interface';
+import { LoginPayload } from '../auth/interface';
 import { comparePasswords } from '../../helpers';
 import { ERRORS, PostgresErrorCode } from '../../constants';
 
@@ -19,24 +19,13 @@ export class UsersService {
   ) {}
 
   async createUser(userData: RegisterUserDto): Promise<UserEntity> {
-    const IsUsernameExists = await this.findByEmailOrUsername(
-      userData.username,
-    );
-    if (IsUsernameExists) {
-      throw new HttpException(
-        ERRORS.USERNAME_ALREADY_EXISTS,
-        HttpStatus.BAD_REQUEST,
-      );
-    }
     try {
       const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(userData.password, salt);
-      const newUser = await this.usersRepository.create({
+      return await this.usersRepository.create({
         ...userData,
         password: hashedPassword,
       });
-      await this.usersRepository.save(newUser);
-      return newUser;
     } catch (error) {
       if (error.code === PostgresErrorCode.UniqueViolation) {
         throw new ConflictException(ERRORS.USER_EMAIL_ALREADY_EXISTS);
@@ -45,25 +34,16 @@ export class UsersService {
     }
   }
 
-  async findByEmailOrUsername(input: string): Promise<UserEntity> {
+  async save(data) {
+    return this.usersRepository.save(data);
+  }
+
+  async findByEmail(email: string): Promise<UserEntity> {
     const user = await this.usersRepository.findOne({
-      where: [
-        input.includes('@') ? `email = :input` : `username = :input`,
-        { input },
-      ],
-      select: [
-        'username',
-        'first_name',
-        'last_name',
-        'bio',
-        'created_at',
-        'email',
-        'github',
-        'linked_in',
-        'photo',
-        'blogs',
-      ],
-      relations: ['blogs'],
+      select: ['id', 'username', 'first_name', 'last_name', 'isEmailConfirmed'],
+      where: {
+        email,
+      },
     });
 
     if (!user) {
@@ -75,12 +55,16 @@ export class UsersService {
     return user;
   }
 
-  async findByLogin({
-    email,
-    password,
-  }: LoginCredentialsPayload): Promise<UserEntity> {
+  async findByLogin({ email, password }: LoginPayload): Promise<UserEntity> {
     const user = await this.usersRepository.findOne({
-      select: ['id', 'email', 'password', 'first_name'],
+      select: [
+        'id',
+        'email',
+        'password',
+        'first_name',
+        'last_name',
+        'isEmailConfirmed',
+      ],
       where: { email },
     });
 
@@ -93,7 +77,7 @@ export class UsersService {
         HttpStatus.UNAUTHORIZED,
       );
 
-    comparePasswords(password, user.password);
+    await comparePasswords(password, user.password);
     return user;
   }
 
@@ -123,7 +107,7 @@ export class UsersService {
   }
 
   async CheckUserExistance(username) {
-    const IsUserExists = await this.findByEmailOrUsername(username);
+    const IsUserExists = await this.findByEmail(username);
     if (!IsUserExists)
       throw new HttpException(ERRORS.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
   }

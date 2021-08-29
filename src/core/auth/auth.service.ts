@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 import { UsersService } from '../users/users.service';
 import { generateAuthToken, sendVerificationEmail } from '../../helpers';
-import { RegisterUserDto } from 'src/core/users/dto/create-user.dto';
+import { RegisterUserDto } from '../../core/users/dto/create-user.dto';
 import { LoginCredentialsPayload, RegistrationStatus } from './interface';
+import { ERRORS } from '../../constants';
 
 @Injectable()
 export class AuthService {
@@ -18,15 +19,17 @@ export class AuthService {
     try {
       const user = await this.usersService.createUser(data);
       if (user) {
+        await this.usersService.save(user);
         user.password = undefined;
-        const { email, password, first_name: firstName } = user;
-        await sendVerificationEmail({ email, password, firstName });
+        const { email, password, username } = user;
+
+        await sendVerificationEmail({ email, password, username });
       }
     } catch (error) {
-      status = {
+      return (status = {
         success: false,
-        message: error,
-      };
+        message: error.detail,
+      });
     }
     return status;
   }
@@ -39,15 +42,16 @@ export class AuthService {
       const { password, email, ...rest } = user;
       return rest;
     }
-    //TODO: handle unsuccessfull login properly, first error cb
-    return null;
+    throw new HttpException(ERRORS.BAD_TOKEN, HttpStatus.UNAUTHORIZED);
   }
 
-  async login({ email, password, firstName }: LoginCredentialsPayload) {
+  async login(user: LoginCredentialsPayload) {
+    const { email, password, first_name, last_name } = user;
     const token = await generateAuthToken({ email, password });
 
     return {
-      firstName,
+      first_name,
+      last_name,
       ...token,
     };
   }
