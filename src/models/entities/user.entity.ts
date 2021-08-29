@@ -20,6 +20,9 @@ export class UserEntity extends BaseEntity {
   @Column()
   last_name: string;
 
+  @Column({ type: 'varchar', unique: true })
+  username: string;
+
   @Column({ type: 'varchar', select: false, nullable: false })
   password: string;
 

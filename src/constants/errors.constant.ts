@@ -7,6 +7,7 @@ export default {
     'A user with the identification document entered does not exist',
   USER_EMAIL_NOT_VERIFIED:
     'It is required to activate the account to be able to enter, please check your email to proceed with the activation',
+  USERNAME_ALREADY_EXISTS: 'A user with the entered username already exists',
   USER_EMAIL_ALREADY_EXISTS: 'A user with the entered email already exists',
   USER_EMAIL_ALREADY_CONFIRMED:
     'A user with this email is already confirmed his/her account',

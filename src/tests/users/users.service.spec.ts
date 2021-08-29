@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from '../../modules/users/users.service';
+import { UsersService } from '../../core/users/users.service';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -23,3 +23,9 @@ describe('UsersService', () => {
     expect(service).toBeDefined();
   });
 });
+
+// describe('USER REGISTER', () => {
+//   it('should new user', async () => {
+//     const user: any = await Factory.factory(UserEntity).make();
+//  });
+// });

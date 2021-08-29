@@ -17,7 +17,7 @@
     "resolveJsonModule": true,
     "paths": {
       "@user/*": [
-        "src/modules/users/*"
+        "src/core/users/*"
       ],
       "@root/*": [
         "./"

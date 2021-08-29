@@ -1,13 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { BlogsController } from '../../modules/blogs/blogs.controller';
-import { BlogService } from '../../modules/blogs/blogs.service';
+import { BlogsController } from '../../core/blogs/blogs.controller';
+import { BlogService } from '../../core/blogs/blogs.service';
 
 describe('BlogsService', () => {
   let service: BlogService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [BlogsController],
       providers: [
         {
           provide: BlogService,

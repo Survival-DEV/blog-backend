@@ -4,7 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { setupSwagger } from './utils';
+import { setupSwagger } from './swagger/swagger';
 import { setupSecurity } from './middlewares';
 
 config();
@@ -15,7 +15,7 @@ async function bootstrap() {
     logger: ['log', 'warn', 'debug'],
   });
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api/v1');
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
