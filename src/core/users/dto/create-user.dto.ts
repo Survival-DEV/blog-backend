@@ -14,6 +14,10 @@ export class CreateUserDto {
   @IsString()
   last_name: string;
 
+  @ApiProperty({ type: String, description: 'username' })
+  @IsString()
+  username: string;
+
   @ApiProperty({ type: String, description: 'password' })
   @IsString()
   password: string;
@@ -45,7 +49,12 @@ export class CreateUserDto {
 
 export class RegisterUserDto {
   @IsNotEmpty()
+  first_name: string;
+
+  @IsNotEmpty()
   username: string;
+  @IsNotEmpty()
+  last_name: string;
 
   @IsNotEmpty()
   @IsEmail()

@@ -36,21 +36,21 @@ export class NotificationsService {
   }
 
   public async confirmEmail(email: string) {
-    const user = await this.usersService.findByEmailOrUsername(email);
+    const user = await this.usersService.findByEmail(email);
     if (user.isEmailConfirmed) {
       throw new BadRequestException(ERRORS.USER_EMAIL_ALREADY_CONFIRMED);
     }
     return await this.usersService.markEmailAsConfirmed(email);
   }
 
-  public async resendConfirmationEmail(username: string) {
+  public async resendConfirmationEmail(email: string) {
     try {
-      const { email, password, first_name, isEmailConfirmed } =
-        await this.usersService.findByEmailOrUsername(username);
+      const { password, username, isEmailConfirmed } =
+        await this.usersService.findByEmail(email);
       if (isEmailConfirmed) {
         throw new BadRequestException('Email already confirmed');
       }
-      await sendVerificationEmail({ email, password, firstName: first_name });
+      await sendVerificationEmail({ email, password, username });
     } catch (error) {
       throw new Error(error);
     }

@@ -1,8 +1,8 @@
 export class LoginCredentialsPayload {
   email: string;
-  //TODO: Back to this optional entry of password
   password: string;
-  firstName?: string;
+  first_name: string;
+  last_name: string;
 }
 
 export class LoginPayload {

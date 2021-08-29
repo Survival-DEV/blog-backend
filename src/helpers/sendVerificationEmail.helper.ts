@@ -1,19 +1,17 @@
 import { config } from 'dotenv';
-import { Client } from '@sendgrid/client';
-import { MailService } from '@sendgrid/mail';
+import { ClientResponse, MailService, ResponseError } from '@sendgrid/mail';
 import { generateAuthToken } from './tokenGenerator.helper';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 config();
 const SendGridService = new MailService();
 SendGridService.setApiKey(process.env.SEND_GRID_ACCESS_KEY);
-SendGridService.setClient(new Client());
-SendGridService.setSubstitutionWrappers('{{', '}}');
 
 export const sendVerificationEmail = async ({
   email,
   password,
-  firstName,
-}): Promise<void> => {
+  username,
+}): Promise<[ClientResponse, {}]> => {
   try {
     const { accessToken } = await generateAuthToken({
       email,
@@ -21,17 +19,19 @@ export const sendVerificationEmail = async ({
     });
     const verification_link = `${process.env.EMAIL_CONFIRMATION_URL}?token=${accessToken}`;
 
-    await SendGridService.send({
+    return await SendGridService.send({
       to: email,
       from: process.env.FROM_EMAIL,
       templateId: process.env.SENDGRID_TEMPLATE_ID,
       dynamicTemplateData: {
         subject: 'Verification Email',
-        firstName,
+        username,
         verification_link,
       },
     });
   } catch (error) {
-    throw new Error(error);
+    if (error instanceof ResponseError) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 };
