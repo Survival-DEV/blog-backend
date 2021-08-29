@@ -1,7 +1,7 @@
-import bcrypt from 'bcrypt';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { HttpStatus } from '@nestjs/common/enums/http-status.enum';
-import { ERRORS } from 'src/constants';
+import bcrypt from 'bcrypt';
+import { ERRORS } from '../constants';
 
 export const comparePasswords = async (userPassword, currentPassword) => {
   const arePasswordsMatched = await bcrypt.compare(

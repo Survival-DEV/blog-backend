@@ -4,8 +4,8 @@ import { config } from 'dotenv';
 
 import { NotificationsService } from './notifications.service';
 import { AuthModule } from '../auth/auth.module';
-import { UsersModule } from 'src/core/users/users.module';
-import { JwtConstants } from 'src/constants';
+import { UsersModule } from '../../core/users/users.module';
+import { JwtConstants } from '../../constants';
 import { NotificationsController } from './notification.controller';
 
 //TODO: handle this like normal human-being,"Fix the undefined apiKey when removing this"

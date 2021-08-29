@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { NotificationsController } from '../../core/notifications/notifications.controller';
+import { NotificationsController } from '../../core/notifications/notification.controller';
 import { NotificationsService } from '../../core/notifications/notifications.service';
 
 describe('NotificationsController', () => {
@@ -8,7 +8,14 @@ describe('NotificationsController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [NotificationsController],
-      providers: [NotificationsService],
+      providers: [
+        {
+          provide: NotificationsService,
+          useValue: {
+            confirm: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     controller = module.get<NotificationsController>(NotificationsController);

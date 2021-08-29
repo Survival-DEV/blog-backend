@@ -23,3 +23,9 @@ describe('UsersService', () => {
     expect(service).toBeDefined();
   });
 });
+
+// describe('USER REGISTER', () => {
+//   it('should new user', async () => {
+//     const user: any = await Factory.factory(UserEntity).make();
+//  });
+// });

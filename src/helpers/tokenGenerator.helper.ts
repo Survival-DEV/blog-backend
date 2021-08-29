@@ -1,7 +1,7 @@
 import { JwtService } from '@nestjs/jwt';
-import { JwtConstants } from 'src/constants';
-import { TokenParams } from 'src/core/auth/interface/login-status.interface';
-import { LoginCredentialsPayload } from 'src/core/auth/interface/payload.interface';
+import { JwtConstants } from '../constants';
+import { TokenParams } from '../core/auth/interface/login-status.interface';
+import { LoginCredentialsPayload } from '../core/auth/interface/payload.interface';
 
 const jwtService = new JwtService({
   secret: JwtConstants.secret,

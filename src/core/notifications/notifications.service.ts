@@ -5,8 +5,8 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from 'src/core/users/users.service';
-import { sendVerificationEmail } from 'src/helpers';
+import { UsersService } from '../../core/users/users.service';
+import { sendVerificationEmail } from '../../helpers';
 import { ERRORS, JwtConstants } from '../../constants';
 
 @Injectable()

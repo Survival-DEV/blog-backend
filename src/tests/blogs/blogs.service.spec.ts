@@ -7,7 +7,6 @@ describe('BlogsService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [BlogsController],
       providers: [
         {
           provide: BlogService,
