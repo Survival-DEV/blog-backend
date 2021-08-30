@@ -1,11 +1,12 @@
 import {
   Body,
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
   Param,
+  Controller,
+  Post,
+  Get,
+  Patch,
+  Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { ApiBody, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
@@ -13,6 +14,7 @@ import { ApiBody, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { BlogService } from './blogs.service';
 import { CreateBlogDto, UpdateBlogDto } from './dto';
 import { BlogEntryInterface } from './interface/blog.interface';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('blogs')
 export class BlogsController {
@@ -24,12 +26,15 @@ export class BlogsController {
     return this.blogService.findAllBlogs();
   }
 
+  
   @Get(':id')
   @ApiOkResponse({ description: 'blog Found' })
   async findBlog(@Param('id') id: string): Promise<BlogEntryInterface> {
     return this.blogService.findBlogById(id);
   }
 
+
+  @UseGuards(JwtAuthGuard)
   @Post('/create')
   @ApiCreatedResponse({ description: 'blog Added' })
   @ApiBody({ type: [CreateBlogDto] })
@@ -39,7 +44,9 @@ export class BlogsController {
     return this.blogService.createBlog(blogEntry);
   }
 
-  @Put('/edit/:id')
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('/edit/:id')
   @ApiCreatedResponse({ description: 'blog Updated' })
   @ApiBody({ type: [UpdateBlogDto] })
   async updateBlog(
@@ -49,6 +56,8 @@ export class BlogsController {
     return this.blogService.updateBlog(id, blogEntry);
   }
 
+
+  @UseGuards(JwtAuthGuard)
   @Delete('/delete/:id')
   async deleteBlog(@Param('id') id: string): Promise<DeleteResult> {
     return this.blogService.deleteBlog(id);
