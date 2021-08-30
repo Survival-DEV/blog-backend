@@ -23,28 +23,27 @@ export class TagsController {
   @ApiCreatedResponse({ description: 'tag Added' })
   @ApiBody({ type: [CreateTagDto] })
   async create(@Body() data: CreateTagDto): Promise<TagEntity> {
-    return await this.tagsService.create(data);
+    return await this.tagsService.createTag(data);
   }
-
 
   @Get(':title')
   @ApiOkResponse({ description: 'tag Found' })
-  findOne(@Param('title') title: string): Promise<TagEntity> {
-    return this.tagsService.findBlogsPerTag(title);
+  async findOne(@Param('title') title: string): Promise<TagEntity> {
+    return await this.tagsService.findBlogsPerTag(title);
   }
 
   @Patch(':id')
   @ApiCreatedResponse({ description: 'tag updated' })
   @ApiBody({ type: [UpdateTagDto] })
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateTagDto: UpdateTagDto,
   ): Promise<UpdateResult> {
-    return this.tagsService.update(id, updateTagDto);
+    return await this.tagsService.updateTagById(id, updateTagDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<DeleteResult> {
-    return this.tagsService.remove(id);
+  async remove(@Param('id') id: string): Promise<DeleteResult> {
+    return await this.tagsService.removeTag(id);
   }
 }
