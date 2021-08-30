@@ -34,7 +34,7 @@ export class UsersService {
     }
   }
 
-  async save(data) {
+  async saveUser(data) {
     return this.usersRepository.save(data);
   }
 
@@ -82,7 +82,7 @@ export class UsersService {
     return user;
   }
 
-  async updateUser(
+  async updateUserByUsername(
     data: UpdateUserDto,
     username: string,
   ): Promise<UpdateResult> {

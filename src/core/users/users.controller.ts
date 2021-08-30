@@ -8,16 +8,10 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import {
-  ApiBody,
-  ApiCreatedResponse,
-  ApiOkResponse,
-} from '@nestjs/swagger';
+import { ApiBody, ApiCreatedResponse } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
-import { UserEntity } from '../../models/entities/user.entity';
 import { UsersService } from './users.service';
-import { RegisterUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
@@ -31,7 +25,7 @@ export class UsersController {
     @Param('username') username: string,
     @Body() data: UpdateUserDto,
   ) {
-    const result = await this.users.updateUser(data, username);
+    const result = await this.users.updateUserByUsername(data, username);
     if (result.affected === 0) {
       throw new HttpException('Updates noting', HttpStatus.NO_CONTENT);
     }

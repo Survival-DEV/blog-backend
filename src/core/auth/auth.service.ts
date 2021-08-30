@@ -19,7 +19,7 @@ export class AuthService {
     try {
       const user = await this.usersService.createUser(data);
       if (user) {
-        await this.usersService.save(user);
+        await this.usersService.saveUser(user);
         user.password = undefined;
         const { id, email, username } = user;
         await sendVerificationEmail({ id, username, email });
