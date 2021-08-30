@@ -29,16 +29,18 @@
 ## Installation
 
 ```bash
-$ npm install
+$ npm ci
 ```
 
 ## Running the app
 
 ```bash
 # development
+$ docker-compose up
 $ npm run start
 
 # watch mode
+$ docker-compose up
 $ npm run start:dev
 
 # production mode
