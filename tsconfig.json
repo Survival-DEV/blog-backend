@@ -28,10 +28,10 @@
       "@auth/*": [
         "src/core/auth/*"
       ],
-      "@constants/*": [
+      "@constants/": [
         "src/constants/index"
       ],
-      "@helpers/*": [
+      "@helpers/": [
         "src/helpers/index"
       ],
       "@entities/*": [
