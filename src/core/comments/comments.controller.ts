@@ -23,7 +23,7 @@ export class CommentsController {
   create(
     @Body() createCommentDto: CreateCommentDto,
   ): Promise<CommentInterface> {
-    return this.commentsService.create(createCommentDto);
+    return this.commentsService.createComment(createCommentDto);
   }
 
   @Get('/blog/comment/:id')
@@ -37,11 +37,11 @@ export class CommentsController {
     @Param('id') id: string,
     @Body() updateCommentDto: UpdateCommentDto,
   ): Promise<UpdateResult> {
-    return this.commentsService.update(id, updateCommentDto);
+    return this.commentsService.updateCommentById(id, updateCommentDto);
   }
 
   @Delete('/blog/comment/:id')
   remove(@Param('id') id: string): Promise<DeleteResult> {
-    return this.commentsService.remove(id);
+    return this.commentsService.removeComment(id);
   }
 }
