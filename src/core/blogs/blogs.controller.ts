@@ -21,13 +21,13 @@ export class BlogsController {
   @Get()
   @ApiOkResponse({ description: 'blogs Found' })
   async findAllBlogs(): Promise<BlogEntryInterface[]> {
-    return this.blogService.findAll();
+    return this.blogService.findAllBlogs();
   }
 
   @Get(':id')
   @ApiOkResponse({ description: 'blog Found' })
   async findBlog(@Param('id') id: string): Promise<BlogEntryInterface> {
-    return this.blogService.findOne(id);
+    return this.blogService.findBlogById(id);
   }
 
   @Post('/create')
@@ -36,21 +36,21 @@ export class BlogsController {
   public async create(
     @Body() blogEntry: CreateBlogDto,
   ): Promise<BlogEntryInterface> {
-    return this.blogService.create(blogEntry);
+    return this.blogService.createBlog(blogEntry);
   }
 
   @Put('/edit/:id')
   @ApiCreatedResponse({ description: 'blog Updated' })
-  @ApiBody({ type: [CreateBlogDto] })
+  @ApiBody({ type: [UpdateBlogDto] })
   async updateBlog(
     @Param('id') id: string,
     @Body() blogEntry: UpdateBlogDto,
   ): Promise<UpdateResult> {
-    return this.blogService.updateOne(id, blogEntry);
+    return this.blogService.updateBlog(id, blogEntry);
   }
 
   @Delete('/delete/:id')
   async deleteBlog(@Param('id') id: string): Promise<DeleteResult> {
-    return this.blogService.deleteOne(id);
+    return this.blogService.deleteBlog(id);
   }
 }
