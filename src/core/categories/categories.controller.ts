@@ -22,13 +22,13 @@ export class CategoriesController {
   @Get()
   @ApiOkResponse({ description: 'categories found' })
   async findAll(): Promise<CategoryInterface[]> {
-    return await this.categoryService.findAll();
+    return await this.categoryService.findAllCategories();
   }
 
   @Get(':id')
   @ApiOkResponse({ description: 'category founf' })
   async findOne(@Param('id') id: string): Promise<CategoryInterface> {
-    return await this.categoryService.findById(id);
+    return await this.categoryService.findCategoryById(id);
   }
 
   @Post()
