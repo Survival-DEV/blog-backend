@@ -16,12 +16,27 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "paths": {
-      "@user/*": [
+      "@users/*": [
         "src/core/users/*"
       ],
-      "@root/*": [
-        "./"
-      ]
+      "@blogs/*": [
+        "src/core/blogs/*"
+      ],
+      "@notifications/*": [
+        "src/core/notifications/*"
+      ],
+      "@auth/*": [
+        "src/core/auth/*"
+      ],
+      "@constants/*": [
+        "src/constants/index"
+      ],
+      "@helpers/*": [
+        "src/helpers/index"
+      ],
+      "@entities/*": [
+        "src/models/entities/*"
+      ],
     }
   }
 }
