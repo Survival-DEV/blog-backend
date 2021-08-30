@@ -4,12 +4,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import bcrypt from 'bcrypt';
 
-import { UserEntity } from '../../models/entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { RegisterUserDto } from './dto/create-user.dto';
-import { LoginPayload } from '../auth/interface';
-import { comparePasswords } from '../../helpers';
-import { ERRORS, PostgresErrorCode } from '../../constants';
+import { UserEntity } from '@entities/user.entity';
+import { LoginPayload } from '@auth/interface';
+import { comparePasswords } from '@helpers/';
+import { ERRORS, PostgresErrorCode } from '@constants/';
 
 @Injectable()
 export class UsersService {
@@ -34,7 +34,7 @@ export class UsersService {
     }
   }
 
-  async save(data) {
+  async saveUser(data) {
     return this.usersRepository.save(data);
   }
 
@@ -82,7 +82,7 @@ export class UsersService {
     return user;
   }
 
-  async updateUser(
+  async updateUserByUsername(
     data: UpdateUserDto,
     username: string,
   ): Promise<UpdateResult> {

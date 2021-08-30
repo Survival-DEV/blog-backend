@@ -2,41 +2,38 @@ import {
   Body,
   Param,
   Controller,
-  Post,
   Patch,
   Delete,
   HttpException,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
-import {
-  ApiBody,
-  ApiCreatedResponse,
-  ApiOkResponse,
-} from '@nestjs/swagger';
+import { ApiBody, ApiCreatedResponse } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
-import { UserEntity } from '../../models/entities/user.entity';
 import { UsersService } from './users.service';
-import { RegisterUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtAuthGuard } from '@auth/guards/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
   constructor(private users: UsersService) {}
 
-  @Patch(':username')
+  @UseGuards(JwtAuthGuard)
   @ApiCreatedResponse({ description: 'User Updated' })
   @ApiBody({ type: [UpdateUserDto] })
+  @Patch(':username')
   async update(
     @Param('username') username: string,
     @Body() data: UpdateUserDto,
   ) {
-    const result = await this.users.updateUser(data, username);
+    const result = await this.users.updateUserByUsername(data, username);
     if (result.affected === 0) {
       throw new HttpException('Updates noting', HttpStatus.NO_CONTENT);
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async delete(@Param('id') id: string): Promise<DeleteResult> {
     return this.users.removeUser(id);

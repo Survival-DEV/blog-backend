@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, TreeRepository, UpdateResult } from 'typeorm';
 
 import { CreateCommentDto, UpdateCommentDto } from './dto';
-import { CommentEntity } from '../../models/entities/comment.entity';
+import { CommentEntity } from '@entities/comment.entity';
 import { CommentInterface } from './interface/comment.interface';
 
 @Injectable()
@@ -13,7 +13,9 @@ export class CommentsService {
     protected readonly commentTreeRepository: TreeRepository<CommentEntity>,
   ) {}
 
-  async create(createCommentDto: CreateCommentDto): Promise<CommentEntity> {
+  async createComment(
+    createCommentDto: CreateCommentDto,
+  ): Promise<CommentEntity> {
     if (!createCommentDto.parent_id) {
       return await this.commentTreeRepository.save(createCommentDto);
     }
@@ -39,14 +41,14 @@ export class CommentsService {
     );
   }
 
-  update(
+  async updateCommentById(
     id: string,
     updateCommentDto: UpdateCommentDto,
   ): Promise<UpdateResult> {
     return this.commentTreeRepository.update(id, updateCommentDto);
   }
 
-  remove(id: string): Promise<DeleteResult> {
+  async removeComment(id: string): Promise<DeleteResult> {
     return this.commentTreeRepository.delete(id);
   }
 }

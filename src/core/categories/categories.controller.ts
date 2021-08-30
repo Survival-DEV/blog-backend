@@ -7,6 +7,7 @@ import {
   Delete,
   Param,
   Request,
+  UseGuards,
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import { ApiBody, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
@@ -14,6 +15,7 @@ import { ApiBody, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { CreateCategoryDto } from './dto';
 import { CategoryInterface } from './interface/category.interface';
 import { CategoriesService } from './categories.service';
+import { JwtAuthGuard } from '@auth/guards/jwt-auth.guard';
 
 @Controller('categories')
 export class CategoriesController {
@@ -22,15 +24,18 @@ export class CategoriesController {
   @Get()
   @ApiOkResponse({ description: 'categories found' })
   async findAll(): Promise<CategoryInterface[]> {
-    return await this.categoryService.findAll();
+    return await this.categoryService.findAllCategories();
   }
 
+  
   @Get(':id')
   @ApiOkResponse({ description: 'category founf' })
   async findOne(@Param('id') id: string): Promise<CategoryInterface> {
-    return await this.categoryService.findById(id);
+    return await this.categoryService.findCategoryById(id);
   }
 
+
+  @UseGuards(JwtAuthGuard)
   @Post()
   @ApiCreatedResponse({ description: 'category added' })
   @ApiBody({ type: [CreateCategoryDto] })
@@ -41,6 +46,8 @@ export class CategoriesController {
     return this.categoryService.createCategory(categoryEntry);
   }
 
+
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   @ApiCreatedResponse({ description: 'category updated' })
   @ApiBody({ type: [CreateCategoryDto] })
@@ -50,7 +57,9 @@ export class CategoriesController {
   ): Promise<UpdateResult> {
     return this.categoryService.updateCategory(id, categoryEntry);
   }
+  
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async deleteCategory(@Param('id') id: string): Promise<CategoryInterface> {
     return this.categoryService.removeCategory(id);

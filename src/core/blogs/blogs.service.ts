@@ -1,11 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
-import { from, Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
+import { BlogEntity } from '@entities/blog.entity';
 import { CreateBlogDto, UpdateBlogDto } from './dto';
-import { BlogEntity } from '../../models/entities/blog.entity';
 import { BlogEntryInterface } from './interface/blog.interface';
 
 @Injectable()
@@ -15,46 +13,40 @@ export class BlogService {
     private readonly blogRepository: Repository<BlogEntity>,
   ) {}
 
-  async findAll(): Promise<Observable<BlogEntryInterface[]>> {
-    return await from(
-      this.blogRepository.find({
-        cache: true,
-        relations: ['author_id'],
-      }),
-    );
+  async findAllBlogs(): Promise<BlogEntryInterface[]> {
+    return await this.blogRepository.find({
+      cache: true,
+      relations: ['author_id'],
+    });
   }
 
-  async findOne(blogId: string): Promise<Observable<BlogEntryInterface>> {
-    const blog = await from(
-      this.blogRepository.findOneOrFail({
-        where: {
-          id: blogId,
-        },
-        relations: ['author_id', 'comments'],
-      }),
-    );
+  async findBlogById(id: string): Promise<BlogEntryInterface> {
+    const blog = await this.blogRepository.findOne({
+      where: {
+        id,
+      },
+      relations: ['author_id', 'comments'],
+    });
     if (!blog) throw new NotFoundException();
     return blog;
   }
 
-  async create(
-    blogEntry: CreateBlogDto,
-  ): Promise<Observable<BlogEntryInterface>> {
-    return await from(this.blogRepository.save(blogEntry));
+  async createBlog(blogEntry: CreateBlogDto): Promise<BlogEntryInterface> {
+    return await this.blogRepository.save(blogEntry);
   }
 
-  async updateOne(
+  async updateBlog(
     id: string,
-    blogEntry: Partial<UpdateBlogDto>,
-  ): Promise<Observable<Observable<Partial<BlogEntryInterface>>>> {
-    return from(this.blogRepository.update(id, blogEntry)).pipe(
-      switchMap(() => this.findOne(id)),
-    );
-  }
-
-  async deleteOne(id: string): Promise<Observable<DeleteResult>> {
+    blogEntry: UpdateBlogDto,
+  ): Promise<UpdateResult> {
     const blog = await this.blogRepository.findOne(id);
     if (!blog) throw new NotFoundException();
-    return await from(this.blogRepository.delete(id));
+    return this.blogRepository.update(id, blogEntry);
+  }
+
+  async deleteBlog(id: string): Promise<DeleteResult> {
+    const blog = await this.blogRepository.findOne(id);
+    if (!blog) throw new NotFoundException();
+    return await this.blogRepository.delete(id);
   }
 }

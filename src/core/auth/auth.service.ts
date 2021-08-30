@@ -1,10 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
-import { UsersService } from '../users/users.service';
-import { generateAuthToken, sendVerificationEmail } from '../../helpers';
-import { RegisterUserDto } from '../../core/users/dto/create-user.dto';
+import { UsersService } from '@users/users.service';
+import { generateAuthToken, sendVerificationEmail } from '@helpers/';
+import { RegisterUserDto } from '@users/dto/create-user.dto';
+import { ERRORS } from '@constants/';
+import { UserEntity } from '@entities/user.entity';
 import { RegistrationStatus } from './interface';
-import { ERRORS } from '../../constants';
 
 @Injectable()
 export class AuthService {
@@ -19,22 +20,24 @@ export class AuthService {
     try {
       const user = await this.usersService.createUser(data);
       if (user) {
-        await this.usersService.save(user);
+        await this.usersService.saveUser(user);
         user.password = undefined;
         const { id, email, username } = user;
         await sendVerificationEmail({ id, username, email });
       }
+      return status;
     } catch (error) {
       return (status = {
         success: false,
         message: error.detail,
       });
     }
-    return status;
   }
 
-  //TODO: update that any type
-  async validateUser(email: string, password: string): Promise<any> {
+  async validateUser(
+    email: string,
+    password: string,
+  ): Promise<Partial<UserEntity>> {
     const user = await this.usersService.findByLogin({ email, password });
 
     if (user) {
@@ -47,7 +50,6 @@ export class AuthService {
   async login(user: any) {
     const { id, email, username, first_name, last_name } = user;
     const token = await generateAuthToken({ id, username, email });
-
     return {
       first_name,
       last_name,

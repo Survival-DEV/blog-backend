@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 
-import { CategoryEntity } from '../../models/entities/category.entity';
+import { CategoryEntity } from '@entities/category.entity';
 import { CategoryInterface } from './interface/category.interface';
 import { CreateCategoryDto, UpdateCategoryDto } from './dto';
 
@@ -18,13 +18,13 @@ export class CategoriesService {
     private readonly categoryRepository: Repository<CategoryEntity>,
   ) {}
 
-  async findAll(): Promise<CategoryInterface[]> {
+  async findAllCategories(): Promise<CategoryInterface[]> {
     return await this.categoryRepository.find({
       cache: true,
     });
   }
 
-  public async findById(id: string): Promise<CategoryInterface> {
+  public async findCategoryById(id: string): Promise<CategoryInterface> {
     const category = await this.categoryRepository.findOne(id);
     if (!category) {
       throw new NotFoundException(`Category #${id} is not found`);
