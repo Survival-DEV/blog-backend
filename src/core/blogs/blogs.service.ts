@@ -20,10 +20,10 @@ export class BlogService {
     });
   }
 
-  async findBlogById(blogId: string): Promise<BlogEntryInterface> {
+  async findBlogById(id: string): Promise<BlogEntryInterface> {
     const blog = await this.blogRepository.findOne({
       where: {
-        id: blogId,
+        id,
       },
       relations: ['author_id', 'comments'],
     });
@@ -35,7 +35,10 @@ export class BlogService {
     return await this.blogRepository.save(blogEntry);
   }
 
-  async updateBlog(id: string, blogEntry: UpdateBlogDto): Promise<UpdateResult> {
+  async updateBlog(
+    id: string,
+    blogEntry: UpdateBlogDto,
+  ): Promise<UpdateResult> {
     const blog = await this.blogRepository.findOne(id);
     if (!blog) throw new NotFoundException();
     return this.blogRepository.update(id, blogEntry);
