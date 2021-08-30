@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, TreeRepository, UpdateResult } from 'typeorm';
 
 import { CreateCommentDto, UpdateCommentDto } from './dto';
-import { CommentEntity } from '../../models/entities/comment.entity';
+import { CommentEntity } from '@entities/comment.entity';
 import { CommentInterface } from './interface/comment.interface';
 
 @Injectable()

@@ -2,7 +2,6 @@ import {
   Body,
   Param,
   Controller,
-  Post,
   Patch,
   Delete,
   HttpException,
@@ -14,7 +13,7 @@ import { DeleteResult } from 'typeorm';
 
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '@auth/guards/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {

@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
-import { UsersService } from '../users/users.service';
-import { generateAuthToken, sendVerificationEmail } from '../../helpers';
-import { RegisterUserDto } from '../../core/users/dto/create-user.dto';
+import { UsersService } from '@users/users.service';
+import { generateAuthToken, sendVerificationEmail } from '@helpers/';
+import { RegisterUserDto } from '@users/dto/create-user.dto';
+import { ERRORS } from '@constants/';
+import { UserEntity } from '@entities/user.entity';
 import { RegistrationStatus } from './interface';
-import { ERRORS } from '../../constants';
-import { UserEntity } from '../../models/entities/user.entity';
 
 @Injectable()
 export class AuthService {

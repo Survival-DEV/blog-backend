@@ -11,8 +11,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
+import { JwtAuthGuard } from '@auth/guards/jwt-auth.guard';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto, UpdateCommentDto } from './dto';
 import { CommentInterface } from './interface/comment.interface';

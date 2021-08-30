@@ -14,7 +14,7 @@ import { ApiBody, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { BlogService } from './blogs.service';
 import { CreateBlogDto, UpdateBlogDto } from './dto';
 import { BlogEntryInterface } from './interface/blog.interface';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '@auth/guards/jwt-auth.guard';
 
 @Controller('blogs')
 export class BlogsController {

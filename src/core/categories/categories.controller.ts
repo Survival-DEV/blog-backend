@@ -15,7 +15,7 @@ import { ApiBody, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { CreateCategoryDto } from './dto';
 import { CategoryInterface } from './interface/category.interface';
 import { CategoriesService } from './categories.service';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '@auth/guards/jwt-auth.guard';
 
 @Controller('categories')
 export class CategoriesController {

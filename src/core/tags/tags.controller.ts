@@ -14,8 +14,8 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 import { TagsService } from './tags.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { TagEntity } from '../../models/entities/tag.entity';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { TagEntity } from '@entities/tag.entity';
+import { JwtAuthGuard } from '@auth/guards/jwt-auth.guard';
 
 @Controller('tags')
 export class TagsController {
