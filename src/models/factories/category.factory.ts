@@ -1,5 +1,5 @@
 import Faker from 'faker';
-import { CategoryEntity } from '../entities/category.entity';
+import { CategoryEntity } from '@entities/category.entity';
 import { define } from 'typeorm-seeding';
 
 define(CategoryEntity, (faker: typeof Faker) => {

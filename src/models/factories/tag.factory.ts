@@ -1,6 +1,6 @@
 import Faker from 'faker';
 import { define } from 'typeorm-seeding';
-import { TagEntity } from '../entities/tag.entity';
+import { TagEntity } from '@entities/tag.entity';
 
 define(TagEntity, (faker: typeof Faker) => {
   console.log('tag.factory.ts is running...');

@@ -1,6 +1,6 @@
 import * as Faker from 'faker';
 import * as Factory from 'typeorm-seeding';
-import { UserEntity } from '../entities/user.entity';
+import { UserEntity } from '@entities/user.entity';
 
 Factory.define(UserEntity, (faker: typeof Faker) => {
   console.log('user.factory.ts is running...');
