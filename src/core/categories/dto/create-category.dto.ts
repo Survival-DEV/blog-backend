@@ -17,4 +17,3 @@ export class CreateCategoryDto {
   @IsString()
   slug: string;
 }
-

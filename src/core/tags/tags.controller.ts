@@ -29,13 +29,11 @@ export class TagsController {
     return await this.tagsService.createTag(data);
   }
 
-  
   @ApiOkResponse({ description: 'tag Found' })
   @Get(':title')
   async findOne(@Param('title') title: string): Promise<TagEntity> {
     return await this.tagsService.findBlogsPerTag(title);
   }
-
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
@@ -47,7 +45,6 @@ export class TagsController {
   ): Promise<UpdateResult> {
     return await this.tagsService.updateTagById(id, updateTagDto);
   }
-
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')

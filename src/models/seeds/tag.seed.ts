@@ -1,5 +1,5 @@
-import { Factory, Seeder } from "typeorm-seeding";
-import { TagEntity } from "../entities/tag.entity";
+import { Factory, Seeder } from 'typeorm-seeding';
+import { TagEntity } from '../entities/tag.entity';
 
 export class SeedCategories implements Seeder {
   async run(factory: Factory): Promise<void> {

@@ -6,8 +6,8 @@ export const SWAGGER_CONGIF: SwaggerConfig = {
   version: '1.0',
   tags: ['blogs'],
   contact: {
-    name: "lectura_team",
+    name: 'lectura_team',
     url: 'https://github.com/Survival-DEV/blog-backend/',
-    email:  process.env.CONTACT_EMAIL,
+    email: process.env.CONTACT_EMAIL,
   },
 };

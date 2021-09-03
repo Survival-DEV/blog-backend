@@ -7,7 +7,6 @@ import { JwtConstants } from '@constants/';
 import { NotificationsService } from './notifications.service';
 import { NotificationsController } from './notification.controller';
 
-
 @Module({
   imports: [
     forwardRef(() => AuthModule),

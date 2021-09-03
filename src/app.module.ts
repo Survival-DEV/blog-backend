@@ -5,7 +5,6 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 import Joi from 'joi';
 
-
 import connectionOptions from '../ormconfig';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -31,7 +30,7 @@ import { NotificationsModule } from './core/notifications/notifications.module';
         JWT_VERIFICATION_TOKEN_SECRET: Joi.string().required(),
         JWT_VERIFICATION_TOKEN_EXPIRATION_TIME: Joi.string().required(),
         EMAIL_CONFIRMATION_URL: Joi.string().required(),
-      })
+      }),
     }),
     TypeOrmModule.forRoot(connectionOptions),
     AuthModule,

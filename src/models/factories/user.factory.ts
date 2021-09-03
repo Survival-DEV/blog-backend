@@ -1,5 +1,5 @@
 import * as Faker from 'faker';
-import * as Factory  from 'typeorm-seeding';
+import * as Factory from 'typeorm-seeding';
 import { UserEntity } from '../entities/user.entity';
 
 Factory.define(UserEntity, (faker: typeof Faker) => {
@@ -17,4 +17,4 @@ Factory.define(UserEntity, (faker: typeof Faker) => {
   return user;
 });
 
-export default Factory
+export default Factory;

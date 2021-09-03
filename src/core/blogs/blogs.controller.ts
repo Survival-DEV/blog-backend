@@ -26,13 +26,11 @@ export class BlogsController {
     return this.blogService.findAllBlogs();
   }
 
-  
   @Get(':id')
   @ApiOkResponse({ description: 'blog Found' })
   async findBlog(@Param('id') id: string): Promise<BlogEntryInterface> {
     return this.blogService.findBlogById(id);
   }
-
 
   @UseGuards(JwtAuthGuard)
   @Post('/create')
@@ -44,7 +42,6 @@ export class BlogsController {
     return this.blogService.createBlog(blogEntry);
   }
 
-
   @UseGuards(JwtAuthGuard)
   @Patch('/edit/:id')
   @ApiCreatedResponse({ description: 'blog Updated' })
@@ -55,7 +52,6 @@ export class BlogsController {
   ): Promise<UpdateResult> {
     return this.blogService.updateBlog(id, blogEntry);
   }
-
 
   @UseGuards(JwtAuthGuard)
   @Delete('/delete/:id')

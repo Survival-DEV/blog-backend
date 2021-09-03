@@ -27,13 +27,11 @@ export class CategoriesController {
     return await this.categoryService.findAllCategories();
   }
 
-  
   @Get(':id')
   @ApiOkResponse({ description: 'category founf' })
   async findOne(@Param('id') id: string): Promise<CategoryInterface> {
     return await this.categoryService.findCategoryById(id);
   }
-
 
   @UseGuards(JwtAuthGuard)
   @Post()
@@ -46,7 +44,6 @@ export class CategoriesController {
     return this.categoryService.createCategory(categoryEntry);
   }
 
-
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   @ApiCreatedResponse({ description: 'category updated' })
@@ -57,7 +54,6 @@ export class CategoriesController {
   ): Promise<UpdateResult> {
     return this.categoryService.updateCategory(id, categoryEntry);
   }
-  
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')

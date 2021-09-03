@@ -19,8 +19,8 @@ import { CommentInterface } from './interface/comment.interface';
 
 @Controller()
 export class CommentsController {
-  constructor(private readonly commentsService: CommentsService) { }
-  
+  constructor(private readonly commentsService: CommentsService) {}
+
   @UseGuards(JwtAuthGuard)
   @Post('/blog/comment')
   create(
@@ -29,13 +29,11 @@ export class CommentsController {
     return this.commentsService.createComment(createCommentDto);
   }
 
-
   @Get('/blog/comment/:id')
   @UsePipes(new ValidationPipe({ transform: true }))
   findCommentsPerBlog(@Param('id') id: string) {
     return this.commentsService.findCommentsPerBlog(id);
   }
-
 
   @UseGuards(JwtAuthGuard)
   @Patch('/blog/comment/:id')
@@ -46,7 +44,6 @@ export class CommentsController {
     return this.commentsService.updateCommentById(id, updateCommentDto);
   }
 
-  
   @UseGuards(JwtAuthGuard)
   @Delete('/blog/comment/:id')
   remove(@Param('id') id: string): Promise<DeleteResult> {

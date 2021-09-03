@@ -11,7 +11,7 @@
     "clean": "rimraf build/*",
     "ts-node": "ts-node",
     "format:fix": "prettier --write \"src/**/*.ts\" ",
-    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"src/tests/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
