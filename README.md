@@ -24,8 +24,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
+Lectura is a blog site, currently it's for reading blogs only, but it will have a chat rooms/ following options someday.
 ## Installation
 
 ```bash
@@ -36,26 +35,44 @@ $ npm ci
 
 ```bash
 # development
-$ docker-compose up
-$ npm run start
+$ docker-compose up // for run redis service
+$ npm run start  // for run the project itself -for_now_only-
 
 # watch mode
 $ docker-compose up
 $ npm run start:dev
 
-# production mode
-$ npm run start:prod
 ```
+------
+## Environment variables:
 
-## Test
 
-```bash
-# unit tests
-$ npm run test
+Create an `.env` file and write these params down inside of it.
 
-# e2e tests
-$ npm run test:e2e
+  <details>
+      <summary>Expand to see the params</summary>
+    
+      > DATABASE_URL=<your db url#>
+      > NODE_ENV=DEBUG  //for now
+      > logDB=["query", "error"]
+      > PORT=<your port#>
+      > TRUSTED_IP=["127.0.0.1"]
+      > WHITELIST=['http://localhost']
+      > ALLOWED_METHODS='GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS'
+      > JWT_VERIFICATION_TOKEN_SECRET='secreto2'
+      > JWT_VERIFICATION_TOKEN_EXPIRATION_TIME='60s'
+      > EMAIL_CONFIRMATION_URL='http://localhost:5000/api/v1/auth/confirm-email/'
+      > SEND_GRID_ACCESS_KEY=`<your sendgird key>`
+      > FROM_EMAIL=`your sendgrid email`
+      > SENDGRID_TEMPLATE_ID=d-3285e7571ee64e8fafedb163996e5a55
+      >CONTACT_EMAIL= `<some_mail for_swagger_configs_to_be_contacted_at>`
+   </details>
 
-# test coverage
-$ npm run test:cov
-```
+---- 
+### Acknowledgement:
+This work is been supported by those great people, thank you for your endless support:
+- [Ghassan Maslamani](https://github.com/ghassanmas)
+- [Yakoob Hammouri](https://github.com/YakoobHammouri/)
+- [Bayan Sider](https://github.com/bayanseder)
+- [Rahaf Hawamdeh](https://github.com/Rahaf-96)
+- [Bayan Jubah](https://github.com/bayan-404)
