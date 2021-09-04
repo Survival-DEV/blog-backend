@@ -25,9 +25,11 @@
 ## Description
 
 Lectura is a blog site, currently it's for reading blogs only, but it will have a chat rooms/ following options someday.
-## Installation
+## Get Started
 
 ```bash
+$ git clone https://github.com/Survival-DEV/blog-backend.git
+$ cd blog-backend
 $ npm ci
 ```
 
